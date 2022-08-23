@@ -48,8 +48,5 @@ export default {
   'menu.editor': '图形编辑器',
   'menu.editor.flow': '流程编辑器',
   'menu.editor.mind': '脑图编辑器',
-  'menu.editor.koni': '拓扑编辑器',
-  'menu.assetmanage':'资产管理',
-  'menu.assetmanage.asset':'资产',
-  'menu.assetmanage.asset-type':'资产类别',
+  'menu.editor.koni': '拓扑编辑器'
 };

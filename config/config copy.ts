@@ -309,29 +309,6 @@ export default defineConfig({
       ],
     },
     {
-      path: '/assetmanage',
-      name: 'assetmanage',
-      icon: 'dashboard',
-      routes: [
-        {
-          path: '/assetmanage',
-          redirect: '/assetmanage/asset',
-        },
-        {
-          name: 'asset',
-          icon: 'smile',
-          path: '/assetmanage/asset',
-          component: './assetmanage/asset',
-        },
-        {
-          name: 'asset-type',
-          icon: 'smile',
-          path: '/assetmanage/asset-type',
-          component: './assetmanage/asset-type',
-        },
-      ],
-    },
-    {
       path: '/',
       redirect: '/dashboard/analysis',
     },

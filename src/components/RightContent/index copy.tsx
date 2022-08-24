@@ -25,7 +25,7 @@ const GlobalHeaderRight: React.FC = () => {
 
   return (
     <Space className={className}>
-      {/* <HeaderSearch
+      <HeaderSearch
         className={`${styles.action} ${styles.search}`}
         placeholder="站内搜索"
         defaultValue="umi ui"
@@ -46,14 +46,15 @@ const GlobalHeaderRight: React.FC = () => {
             label: <a href="https://prolayout.ant.design/">Pro Layout</a>,
             value: 'Pro Layout',
           },
-        ]}
-      /> */}
+        ]} // onSearch={value => {
+        //   console.log('input', value);
+        // }}
+      />
       <span
         className={styles.action}
         onClick={() => {
-          window.open('https://userguide.idongmobility.com/');
+          window.open('https://pro.ant.design/docs/getting-started');
         }}
-        title={"关于"}
       >
         <QuestionCircleOutlined />
       </span>

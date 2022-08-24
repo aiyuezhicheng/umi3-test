@@ -309,25 +309,183 @@ export default defineConfig({
       ],
     },
     {
-      path: '/assetmanage',
-      name: 'assetmanage',
+      path: '/orgStructure',
+      icon: 'table',
+      name: 'orgStructure',
+      routes: [
+        {
+          path: '/orgStructure',
+          redirect: '/orgStructure/org-unit',
+        },
+        {
+          name: 'org-unit',
+          icon: 'smile',
+          path: '/orgStructure/org-unit',
+          component: './orgStructure/org-unit',
+        },
+        {
+          name: 'post',
+          icon: 'smile',
+          path: '/orgStructure/post',
+          component: './orgStructure/post',
+        },
+        {
+          name: 'business-scope',
+          icon: 'smile',
+          path: '/orgStructure/business-scope',
+          component: './orgStructure/business-scope',
+        },
+        {
+          name: 'user',
+          icon: 'smile',
+          path: '/orgStructure/user',
+          component: './orgStructure/user',
+        },
+      ],
+    },
+    {
+      path: '/assetManage',
+      name: 'assetManage',
       icon: 'dashboard',
       routes: [
         {
-          path: '/assetmanage',
-          redirect: '/assetmanage/asset',
+          path: '/assetManage',
+          redirect: '/assetManage/asset',
         },
         {
           name: 'asset',
           icon: 'smile',
-          path: '/assetmanage/asset',
-          component: './assetmanage/asset',
+          path: '/assetManage/asset',
+          component: './assetManage/asset',
         },
         {
           name: 'asset-type',
           icon: 'smile',
-          path: '/assetmanage/asset-type',
-          component: './assetmanage/asset-type',
+          path: '/assetManage/asset-type',
+          component: './assetManage/asset-type',
+        },
+      ],
+    },
+    {
+      path: '/listManage',
+      icon: 'table',
+      name: 'listManage',
+      routes: [
+        {
+          path: '/listManage',
+          redirect: '/listManage/shift',
+        },
+        {
+          name: 'shift',
+          icon: 'smile',
+          path: '/listManage/shift',
+          component: './listManage/shift',
+        },
+        {
+          name: 'custom-list',
+          icon: 'smile',
+          path: '/listManage/custom-list',
+          component: './listManage/custom-list',
+        },
+        {
+          name: 'exception-level',
+          icon: 'smile',
+          path: '/listManage/exception-level',
+          component: './listManage/exception-level',
+        },
+        {
+          name: 'engineering-unit',
+          icon: 'smile',
+          path: '/listManage/engineering-unit',
+          component: './listManage/engineering-unit',
+        },
+        {
+          name: 'attachment',
+          icon: 'smile',
+          path: '/listManage/attachment',
+          component: './listManage/attachment',
+        },
+        {
+          name: 'global-attribute-template',
+          icon: 'smile',
+          path: '/listManage/global-attribute-template',
+          component: './listManage/global-attribute-template',
+        },
+      ],
+    },
+    {
+      path: '/businessProcess',
+      icon: 'table',
+      name: 'businessProcess',
+      routes: [
+        {
+          path: '/businessProcess',
+          redirect: '/businessProcess/business-process',
+        },
+        {
+          name: 'business-process',
+          icon: 'smile',
+          path: '/businessProcess/business-process',
+          component: './businessProcess/business-process',
+          headerRender:true
+        },
+      ],
+    },
+    {
+      path: '/taskManage',
+      icon: 'table',
+      name: 'taskManage',
+      routes: [
+        {
+          path: '/taskManage',
+          redirect: '/taskManage/taskgroup-template',
+        },
+        {
+          name: 'taskgroup-template',
+          icon: 'smile',
+          path: '/taskManage/taskgroup-template',
+          component: './taskManage/taskgroup-template',
+        },
+        {
+          name: 'task-standards',
+          icon: 'smile',
+          path: '/taskManage/task-standards',
+          component: './taskManage/task-standards',
+        },
+        {
+          name: 'serviceproject-template',
+          icon: 'smile',
+          path: '/taskManage/serviceproject-template',
+          component: './taskManage/serviceproject-template',
+        },
+      ],
+    },
+    {
+      path: '/system',
+      icon: 'table',
+      name: 'system',
+      routes: [
+        {
+          path: '/system',
+          redirect: '/system/settings',
+        },
+        {
+          name: 'settings',
+          icon: 'smile',
+          path: '/system/settings',
+          component: './system/settings',
+        },
+        {
+          name: 'import-export',
+          icon: 'smile',
+          path: '/system/import-export',
+          component: './system/import-export',
+        },
+        {
+          name: 'log',
+          icon: 'smile',
+          path: '/system/log',
+          component: './system/log',
         },
       ],
     },

@@ -1,18 +1,12 @@
-export type TableListItem = {
-  key: number;
-  disabled?: boolean;
-  href: string;
-  avatar: string;
-  name: string;
-  owner: string;
-  desc: string;
-  callNo: number;
-  status: string;
-  updatedAt: Date;
-  createdAt: Date;
-  progress: number;
+// 资产项
+export type AssetListItem = {
+  ID?: string;
+  Avatar?:string,
+  Name?: string;
+  EntityType?: number;
+  Exproperty?: boolean;
 };
-
+// 表格分页
 export type TableListPagination = {
   total: number;
   pageSize: number;
@@ -20,17 +14,13 @@ export type TableListPagination = {
 };
 
 export type TableListData = {
-  list: TableListItem[];
+  list: AssetListItem[];
   pagination: Partial<TableListPagination>;
 };
 
-export type TableListParams = {
-  status?: string;
-  name?: string;
-  desc?: string;
-  key?: number;
-  pageSize?: number;
-  currentPage?: number;
-  filter?: Record<string, any[]>;
-  sorter?: Record<string, any>;
-};
+// 资产
+export type AssetList = {
+  data?: AssetItem[];
+  error?: string;
+  success?: boolean;
+}

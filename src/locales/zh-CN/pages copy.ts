@@ -64,10 +64,4 @@ export default {
   'pages.searchTable.tenThousand': '万',
   'pages.searchTable.batchDeletion': '批量删除',
   'pages.searchTable.batchApproval': '批量审批',
-
-  'pages.assetManage.asset.table.column-name.avatar':'资产图像',
-  'pages.assetManage.asset.table.column-name.asset-name':'资产名称',
-  'pages.assetManage.asset.table.column-name.option':'操作',
-  'pages.assetManage.asset.table.option.config':'配置',
-  'pages.assetManage.asset.table.toolbar.button.new':'新建',
 };

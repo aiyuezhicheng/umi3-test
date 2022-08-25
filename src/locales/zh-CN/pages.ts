@@ -65,9 +65,22 @@ export default {
   'pages.searchTable.batchDeletion': '批量删除',
   'pages.searchTable.batchApproval': '批量审批',
 
+
+  'pages.assetManage.asset.tabList.tabItem.tree':'树',
+  'pages.assetManage.asset.tabList.tabItem.table':'表格',
+
   'pages.assetManage.asset.table.column-name.avatar':'资产图像',
   'pages.assetManage.asset.table.column-name.asset-name':'资产名称',
   'pages.assetManage.asset.table.column-name.option':'操作',
   'pages.assetManage.asset.table.option.config':'配置',
+  'pages.assetManage.asset.table.btnOption.edit':'编辑',
+  'pages.assetManage.asset.table.btnOption.delete':'删除',
+  'pages.assetManage.asset.table.btnOption.delete.dialog.title':'确认删除么?',
+  'pages.assetManage.asset.table.btnOption.delete.dialog.confirm':'确定',
+  'pages.assetManage.asset.table.btnOption.delete.dialog.cancel':'取消',
   'pages.assetManage.asset.table.toolbar.button.new':'新建',
+  'pages.assetManage.asset.tabList.tabExtra.operation.add':'新建',
+  'pages.assetManage.asset.tabList.tabExtra.operation.batchDelete':'删除',
+  'pages.assetManage.asset.tabList.tabExtra.operation.import':'导入',
+  'pages.assetManage.asset.tabList.tabExtra.operation.export':'导出',
 };

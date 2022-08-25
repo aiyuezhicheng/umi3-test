@@ -1,91 +1,99 @@
-import { PlusOutlined } from '@ant-design/icons';
-import { Button, Col, Row, Tabs } from 'antd';
-import React, { useEffect, useState } from 'react';
+import {
+  PlusOutlined,
+  DeleteOutlined,
+  FullscreenOutlined,
+  FullscreenExitOutlined,
+  ImportOutlined,
+  ExportOutlined,
+} from '@ant-design/icons';
+import { Button, Checkbox, Divider, Tabs, Dropdown, Menu, Space } from 'antd';
 import { PageContainer } from '@ant-design/pro-layout';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
-import { useModel, useRequest, useIntl } from 'umi';
-import { getAssetList } from './service';
-import type { AssetListItem, TableListPagination } from './data';
-
+import { useRequest,useIntl, FormattedMessage } from 'umi';
+import React, { useEffect, useState } from 'react';
+import AssetTree from './AssetTree';
+import AssetTable from './AssetTable';
+import type { AssetListItem } from './data.d';
+import { getAssetList,getAssetTree } from './service';
+import styles from './index.less'
 const { TabPane } = Tabs;
+
+const operations = (
+  <>
+    <Button type="primary" icon={<PlusOutlined />} className={styles.tabOperationButton}>
+      <FormattedMessage
+        id="pages.assetManage.asset.tabList.tabExtra.operation.add"
+        defaultMessage="新建"
+      />
+    </Button>
+    <Button type="primary" icon={<DeleteOutlined />} className={styles.tabOperationButton}>
+      <FormattedMessage
+        id="pages.assetManage.asset.tabList.tabExtra.operation.batchDelete"
+        defaultMessage="删除"
+      />
+    </Button>
+    <Button type="primary" icon={<ImportOutlined />} className={styles.tabOperationButton}>
+      <FormattedMessage
+        id="pages.assetManage.asset.tabList.tabExtra.operation.import"
+        defaultMessage="导入"
+      />
+    </Button>
+    <Button type="primary" icon={<ExportOutlined />} className={styles.tabOperationButton}>
+      <FormattedMessage
+        id="pages.assetManage.asset.tabList.tabExtra.operation.export"
+        defaultMessage="导出"
+      />
+    </Button>
+    <Button type="primary" icon={<FullscreenOutlined />} className={styles.tabOperationButton}/>
+  </>
+);
+
 const Asset: React.FC = () => {
-  const panes: React.ReactNode[] = [];
+  const [activeKey, setActiveKey] = useState<string>('table');
   const [assetList, setAssetList] = useState<AssetListItem[]>([]);
+  const [assetTree, setAssetTree] = useState<AssetListItem[]>([]);
+  const tree = useRequest(getAssetTree).data
   const { data } = useRequest(getAssetList);
+  // const { {tr } = useRequest(getAssetTree);
+  console.log(useRequest(getAssetTree))
   useEffect(() => {
     setAssetList(data || []);
-  }, [data]);
-  console.log(data);
-  /**
-   * @en-US International configuration
-   * @zh-CN 国际化配置
-   * */
-  const intl = useIntl();
-  const columns: ProColumns<AssetListItem>[] = [
-    {
-      title: intl.formatMessage({
-        id: 'pages.assetManage.asset.table.column-name.avatar',
-        defaultMessage: '资产图像',
-      }),
-      dataIndex: 'Avatar',
-    },
-    {
-      title: intl.formatMessage({
-        id: 'pages.assetManage.asset.table.column-name.asset-name',
-        defaultMessage: '资产名称',
-      }),
-      dataIndex: 'Name',
-      valueType: 'textarea',
-    },
-    {
-      title: intl.formatMessage({
-        id: 'pages.assetManage.asset.table.column-name.option',
-        defaultMessage: '操作',
-      }),
-      dataIndex: 'option',
-      valueType: 'option',
-      render: (_, record) => [
-        <a
-          key="config"
-          // onClick={() => {
-          //   handleUpdateModalVisible(true);
-          //   setCurrentRow(record);
-          // }}
-        >
-          {intl.formatMessage({
-            id: 'pages.assetManage.asset.table.option.config',
-            defaultMessage: '配置',
-          })}
-        </a>,
-      ],
-    },
-  ];
+    setAssetTree(tree || []);
+  }, [data,tree]);
+  // console.log(data);
+  console.log(assetTree);
+  // console.log(assetList);
+
   return (
     <PageContainer title={false}>
-      <div>资产</div>
-      <ProTable<AssetListItem, TableListPagination>
-        columns={columns}
-        search={false}
-        dataSource={assetList}
-        // toolBarRender={() => [
-        //   <Button
-        //     type="primary"
-        //     key="primary"
-        //     // onClick={() => {
-        //     //   handleModalVisible(true);
-        //     // }}
-        //   >
-        //     <PlusOutlined>
-        //       {intl.formatMessage({
-        //         id: 'pages.assetManage.asset.table.toolbar.button.new',
-        //         defaultMessage: '新建',
-        //       })}
-        //     </PlusOutlined>
-        //   </Button>,
-        // ]}
-      ></ProTable>
+      <Tabs
+        tabBarExtraContent={operations}
+        activeKey={activeKey}
+      onChange={(_activeKey)=>{
+        console.log(_activeKey);
+        setActiveKey(_activeKey);
+      }}>
+        <TabPane
+          tab={useIntl().formatMessage({
+            id: 'pages.assetManage.asset.tabList.tabItem.tree',
+            defaultMessage: '树',
+          })}
+          key="tree"
+        >
+          {/* {assetTree={assetTree}} */}
+          <AssetTree assetTree={assetTree}/>
+        </TabPane>
+        <TabPane
+          tab={useIntl().formatMessage({
+            id: 'pages.assetManage.asset.tabList.tabItem.table',
+            defaultMessage: '表格',
+          })}
+          key="table"
+        >
+          <AssetTable assetList={assetList} total={assetList.length}/>
+        </TabPane>
+      </Tabs>
     </PageContainer>
   );
 };
+
 export default Asset;

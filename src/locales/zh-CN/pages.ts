@@ -83,4 +83,15 @@ export default {
   'pages.assetManage.asset.tabList.tabExtra.operation.batchDelete':'删除',
   'pages.assetManage.asset.tabList.tabExtra.operation.import':'导入',
   'pages.assetManage.asset.tabList.tabExtra.operation.export':'导出',
+
+
+  'pages.topNavbar.operation.new':'新建',
+  'pages.topNavbar.operation.new.menu.smartDevice':'新建智能设备',
+  'pages.topNavbar.operation.new.menu.dataSource':'新建数据源',
+  'pages.topNavbar.operation.delete':'删除',
+  'pages.topNavbar.operation.import':'导入',
+  'pages.topNavbar.operation.export':'导出',
+  'pages.topNavbar.operation.search':'搜索',
+  'pages.topNavbar.operation.viewType.table':'表格',
+  'pages.topNavbar.operation.viewType.tree':'树',
 };

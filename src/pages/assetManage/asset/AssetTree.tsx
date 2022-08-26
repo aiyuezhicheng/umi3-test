@@ -25,7 +25,7 @@ const AssetTree: React.FC<AssetTreeProps> = (props) => {
       }
     });
   console.log(assetTree);
-  return <Tree showLine>renderTree(assetTree)</Tree>;
+  return <Tree showLine>{renderTree(assetTree)}</Tree>;
 };
 
 export default AssetTree;

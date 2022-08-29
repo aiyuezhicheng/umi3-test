@@ -39,5 +39,10 @@ export type AssetTypeTreeItem = {
   Name: string;
   EntityType:number,
   ExProperty: string;
-  ChildList:AssetTypeTreeItem[]
+  ChildList?:AssetTypeTreeItem[]
 };
+
+export type MaterialItem={
+  ID:string,
+  Name:string
+}

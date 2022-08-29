@@ -23,6 +23,7 @@ const Articles: React.FC = () => {
       count: 30,
     });
   });
+  console.log(listData);
   return (
     <List<ListItemDataType>
       size="large"

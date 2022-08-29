@@ -78,6 +78,7 @@ export default {
   'pages.assetManage.asset.table.btnOption.delete.dialog.title':'确认删除么?',
   'pages.assetManage.asset.table.btnOption.delete.dialog.confirm':'确定',
   'pages.assetManage.asset.table.btnOption.delete.dialog.cancel':'取消',
+  'pages.assetManage.asset.table.btnOption.delete.dialog.copy':'拷贝',
   'pages.assetManage.asset.table.toolbar.button.new':'新建',
   'pages.assetManage.asset.tabList.tabExtra.operation.add':'新建',
   'pages.assetManage.asset.tabList.tabExtra.operation.batchDelete':'删除',
@@ -86,12 +87,41 @@ export default {
 
 
   'pages.topNavbar.operation.new':'新建',
+  'pages.topNavbar.operation.edit':'编辑',
+  'pages.topNavbar.operation.copy':'拷贝',
   'pages.topNavbar.operation.new.menu.smartDevice':'新建智能设备',
+  'pages.topNavbar.operation.new.subMenu.smartLock':'智能锁',
+  'pages.topNavbar.operation.new.subMenu.smartCar':'智能车',
+  'pages.topNavbar.operation.new.subMenu.camera':'摄像头',
+  'pages.topNavbar.operation.new.subMenu.cctv':'CCTV',
+  'pages.topNavbar.operation.new.subMenu.inkBottle-yanhua':'墨水瓶-研华',
+  'pages.topNavbar.operation.new.subMenu.inkBottle-zhikong':'墨水瓶-智控',
   'pages.topNavbar.operation.new.menu.dataSource':'新建数据源',
+  'pages.topNavbar.operation.new.subMenu.opcda':'OPCDA',
+  'pages.topNavbar.operation.new.subMenu.opcua':'OPCUA',
+  'pages.topNavbar.operation.new.subMenu.mqtt':'MQTT',
   'pages.topNavbar.operation.delete':'删除',
   'pages.topNavbar.operation.import':'导入',
   'pages.topNavbar.operation.export':'导出',
   'pages.topNavbar.operation.search':'搜索',
   'pages.topNavbar.operation.viewType.table':'表格',
   'pages.topNavbar.operation.viewType.tree':'树',
+
+  'pages.configDrawer.tab.basicInfo':'基本信息',
+  'pages.configDrawer.tab.property':'属性',
+
+  'pages.save.success':'保存成功',
+
+
+  'pages.assetManage.fileName.parentname':'父资产类别名',
+  'pages.assetManage.fileName.name':'资产类别名',
+  'pages.assetManage.fileName.description':'资产类别描述',
+  'pages.assetManage.fileName.raletiveMaterial':'相关物料',
+  'pages.assetManage.fileName.ext':'扩展',
+
+
+  'pages.button.confirm':'确定',
+  'pages.button.cancel':'取消',
+  'pages.assetManage.basicInfo.name.required.message':'资产类别名不能为空',
+  'pages.assetManage.basicInfo.name.valid.message':'资产类别名不能重名',
 };

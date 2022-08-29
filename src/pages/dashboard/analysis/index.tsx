@@ -37,7 +37,9 @@ const Analysis: FC<AnalysisProps> = () => {
   );
 
   const { loading, data } = useRequest(fakeChartData);
-
+  console.log(loading);
+  console.log(data);
+  console.log(useRequest(fakeChartData))
   const selectDate = (type: TimeType) => {
     setRangePickerValue(getTimeDistance(type));
   };

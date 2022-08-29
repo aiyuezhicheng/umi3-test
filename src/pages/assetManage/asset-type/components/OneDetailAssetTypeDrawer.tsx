@@ -116,24 +116,15 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
   }, [newKey]);
 
   useEffect(() => {
-    // console.log(id);
-    // if(id){
-    //   const { data } = useRequest(getMaterialList);
-    //   console.log(data)
-    // }
-    // if (id) {
-    //   const { data: oneAssetType } = useRequest(()=>{
-    //     return getOneAssetType(id)
-    //   });
-    //   // setBasicInfo({
-    //   //   ParentID: oneAssetType.ParentID,
-    //   //   Name: oneAssetType.Name,
-    //   //   Description: oneAssetType.Description,
-    //   //   RelatedMaterielIDList: oneAssetType.RelatedMaterielIDList,
-    //   //   Ext: oneAssetType.Ext,
-    //   // });
-    // }
-  }, [id]);
+    console.log(id);
+    if (id) {
+      getOneAssetType(id).then(({ data }) => {
+        console.log(data)
+        setBasicInfo(data);
+        basicInfoForm.setFieldsValue(data);
+      })
+    }
+  }, [id])
 
   const { data: materialList } = useRequest(getMaterialList);
   const { data: assetTypeTree } = useRequest(getAssetTypeTree);
@@ -149,19 +140,19 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
     switch (action) {
       case 'new':
         title = useIntl().formatMessage({
-          id: 'pages.topNavbar.operation.new',
+          id: 'pages.operation.new',
           defaultMessage: '新建',
         });
         break;
       case 'edit':
         title = useIntl().formatMessage({
-          id: 'pages.topNavbar.operation.edit',
+          id: 'pages.operation.edit',
           defaultMessage: '编辑',
         });
         break;
       case 'copy':
         title = useIntl().formatMessage({
-          id: 'pages.topNavbar.operation.copy',
+          id: 'pages.operation.copy',
           defaultMessage: '拷贝',
         });
         break;
@@ -173,17 +164,29 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
   const onSearchRelativeMaterial = (value: string) => {
     console.log('search' + value);
   };
-  const saveOneAssetType = () => {
-    console.log(123);
+  const saveOneAssetType = async (values: Record<string, any>) => {
+    // // setError([]);
+    // try {
+    //   // await fakeSubmitForm(values);
+    //   message.success('提交成功');
+    // } catch {
+    //   // console.log
+    // }
   };
-  const saveOneAssetTypeBasicInfo = (values: any) => {
-    console.log(values);
-    message.success(
-      useIntl().formatMessage({
-        id: 'pages.save.success',
-        defaultMessage: '保存成功!',
-      }),
-    );
+
+  const saveOneAssetTypeBasicInfo = async (values: Record<string, any>) => {
+    // // setError([]);
+    const createParams = { ...values }
+    if (id && action == 'edit') {
+      createParams['ID'] = id
+    }
+    console.log(values)
+    console.log(createParams)
+    try {
+      message.success(<FormattedMessage id="pages.save.success" defaultMessage="保存成功!" />)
+    } catch {
+      // console.log
+    }
   };
   // 判断资产类别名称是否重名
   const judgeIsDuplicateName = (value: string, list: any) => {
@@ -282,6 +285,9 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
                 },
                 {
                   validator(_rule, value, callback) {
+                    if (action !== 'new') {
+                      return Promise.resolve();
+                    }
                     let tree: any[] = [];
                     if (assetTypeTree && assetTypeTree.length > 0) {
                       tree = [...assetTypeTree];

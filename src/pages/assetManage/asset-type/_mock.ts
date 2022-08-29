@@ -9,7 +9,7 @@ const getAssetTree = (req: Request, res: Response) => {
     Name: '资产类型001',
     EntityType: 13,
     ExProperty: '13',
-    ChildList: []
+    ChildList: [],
   }, {
     ID: '002',
     Name: '资产类型002',
@@ -80,7 +80,6 @@ const getAssetTree = (req: Request, res: Response) => {
 
 const getOneAssetType = (req: Request, res: Response) => {
   const id = req.params.id;
-  console.log(id)
   const treeList: AssetTypeTreeItem[] = [{
     ID: '001',
     Name: '资产类型001',
@@ -149,10 +148,27 @@ const getOneAssetType = (req: Request, res: Response) => {
     ExProperty: '13',
     ChildList: []
   }];
+  const parentObj = {
+    '001':'',
+    '002':'',
+    '003':'',
+    '004':'',
+    '002-001':'002',
+    '002-001-001':'002-001',
+    '002-001-002':'002-001',
+    '002-001-001-001':'002-001-001',
+    '002-002':'002',
+    '002-003':'002',
+    '002-003-001':'002-003',
+  }
   let obj= {};
+  console.log('id=' + id)
   let item = treeList.find(item=>item.ID == id)
   obj = {...item}
+  delete obj['ChildList']
   obj['Description'] = obj['Name'] + '-描述';
+  obj['Ext'] = obj['Name'] + '-Ext';
+  obj['ParentID'] = parentObj[obj['ID']]
   res.json({
     data: obj,
     success: true
@@ -179,6 +195,6 @@ const getMaterialList = (req: Request, res: Response) => {
 
 export default {
   'GET /api/AssetTypeTree': getAssetTree,
-  'GET /api/OneAssetType': getOneAssetType,
+  'GET /api/OneAssetType/:id': getOneAssetType,
   'GET /api/getMaterialList': getMaterialList
 };

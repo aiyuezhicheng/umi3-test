@@ -51,7 +51,7 @@ const columns: ColumnsType<AssetListItem> = [
       <>
         <Button type="link" onClick={(): void => showEditOneAssetDlg(record.ID)}>
           <FormattedMessage
-            id="pages.assetManage.asset.table.btnOption.edit"
+            id="pages.operation.edit"
             defaultMessage="编辑"
           />
         </Button>

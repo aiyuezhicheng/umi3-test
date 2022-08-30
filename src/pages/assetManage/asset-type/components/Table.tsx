@@ -1,62 +1,30 @@
-import { DownOutlined, QuestionCircleOutlined } from '@ant-design/icons';
-import type { ProColumns } from '@ant-design/pro-table';
-import { ProTable, TableDropdown } from '@ant-design/pro-table';
+import {
+  Button,
+  Image,
+  Popconfirm,
+} from 'antd';
 import { FooterToolbar } from '@ant-design/pro-layout';
-
-import { Button, Tooltip, Image, Popconfirm } from 'antd';
-import { useEffect, useState } from 'react';
+import { ProTable } from '@ant-design/pro-table';
+import type { ProColumns } from '@ant-design/pro-table';
 import { FormattedMessage } from 'umi';
+import React, { useEffect, useState } from 'react';
 import { AssetTypeTreeItem } from '../data.d';
-// import OneDetailAssetTypeDrawer from './OneDetailAssetTypeDrawer';
-import props from '../../../../.umi/plugin-layout/layout/utils/getLayoutContent';
 
+type TableProps = {
+  showDetailInfoDrawer: (action: string, newKey?: string, id?: string) => void,
+  deleteOneAsset: (oneAssetID: string) => void,
+  tableList: AssetTypeTreeItem[]
+}
 
-
-
-type AssetTypeTableProps = {
-  assetTypeTree: AssetTypeTreeItem[] | undefined;
-};
-const convertToList = function (_tree: AssetTypeTreeItem[] | undefined) {
-  let list: any = [];
-  if (_tree && _tree.length > 0) {
-    for (let i = 0; i < _tree.length; i++) {
-      const oneNode: AssetTypeTreeItem = _tree[i];
-      if (oneNode.ChildList && oneNode.ChildList.length > 0) {
-        let childList: AssetTypeTreeItem[] = convertToList(oneNode.ChildList);
-        if (oneNode.ChildList) {
-          delete oneNode.ChildList;
-        }
-        list.push(oneNode);
-        list = list.concat(childList);
-      } else {
-        list.push(oneNode);
-      }
-    }
-  }
-  return list;
-};
-
-const AssetTypeTable: React.FC<AssetTypeTableProps> = (props) => {
-  const { assetTypeTree } = props;
+const Table: React.FC<TableProps> = (props) => {
+  const { showDetailInfoDrawer, deleteOneAsset, tableList } = props
   const [tableData, setTableData] = useState<AssetTypeTreeItem[]>([]);
   const [selectedRowsState, setSelectedRows] = useState<AssetTypeTreeItem[]>([]);
 
 
   useEffect(() => {
-    setTableData(convertToList(assetTypeTree));
-  }, [assetTypeTree]);
-  console.log(tableData);
-
-  const showEditOneAssetDlg = (oneAssetID: string | undefined,isCopy:boolean|undefined) => {
-    console.log(oneAssetID);
-    console.log(isCopy);
-    // setDetailVisible(true);
-  };
-
-  const deleteOneAsset = (oneAssetID: string | undefined) => {
-    console.log(oneAssetID);
-  };
-
+    setTableData(tableList)
+  }, [tableList])
   const columns: ProColumns<AssetTypeTreeItem>[] = [
     {
       title: (
@@ -67,12 +35,12 @@ const AssetTypeTable: React.FC<AssetTypeTableProps> = (props) => {
       ),
       dataIndex: 'Avatar',
       width: 150,
-      // render: (t) => (
-      //   <Image
-      //     src={t&&'https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png'}
-      //     width={60}
-      //   />
-      // ),
+      render: (t) => (
+        <Image
+          src="https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png"
+          width={60}
+        />
+      ),
     },
     {
       title: (
@@ -94,9 +62,9 @@ const AssetTypeTable: React.FC<AssetTypeTableProps> = (props) => {
       dataIndex: 'Operation',
       render: (_, record) => (
         <>
-          <Button type="link" onClick={(): void => showEditOneAssetDlg(record.ID,false)}>
+          <Button type="link" onClick={(): void => showDetailInfoDrawer('edit', '', record.ID)}>
             <FormattedMessage
-              id="pages.assetManage.asset.table.btnOption.edit"
+              id="pages.operation.edit"
               defaultMessage="编辑"
             />
           </Button>
@@ -128,7 +96,7 @@ const AssetTypeTable: React.FC<AssetTypeTableProps> = (props) => {
               />
             </a>
           </Popconfirm>
-          <Button type="link" onClick={(): void => showEditOneAssetDlg(record.ID,true)}>
+          <Button type="link" onClick={(): void => showDetailInfoDrawer('copy', '', record.ID)}>
             <FormattedMessage
               id="pages.assetManage.asset.table.btnOption.copy"
               defaultMessage="拷贝"
@@ -138,7 +106,6 @@ const AssetTypeTable: React.FC<AssetTypeTableProps> = (props) => {
       ),
     },
   ];
-
   return (
     <>
       <ProTable<AssetTypeTreeItem>
@@ -152,7 +119,7 @@ const AssetTypeTable: React.FC<AssetTypeTableProps> = (props) => {
         dateFormatter="string"
         rowSelection={{
           onChange: (_, selectedRows) => {
-            setSelectedRows(selectedRows)
+            setSelectedRows(selectedRows);
           },
         }}
       />
@@ -169,7 +136,6 @@ const AssetTypeTable: React.FC<AssetTypeTableProps> = (props) => {
                 {selectedRowsState.length}
               </a>{' '}
               项
-
             </div>
           }
         >
@@ -188,29 +154,4 @@ const AssetTypeTable: React.FC<AssetTypeTableProps> = (props) => {
     </>
   );
 };
-export default AssetTypeTable;
-// export default (<TableProps>) => {
-//   return (
-//     <ProTable<TableListItem>
-//       dataSource={tableListDataSource}
-//       rowKey="key"
-//       pagination={{
-//         showQuickJumper: true,
-//       }}
-//       columns={columns}
-//       search={false}
-//       dateFormatter="string"
-//       headerTitle="表格标题"
-//       toolBarRender={() => [
-//         <Button key="show">查看日志</Button>,
-//         <Button key="out">
-//           导出数据
-//           <DownOutlined />
-//         </Button>,
-//         <Button type="primary" key="primary">
-//           创建应用
-//         </Button>,
-//       ]}
-//     />
-//   );
-// };
+export default Table;

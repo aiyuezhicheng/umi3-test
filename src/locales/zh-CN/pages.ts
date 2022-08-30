@@ -73,7 +73,7 @@ export default {
   'pages.assetManage.asset.table.column-name.asset-name': '资产名称',
   'pages.assetManage.asset.table.column-name.option': '操作',
   'pages.assetManage.asset.table.option.config': '配置',
-  'pages.assetManage.asset.table.btnOption.edit': '编辑',
+  // 'pages.operation.edit': '编辑',
   'pages.assetManage.asset.table.btnOption.delete': '删除',
   'pages.assetManage.asset.table.btnOption.delete.dialog.title': '确认删除么?',
   'pages.assetManage.asset.table.btnOption.delete.dialog.confirm': '确定',

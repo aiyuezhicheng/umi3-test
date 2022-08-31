@@ -65,27 +65,14 @@ export default {
   'pages.searchTable.batchDeletion': '批量删除',
   'pages.searchTable.batchApproval': '批量审批',
 
-
-  'pages.assetManage.asset.tabList.tabItem.tree': '树',
-  'pages.assetManage.asset.tabList.tabItem.table': '表格',
-
-  'pages.assetManage.asset.table.column-name.avatar': '资产图像',
-  'pages.assetManage.asset.table.column-name.asset-name': '资产名称',
-  'pages.assetManage.asset.table.column-name.option': '操作',
-  'pages.assetManage.asset.table.option.config': '配置',
-  // 'pages.operation.edit': '编辑',
-  'pages.assetManage.asset.table.btnOption.delete': '删除',
-  'pages.assetManage.asset.table.btnOption.delete.dialog.title': '确认删除么?',
-  'pages.assetManage.asset.table.btnOption.delete.dialog.confirm': '确定',
-  'pages.assetManage.asset.table.btnOption.delete.dialog.cancel': '取消',
-  'pages.assetManage.asset.table.btnOption.delete.dialog.copy': '拷贝',
-  'pages.assetManage.asset.table.toolbar.button.new': '新建',
-  'pages.assetManage.asset.tabList.tabExtra.operation.add': '新建',
-  'pages.assetManage.asset.tabList.tabExtra.operation.batchDelete': '删除',
-  'pages.assetManage.asset.tabList.tabExtra.operation.import': '导入',
-  'pages.assetManage.asset.tabList.tabExtra.operation.export': '导出',
-
-
+  // 视图
+  'pages.viewType.tree': '树',
+  'pages.viewType.table': '表格',
+  // 表格列名
+  'pages.table.columnName.avatar': '图像',
+  'pages.table.columnName.name': '名称',
+  'pages.table.columnName.operation': '操作',
+  // 操作
   'pages.operation.new': '新建',
   'pages.operation.edit': '编辑',
   'pages.operation.copy': '拷贝',
@@ -104,43 +91,34 @@ export default {
   'pages.operation.allStow': '全部收起',
   'pages.operation.up': '上移',
   'pages.operation.down': '下移',
-
-
-
-
-  'pages.assetManage.topNavbar.operation.new.menu.smartDevice': '新建智能设备',
-  'pages.assetManage.topNavbar.operation.new.subMenu.smartLock': '智能锁',
-  'pages.assetManage.topNavbar.operation.new.subMenu.smartCar': '智能车',
-  'pages.assetManage.topNavbar.operation.new.subMenu.camera': '摄像头',
-  'pages.assetManage.topNavbar.operation.new.subMenu.cctv': 'CCTV',
-  'pages.assetManage.topNavbar.operation.new.subMenu.inkBottle-yanhua': '墨水瓶-研华',
-  'pages.assetManage.topNavbar.operation.new.subMenu.inkBottle-zhikong': '墨水瓶-智控',
-  'pages.assetManage.topNavbar.operation.new.menu.dataSource': '新建数据源',
-  'pages.assetManage.topNavbar.operation.new.subMenu.opcda': 'OPCDA',
-  'pages.assetManage.topNavbar.operation.new.subMenu.opcua': 'OPCUA',
-  'pages.assetManage.topNavbar.operation.new.subMenu.mqtt': 'MQTT',
-  'pages.assetManage.basicInfo.name.required.message': '资产类别名不能为空',
-  'pages.assetManage.basicInfo.name.valid.message': '资产类别名不能重名',
-
-
-  'pages.topNavbar.operation.viewType.table': '表格',
-  'pages.topNavbar.operation.viewType.tree': '树',
-
+  'pages.operation.confirm': '确定',
+  'pages.operation.cancel': '取消',
+  // 弹框
+  'pages.deleteDialog.title': '确认删除么?',
+  'pages.dialog.save.success': '保存成功',
+  'pages.dialog.delete.success': '删除成功!',
+  // 配置抽屉信息tab
   'pages.configDrawer.tab.basicInfo': '基本信息',
   'pages.configDrawer.tab.property': '属性',
-
-  'pages.save.success': '保存成功',
-  'pages.delete.success': '删除成功',
-
-
-  'pages.assetManage.fileName.parentname': '父资产类别名',
-  'pages.assetManage.fileName.name': '资产类别名',
-  'pages.assetManage.fileName.description': '资产类别描述',
-  'pages.assetManage.fileName.raletiveMaterial': '相关物料',
-  'pages.assetManage.fileName.ext': '扩展',
-
-
-  'pages.button.confirm': '确定',
-  'pages.button.cancel': '取消',
-
+  // 提示信息
+  'pages.message.assetType.name.required.message': '资产类别名不能为空',
+  'pages.message.assetType.name.valid.message': '资产类别名不能重名',
+  //字段名
+  'pages.fieldName.assetType.parentname': '父资产类别名',
+  'pages.fieldName.assetType.name': '资产类别名',
+  'pages.fieldName.assetType.description': '资产类别描述',
+  'pages.fieldName.assetType.raletiveMaterial': '相关物料',
+  'pages.fieldName.assetType.ext': '扩展',
+  // 资产类别
+  'pages.assetType.new.menu.smartDevice': '新建智能设备',
+  'pages.assetType.new.subMenu.smartLock': '智能锁',
+  'pages.assetType.new.subMenu.smartCar': '智能车',
+  'pages.assetType.new.subMenu.camera': '摄像头',
+  'pages.assetType.new.subMenu.cctv': 'CCTV',
+  'pages.assetType.new.subMenu.inkBottle-yanhua': '墨水瓶-研华',
+  'pages.assetType.new.subMenu.inkBottle-zhikong': '墨水瓶-智控',
+  'pages.assetType.new.menu.dataSource': '新建数据源',
+  'pages.assetType.new.subMenu.opcda': 'OPCDA',
+  'pages.assetType.new.subMenu.opcua': 'OPCUA',
+  'pages.assetType.new.subMenu.mqtt': 'MQTT',
 };

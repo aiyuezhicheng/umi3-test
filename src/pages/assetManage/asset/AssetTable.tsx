@@ -16,8 +16,8 @@ const columns: ColumnsType<AssetListItem> = [
   {
     title: (
       <FormattedMessage
-        id="pages.assetManage.asset.table.column-name.avatar"
-        defaultMessage="资产图像"
+        id="pages.table.columnName.avatar"
+        defaultMessage="图像"
       />
     ),
     dataIndex: 'Avatar',
@@ -32,8 +32,8 @@ const columns: ColumnsType<AssetListItem> = [
   {
     title: (
       <FormattedMessage
-        id="pages.assetManage.asset.table.column-name.asset-name"
-        defaultMessage="资产名称"
+        id="pages.table.columnName.name"
+        defaultMessage="名称"
       />
     ),
     dataIndex: 'Name',
@@ -42,7 +42,7 @@ const columns: ColumnsType<AssetListItem> = [
   {
     title: (
       <FormattedMessage
-        id="pages.assetManage.asset.table.column-name.option"
+        id="pages.table.columnName.operation"
         defaultMessage="操作"
       />
     ),
@@ -58,27 +58,27 @@ const columns: ColumnsType<AssetListItem> = [
         <Popconfirm
           title={
             <FormattedMessage
-              id="pages.assetManage.asset.table.btnOption.delete.dialog.title"
+              id="pages.deleteDialog.title"
               defaultMessage="确认删除么?"
             />
           }
           onConfirm={() => deleteOneAsset(record.ID)}
           okText={
             <FormattedMessage
-              id="pages.assetManage.asset.table.btnOption.delete.dialog.confirm"
+              id="pages.operation.confirm'"
               defaultMessage="确定"
             />
           }
           cancelText={
             <FormattedMessage
-              id="pages.assetManage.asset.table.btnOption.delete.dialog.cancel"
+              id="pages.operation.cancel"
               defaultMessage="取消"
             />
           }
         >
           <a>
             <FormattedMessage
-              id="pages.assetManage.asset.table.btnOption.delete"
+              id="pages.operation.delete"
               defaultMessage="删除"
             />
           </a>

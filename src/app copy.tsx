@@ -55,10 +55,9 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
   return {
     rightContentRender: () => <RightContent />,
     disableContentMargin: false,
-    // 取消水印
-    // waterMarkProps: {
-    //   content: initialState?.currentUser?.name,
-    // },
+    waterMarkProps: {
+      content: initialState?.currentUser?.name,
+    },
     footerRender: () => <Footer />,
     onPageChange: () => {
       const { location } = history;

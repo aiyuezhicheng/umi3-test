@@ -21,25 +21,25 @@ const operations = (
   <>
     <Button type="primary" icon={<PlusOutlined />} className={styles.tabOperationButton}>
       <FormattedMessage
-        id="pages.assetManage.asset.tabList.tabExtra.operation.add"
+        id="pages.operation.new"
         defaultMessage="新建"
       />
     </Button>
     <Button type="primary" icon={<DeleteOutlined />} className={styles.tabOperationButton}>
       <FormattedMessage
-        id="pages.assetManage.asset.tabList.tabExtra.operation.batchDelete"
+        id="pages.operation.delete"
         defaultMessage="删除"
       />
     </Button>
     <Button type="primary" icon={<ImportOutlined />} className={styles.tabOperationButton}>
       <FormattedMessage
-        id="pages.assetManage.asset.tabList.tabExtra.operation.import"
+        id="pages.operation.import"
         defaultMessage="导入"
       />
     </Button>
     <Button type="primary" icon={<ExportOutlined />} className={styles.tabOperationButton}>
       <FormattedMessage
-        id="pages.assetManage.asset.tabList.tabExtra.operation.export"
+        id="pages.operation.export"
         defaultMessage="导出"
       />
     </Button>
@@ -74,7 +74,7 @@ const Asset: React.FC = () => {
       }}>
         <TabPane
           tab={useIntl().formatMessage({
-            id: 'pages.assetManage.asset.tabList.tabItem.tree',
+            id: 'pages.viewType.tree',
             defaultMessage: '树',
           })}
           key="tree"
@@ -84,7 +84,7 @@ const Asset: React.FC = () => {
         </TabPane>
         <TabPane
           tab={useIntl().formatMessage({
-            id: 'pages.assetManage.asset.tabList.tabItem.table',
+            id: 'pages.viewType.table',
             defaultMessage: '表格',
           })}
           key="table"

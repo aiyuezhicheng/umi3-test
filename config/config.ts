@@ -417,19 +417,7 @@ export default defineConfig({
       path: '/businessProcess',
       icon: 'table',
       name: 'businessProcess',
-      routes: [
-        {
-          path: '/businessProcess',
-          redirect: '/businessProcess/business-process',
-        },
-        {
-          name: 'business-process',
-          icon: 'smile',
-          path: '/businessProcess/business-process',
-          component: './businessProcess/business-process',
-          headerRender:true
-        },
-      ],
+      redirect: '/businessProcess'
     },
     {
       path: '/taskManage',

@@ -3,9 +3,9 @@ import { PageContainer } from '@ant-design/pro-layout';
 
 const BusinessProcess: React.FC = () => {
   return (
-    <PageContainer title={false} >
+    // <PageContainer title={false} >
       <div>业务流程</div>
-    </PageContainer>
+    // </PageContainer>
   );
 };
 export default BusinessProcess;

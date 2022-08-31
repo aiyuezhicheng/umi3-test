@@ -1,12 +1,8 @@
-import { PlusOutlined } from '@ant-design/icons';
-
 import { Button, message, Input, Drawer, Tabs, Form, Select, Space, TreeSelect } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useRequest, useIntl, FormattedMessage } from 'umi';
-import { AssetTypeTreeItem, AssetTypeItem } from '../data.d';
+import { AssetTypeItem } from '../data.d';
 import { getMaterialList, getAssetTypeTree, getOneAssetType } from '../service';
-import AssetType from '../index';
-import { validateLngLat } from '@antv/l7';
 
 export type detailProps = {
   action: string;
@@ -119,12 +115,11 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
     console.log(id);
     if (id) {
       getOneAssetType(id).then(({ data }) => {
-        console.log(data)
         setBasicInfo(data);
         basicInfoForm.setFieldsValue(data);
-      })
+      });
     }
-  }, [id])
+  }, [id]);
 
   const { data: materialList } = useRequest(getMaterialList);
   const { data: assetTypeTree } = useRequest(getAssetTypeTree);
@@ -176,14 +171,16 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
 
   const saveOneAssetTypeBasicInfo = async (values: Record<string, any>) => {
     // // setError([]);
-    const createParams = { ...values }
+    const createParams = { ...values };
     if (id && action == 'edit') {
-      createParams['ID'] = id
+      createParams['ID'] = id;
     }
-    console.log(values)
-    console.log(createParams)
+    console.log(values);
+    console.log(createParams);
     try {
-      message.success(<FormattedMessage id="pages.save.success" defaultMessage="保存成功!" />)
+      message.success(
+        <FormattedMessage id="pages.dialog.save.success" defaultMessage="保存成功!" />,
+      );
     } catch {
       // console.log
     }
@@ -211,6 +208,7 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
 
   return (
     <Drawer
+      // forceRender={true}
       title={renderTitle()}
       width={600}
       visible={visible}
@@ -220,13 +218,13 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
         <Space>
           <Button onClick={onClose}>
             {useIntl().formatMessage({
-              id: 'pages.button.cancel',
+              id: 'pages.operation.cancel',
               defaultMessage: '取消',
             })}
           </Button>
           <Button type="primary" onClick={saveOneAssetType}>
             {useIntl().formatMessage({
-              id: 'pages.button.confirm',
+              id: 'pages.operation.confirm',
               defaultMessage: '确定',
             })}
           </Button>
@@ -252,7 +250,7 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
             <Form.Item
               name="ParentID"
               label={useIntl().formatMessage({
-                id: 'pages.assetManage.fileName.parentname',
+                id: 'pages.fieldName.assetType.parentname',
                 defaultMessage: '父资产类别名',
               })}
             >
@@ -263,7 +261,7 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
                 style={{ width: '100%' }}
                 fieldNames={{ label: 'Name', value: 'ID', children: 'ChildList' }}
                 placeholder={useIntl().formatMessage({
-                  id: 'pages.assetManage.fileName.parentname',
+                  id: 'pages.fieldName.assetType.parentname',
                   defaultMessage: '父资产类别名',
                 })}
                 treeData={assetTypeTree}
@@ -272,14 +270,14 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
             <Form.Item
               name="Name"
               label={useIntl().formatMessage({
-                id: 'pages.assetManage.fileName.name',
+                id: 'pages.fieldName.assetType.name',
                 defaultMessage: '资产类别名',
               })}
               rules={[
                 {
                   required: true,
                   message: useIntl().formatMessage({
-                    id: 'pages.assetManage.basicInfo.name.required.message',
+                    id: 'pages.message.assetType.name.required.message',
                     defaultMessage: '资产类别名不能为空',
                   }),
                 },
@@ -296,7 +294,7 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
                     if (!isRight) {
                       return Promise.reject(
                         useIntl().formatMessage({
-                          id: 'pages.assetManage.basicInfo.name.valid.message',
+                          id: 'pages.message.assetType.name.valid.message',
                           defaultMessage: '资产类别名不能重名',
                         }),
                       );
@@ -309,7 +307,7 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
             >
               <Input
                 placeholder={useIntl().formatMessage({
-                  id: 'pages.assetManage.fileName.name',
+                  id: 'pages.fieldName.assetType.name',
                   defaultMessage: '资产类别名',
                 })}
               />
@@ -317,13 +315,13 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
             <Form.Item
               name="Description"
               label={useIntl().formatMessage({
-                id: 'pages.assetManage.fileName.description',
+                id: 'pages.fieldName.assetType.description',
                 defaultMessage: '资产类别描述',
               })}
             >
               <TextArea
                 placeholder={useIntl().formatMessage({
-                  id: 'pages.assetManage.fileName.description',
+                  id: 'pages.fieldName.assetType.description',
                   defaultMessage: '资产类别描述',
                 })}
                 rows={4}
@@ -332,14 +330,14 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
             <Form.Item
               name="RelatedMaterielIDList"
               label={useIntl().formatMessage({
-                id: 'pages.assetManage.fileName.raletiveMaterial',
+                id: 'pages.fieldName.assetType.raletiveMaterial',
                 defaultMessage: '相关物料',
               })}
             >
               <Select
                 showSearch
                 placeholder={useIntl().formatMessage({
-                  id: 'pages.assetManage.fileName.raletiveMaterial',
+                  id: 'pages.fieldName.assetType.raletiveMaterial',
                   defaultMessage: '相关物料',
                 })}
                 onSearch={onSearchRelativeMaterial}
@@ -350,20 +348,24 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
                 }
               >
                 {materialList?.map((item: any) => {
-                  return <Select.Option value={item.ID}>{item.Name}</Select.Option>;
+                  return (
+                    <Select.Option value={item.ID} key={item.ID}>
+                      {item.Name}
+                    </Select.Option>
+                  );
                 })}
               </Select>
             </Form.Item>
             <Form.Item
               name="Ext"
               label={useIntl().formatMessage({
-                id: 'pages.assetManage.fileName.ext',
+                id: 'pages.fieldName.assetType.ext',
                 defaultMessage: '扩展',
               })}
             >
               <TextArea
                 placeholder={useIntl().formatMessage({
-                  id: 'pages.assetManage.fileName.ext',
+                  id: 'pages.fieldName.assetType.ext',
                   defaultMessage: '扩展',
                 })}
                 rows={4}
@@ -372,7 +374,7 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
             <Form.Item>
               <Button type="primary" htmlType="submit" className="login-form-button">
                 {useIntl().formatMessage({
-                  id: 'pages.button.confirm',
+                  id: 'pages.operation.confirm',
                   defaultMessage: '确定',
                 })}
               </Button>

@@ -1,4 +1,3 @@
-
 import {
   DeleteOutlined,
   EditOutlined,
@@ -9,18 +8,14 @@ import {
   VerticalAlignMiddleOutlined,
   ArrowUpOutlined,
   ArrowDownOutlined,
+  CheckCircleOutlined,
 } from '@ant-design/icons';
-import {
-  Menu,
-  Image,
-  Space,
-  Popconfirm,
-  Tree,
-} from 'antd';
+import { Menu, Image, Space, Popconfirm, Tree, Input } from 'antd';
 import type { TreeProps } from 'antd/es/tree';
-import {FormattedMessage } from 'umi';
-import React, { useEffect, useState} from 'react';
+import { FormattedMessage } from 'umi';
+import React, { useEffect, useState } from 'react';
 import { AssetTypeTreeItem } from '../data.d';
+import './Tree.less';
 
 type detailDrawerPrams = {
   action: string;
@@ -28,16 +23,24 @@ type detailDrawerPrams = {
   newKey?: string;
 };
 type AssetTreeProps = {
-  assetTypeTree: AssetTypeTreeItem[],
-  setDetailVisible: (visible: boolean) => void
+  assetTypeTree: AssetTypeTreeItem[];
+  setDetailVisible: (visible: boolean) => void;
   setDetailParams: (params: detailDrawerPrams) => void;
   setChecked: (list: string[]) => void;
-  deleteOneAsset:(id:string)=>void;
-}
+  deleteOneAsset: (id: string) => void;
+  searchKeyWords: string;
+};
 
 const TreeComponent: React.FC<AssetTreeProps> = (props) => {
-  const { assetTypeTree, setDetailVisible, setDetailParams,setChecked,deleteOneAsset } = props;
-  console.log(assetTypeTree)
+  const {
+    assetTypeTree,
+    setDetailVisible,
+    setDetailParams,
+    setChecked,
+    deleteOneAsset,
+    searchKeyWords,
+  } = props;
+  console.log(assetTypeTree);
   type rightClickTreeNodeMenuInfoParams = {
     pageX: number;
     pageY: number;
@@ -59,24 +62,116 @@ const TreeComponent: React.FC<AssetTreeProps> = (props) => {
   const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
   const [rightClickMenuVisible, setRightClickMenuVisible] = useState<boolean>(false);
   // const [checked, setCheckedTreeNodes] = useState<string[]>([]);
+  const [autoExpandParent, setAutoExpandParent] = useState(true);
+  const [renameID, setRenameID] = useState<string>('');
 
   const { TreeNode } = Tree;
   useEffect(() => {
-    setTreeData(assetTypeTree)
+    setTreeData(assetTypeTree);
     console.log(tree);
-  }, [assetTypeTree])
+  }, [assetTypeTree]);
+
+  const getParentKey: any = (key: string, tree: any) => {
+    let parentKey;
+
+    for (let i = 0; i < tree.length; i++) {
+      const node = tree[i];
+      if (node.ChildList) {
+        if (node.ChildList.some((item: any) => item.ID === key)) {
+          parentKey = node.ID;
+        } else if (getParentKey(key, node.ChildList)) {
+          parentKey = getParentKey(key, node.ChildList);
+        }
+      }
+    }
+
+    return parentKey;
+  };
+
+  const dataList: any = [];
+
+  const generateList = (data: any) => {
+    for (let i = 0; i < data.length; i++) {
+      const node = data[i];
+      const { ID, Name } = node;
+      dataList.push({
+        ID,
+        Name,
+      });
+
+      if (node.ChildList) {
+        generateList(node.ChildList);
+      }
+    }
+  };
+
+  generateList(assetTypeTree);
+
+  useEffect(() => {
+    console.log(searchKeyWords);
+    if (searchKeyWords) {
+      const newExpandedKeys = dataList
+        .map((item: { Name: string | string[]; ID: any }) => {
+          if (item.Name && item.Name.indexOf(searchKeyWords) > -1) {
+            return getParentKey(item.ID, assetTypeTree);
+          }
+
+          return null;
+        })
+        .filter((item: any, i: any, self: string | any[]) => item && self.indexOf(item) === i);
+      console.log(newExpandedKeys);
+      setExpandedKeys(newExpandedKeys);
+      setAutoExpandParent(true);
+    } else {
+      setExpandedKeys([]);
+      // setAutoExpandParent(true);
+    }
+  }, [searchKeyWords]);
+
+  // 确认重命名
+  const confirmRename = (e) => {
+    let newName = '';
+    console.log(e);
+    if (e.type == 'click') {
+      console.log(e.target.previousSibling);
+      newName = e.target.previousSibling.value;
+    } else {
+      newName = e.target.value;
+      alert('重命名=' + newName);
+    }
+    setRenameID('');
+  };
   const renderTree = (jsonTree: AssetTypeTreeItem[] | undefined) => {
     if (jsonTree && jsonTree.length > 0) {
       return jsonTree.map((item: AssetTypeTreeItem) => {
+        const strTitle = item.Name;
+        const index = strTitle.indexOf(searchKeyWords);
+        const beforeStr = strTitle.substring(0, index);
+        const afterStr = strTitle.slice(index + searchKeyWords.length);
         return (
           <TreeNode
             title={
               <Space size="middle">
                 <Image
                   src="https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png"
-                  width={60}
+                  width={40}
                 />
-                <span>{item.Name}</span>
+                <span>
+                  {item.ID == renameID ? (
+                    <Space>
+                      <Input defaultValue={item.Name} allowClear onPressEnter={confirmRename} />
+                      <CheckCircleOutlined onClick={confirmRename} />
+                    </Space>
+                  ) : index > -1 ? (
+                    <span>
+                      {beforeStr}
+                      <span className="site-tree-search-value">{searchKeyWords}</span>
+                      {afterStr}
+                    </span>
+                  ) : (
+                    <span>{strTitle}</span>
+                  )}
+                </span>
               </Space>
             }
             key={item.ID}
@@ -162,7 +257,7 @@ const TreeComponent: React.FC<AssetTreeProps> = (props) => {
     setTreeData(data);
   };
   // 拖拽结束
-  const onDragEnter = () => { };
+  const onDragEnter = () => {};
   // 设置点击右键菜单信息
   const setRightClickMenuInfo = (e: { event: { pageX: any; pageY: any }; node: { key: any } }) => {
     const curID = e.node.key;
@@ -184,7 +279,15 @@ const TreeComponent: React.FC<AssetTreeProps> = (props) => {
   };
   // 显示树节点右键点击的菜单
   const renderTreeNodeRightClickMenu = () => {
-    const { pageX, pageY, id, curTreeNode, parent, index, tree: newTree } = rightClickTreeNodeMenuInfo;
+    const {
+      pageX,
+      pageY,
+      id,
+      curTreeNode,
+      parent,
+      index,
+      tree: newTree,
+    } = rightClickTreeNodeMenuInfo;
     // 右键菜单项列表
     const rightMenuItemList = [
       {
@@ -195,34 +298,16 @@ const TreeComponent: React.FC<AssetTreeProps> = (props) => {
       {
         label: (
           <Popconfirm
-            title={
-              <FormattedMessage
-                id="pages.assetManage.asset.table.btnOption.delete.dialog.title"
-                defaultMessage="确认删除么?"
-              />
-            }
+            title={<FormattedMessage id="pages.deleteDialog.title" defaultMessage="确认删除么?" />}
             onConfirm={() => {
               setRightClickMenuVisible(false);
               deleteOneAsset(id);
             }}
-            okText={
-              <FormattedMessage
-                id="pages.assetManage.asset.table.btnOption.delete.dialog.confirm"
-                defaultMessage="确定"
-              />
-            }
-            cancelText={
-              <FormattedMessage
-                id="pages.assetManage.asset.table.btnOption.delete.dialog.cancel"
-                defaultMessage="取消"
-              />
-            }
+            okText={<FormattedMessage id="pages.operation.confirm'" defaultMessage="确定" />}
+            cancelText={<FormattedMessage id="pages.operation.cancel" defaultMessage="取消" />}
           >
             <a>
-              <FormattedMessage
-                id="pages.assetManage.asset.table.btnOption.delete"
-                defaultMessage="删除"
-              />
+              <FormattedMessage id="pages.operation.delete" defaultMessage="删除" />
             </a>
           </Popconfirm>
         ),
@@ -386,6 +471,9 @@ const TreeComponent: React.FC<AssetTreeProps> = (props) => {
           setDetailVisible(true);
           setDetailParams({ action: e.key, newKey: '', id });
           break;
+        case 'rename':
+          setRenameID(id);
+          break;
         case 'cut':
           cutOneTreeNode(curTreeNode!, index!, parent, newTree);
           break;
@@ -418,7 +506,7 @@ const TreeComponent: React.FC<AssetTreeProps> = (props) => {
         style={{
           position: 'absolute',
           left: `${pageX - 160}px`,
-          top: `${pageY - 160}px`,
+          top: `${pageY - 180}px`,
         }}
         onClick={clickRightMenuItem}
       ></Menu>
@@ -434,6 +522,7 @@ const TreeComponent: React.FC<AssetTreeProps> = (props) => {
       newExpandedKeys = newExpandedKeys.filter((item) => item !== info.node.key);
     }
     setExpandedKeys(newExpandedKeys);
+    setAutoExpandParent(false);
   };
   // 手动选择或取消选择树节点
   const manulSelectedTreeNode: TreeProps['onSelect'] = (key, info) => {
@@ -452,7 +541,6 @@ const TreeComponent: React.FC<AssetTreeProps> = (props) => {
     const { checked } = checkedInfo;
     // setCheckedTreeNodes(checked);
     setChecked(checked);
-    
   };
   return (
     <>
@@ -471,6 +559,7 @@ const TreeComponent: React.FC<AssetTreeProps> = (props) => {
         selectedKeys={selectedKeys}
         onSelect={manulSelectedTreeNode}
         onCheck={checkOneTreeNode}
+        autoExpandParent={autoExpandParent}
       >
         {tree && tree?.length > 0 && renderTree(tree)}
       </Tree>

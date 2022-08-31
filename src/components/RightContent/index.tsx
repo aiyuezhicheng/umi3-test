@@ -25,7 +25,7 @@ const GlobalHeaderRight: React.FC = () => {
 
   return (
     <Space className={className}>
-      {/* <HeaderSearch
+      <HeaderSearch
         className={`${styles.action} ${styles.search}`}
         placeholder="站内搜索"
         defaultValue="umi ui"
@@ -47,13 +47,13 @@ const GlobalHeaderRight: React.FC = () => {
             value: 'Pro Layout',
           },
         ]}
-      /> */}
+      />
       <span
         className={styles.action}
         onClick={() => {
           window.open('https://userguide.idongmobility.com/');
         }}
-        title={"关于"}
+        title={'关于'}
       >
         <QuestionCircleOutlined />
       </span>

@@ -102,12 +102,23 @@ export default {
   // 提示信息
   'pages.message.assetType.name.required.message': '資產類別名不能為空',
   'pages.message.assetType.name.valid.message': '資產類別名不能重名',
+  'pages.message.asset.name.required.message':'資產名不能为空',
+  'pages.message.asset.name.valid.message': '資產名不能重名',
   //字段名
   'pages.fieldName.assetType.parentname': '父資產類別名',
   'pages.fieldName.assetType.name': '資產類別名',
   'pages.fieldName.assetType.description': '資產類別描述',
   'pages.fieldName.assetType.raletiveMaterial': '相關物料',
   'pages.fieldName.assetType.ext': '擴展',
+  'pages.fieldName.asset.parentname': '父資產名',
+  'pages.fieldName.asset.name': '資產名',
+  'pages.fieldName.asset.no': '資產號',
+  'pages.fieldName.asset.description': '資產描述',
+  'pages.fieldName.asset.assetType': '資產類別',
+  'pages.fieldName.asset.locationPoint': '位置點',
+  'pages.fieldName.asset.scanPoint': '掃描點',
+  'pages.fieldName.asset.accuracyOfInsensitiveUnlocking': '無感解鎖精度(單位釐米)',
+  'pages.fieldName.asset.raletiveMaterialByAssetType': '使用資產類別關聯物料',
   // 資產類別
   'pages.assetType.new.menu.smartDevice': '新建智能設備',
   'pages.assetType.new.subMenu.smartLock': '智能鎖',

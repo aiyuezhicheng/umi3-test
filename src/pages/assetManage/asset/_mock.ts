@@ -1,161 +1,200 @@
 import { Request, Response } from 'express';
-import { AssetListItem } from './data.d';
-let tree: AssetListItem[] = [
-  {
-    ID: 'asset000000001',
-    Avatar: 'https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png',
-    Name: '资产001',
-    Children: [{
-      ID: 'asset000000001资产a001',
-      Avatar: 'https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png',
-      Name: '资产a001',
-      Children: undefined
-    }, {
-      ID: 'asset000000001资产a002',
-      Avatar: 'https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png',
-      Name: '资产a002',
-      Children: undefined
-    }, {
-      ID: 'asset000000001资产a003',
-      Avatar: 'https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png',
-      Name: '资产a003',
-      Children: undefined
-    }, {
-      ID: 'asset000000001资产a004',
-      Avatar: 'https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png',
-      Name: '资产a004',
-      Children: undefined
-    }]
-  },
-  {
-    ID: 'asset000000002',
-    Avatar: 'https://gw.alipayobjects.com/zos/rmsportal/OKJXDXrmkNshAMvwtvhu.png',
-    Name: '资产002',
-    Children: undefined
-  },
-  {
-    ID: 'asset000000003',
-    Avatar: 'https://gw.alipayobjects.com/zos/rmsportal/kISTdvpyTAhtGxpovNWd.png',
-    Name: '资产003',
-    Children: [{
-      ID: 'asset000000003资产3a001',
-      Avatar: 'https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png',
-      Name: '资产3a001',
-      Children: undefined
-    }, {
-      ID: 'asset000000003资产3a002',
-      Avatar: 'https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png',
-      Name: '资产3a002',
-      Children: undefined
-    }]
-  },
-  {
-    ID: 'asset000000004',
-    Avatar: 'https://gw.alipayobjects.com/zos/rmsportal/GvqBnKhFgObvnSGkDsje.png',
-    Name: '资产003',
-    Children: undefined
-  },
-  {
-    ID: 'asset000000005',
-    Avatar: 'https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png',
-    Name: '资产004',
-    Children: undefined
-  },
-  {
-    ID: 'asset000000006',
-    Avatar: 'https://gw.alipayobjects.com/zos/rmsportal/fcHMVNCjPOsbUGdEduuv.jpeg',
-    Name: '资产005',
-    Children: undefined
-  },
-  {
-    ID: 'asset000000007',
-    Avatar: 'https://gw.alipayobjects.com/zos/rmsportal/fcHMVNCjPOsbUGdEduuv.jpeg',
-    Name: '资产006',
-    Children: undefined
-  },
-  {
-    ID: 'asset000000008',
-    Avatar: 'https://gw.alipayobjects.com/zos/rmsportal/fcHMVNCjPOsbUGdEduuv.jpeg',
-    Name: '资产007',
-    Children: [{
-      ID: 'asset000000008资产8a001',
-      Avatar: 'https://gw.alipayobjects.com/zos/rmsportal/fcHMVNCjPOsbUGdEduuv.jpeg',
-      Name: '资产8a001',
-      Children: [{
-        ID: 'asset000000008资产8a002',
-        Avatar: 'https://gw.alipayobjects.com/zos/rmsportal/fcHMVNCjPOsbUGdEduuv.jpeg',
-        Name: '资产8a002',
-        Children: [{
-          ID: 'asset000000008资产8a003',
-          Avatar: 'https://gw.alipayobjects.com/zos/rmsportal/fcHMVNCjPOsbUGdEduuv.jpeg',
-          Name: '资产8a003',
-          Children: undefined
-        }]
-      }],
-    }]
-  },
-  {
-    ID: 'asset000000009',
-    Avatar: '',
-    Name: '资产008',
-    Children: undefined
+import { AssetTreeItem, MaterialItem } from './data.d';
 
-  },
-  {
-    ID: 'asset000000010',
-    Avatar: '',
-    Name: '资产009',
-    Children: undefined
-  },
-  {
-    ID: 'asset000000011',
-    Avatar: '',
-    Name: '资产0010',
-    Children: undefined
-  },
-  {
-    ID: 'asset000000012',
-    Avatar: '',
-    Name: '资产0011',
-    Children: undefined
-  }
-]
-const getAssetList = (req: Request, res: Response) => {
-  const convertToList = function (_tree: AssetListItem[]) {
-    let list: any = [];
-    if (_tree && _tree.length > 0) {
-      for (let i = 0; i < _tree.length; i++) {
-        const oneNode: AssetListItem = _tree[i]
-        if (oneNode.Children && oneNode.Children.length > 0) {
-          let childList: AssetListItem[] = convertToList(oneNode.Children);
-          // delete oneNode.Children;
-          // if (oneNode.Children) {
-          //   delete oneNode.Children;
-          // }
-          list.push(oneNode);
-          list = list.concat(childList);
-        } else {
-          list.push(oneNode);
-        }
 
-      }
-    }
-    return list
-  }
-  res.json({
-    data: convertToList(tree),
-    success: true
-  });
-};
 
 const getAssetTree = (req: Request, res: Response) => {
+  const tree: AssetTreeItem[] = [{
+    ID: '001',
+    Name: '资产001',
+    EntityType: 13,
+    ExProperty: '13',
+    ChildList: [],
+  }, {
+    ID: '002',
+    Name: '资产002',
+    EntityType: 13,
+    ExProperty: '13',
+    ChildList: [{
+      ID: '002-001',
+      Name: '资产002下的001',
+      EntityType: 13,
+      ExProperty: '13',
+      ChildList: [{
+        ID: '002-001-001',
+        Name: '资产002下001的001',
+        EntityType: 13,
+        ExProperty: '13',
+        ChildList: [{
+          ID: '002-001-001-001',
+          Name: '资产002下001的002',
+          EntityType: 13,
+          ExProperty: '13',
+          ChildList: []
+        }]
+      }, {
+        ID: '002-001-002',
+        Name: '资产002下001的002',
+        EntityType: 13,
+        ExProperty: '13',
+        ChildList: []
+      }]
+    }, {
+      ID: '002-002',
+      Name: '资产002下的002',
+      EntityType: 13,
+      ExProperty: '13',
+      ChildList: []
+    }, {
+      ID: '002-003',
+      Name: '资产002下的003',
+      EntityType: 13,
+      ExProperty: '13',
+      ChildList: [{
+        ID: '002-003-001',
+        Name: '资产002下003的001',
+        EntityType: 13,
+        ExProperty: '13',
+        ChildList: []
+      }]
+    }]
+  }, {
+    ID: '003',
+    Name: '资产003',
+    EntityType: 13,
+    ExProperty: '13',
+    ChildList: []
+  }, {
+    ID: '004',
+    Name: '资产004',
+    EntityType: 13,
+    ExProperty: '13',
+    ChildList: []
+  }];
+
   res.json({
     data: tree,
     success: true
   });
 };
 
+const getOneAsset = (req: Request, res: Response) => {
+  const id = req.params.id;
+  const treeList: AssetTreeItem[] = [{
+    ID: '001',
+    Name: '资产001',
+    EntityType: 13,
+    ExProperty: '13',
+    ChildList: []
+  }, {
+    ID: '002',
+    Name: '资产002',
+    EntityType: 13,
+    ExProperty: '13',
+    ChildList: []
+  }, {
+    ID: '002-002',
+    Name: '资产002下的002',
+    EntityType: 13,
+    ExProperty: '13',
+    ChildList: []
+  }, {
+    ID: '002-003',
+    Name: '资产002下的003',
+    EntityType: 13,
+    ExProperty: '13',
+    ChildList: []
+  }, {
+    ID: '002-003-001',
+    Name: '资产002下003的001',
+    EntityType: 13,
+    ExProperty: '13',
+    ChildList: []
+  }, {
+    ID: '002-001',
+    Name: '资产002下的001',
+    EntityType: 13,
+    ExProperty: '13',
+    ChildList: []
+  },
+  {
+    ID: '002-001-001',
+    Name: '资产002下001的001',
+    EntityType: 13,
+    ExProperty: '13',
+    ChildList: []
+  }, {
+    ID: '002-001-001-001',
+    Name: '资产002下001的002',
+    EntityType: 13,
+    ExProperty: '13',
+    ChildList: []
+  }, {
+    ID: '002-001-002',
+    Name: '资产002下001的002',
+    EntityType: 13,
+    ExProperty: '13',
+    ChildList: []
+  }, {
+    ID: '003',
+    Name: '资产003',
+    EntityType: 13,
+    ExProperty: '13',
+    ChildList: []
+  }, {
+    ID: '004',
+    Name: '资产004',
+    EntityType: 13,
+    ExProperty: '13',
+    ChildList: []
+  }];
+  const parentObj = {
+    '001':'',
+    '002':'',
+    '003':'',
+    '004':'',
+    '002-001':'002',
+    '002-001-001':'002-001',
+    '002-001-002':'002-001',
+    '002-001-001-001':'002-001-001',
+    '002-002':'002',
+    '002-003':'002',
+    '002-003-001':'002-003',
+  }
+  let obj= {};
+  console.log('id=' + id)
+  let item = treeList.find(item=>item.ID == id)
+  obj = {...item}
+  delete obj['ChildList']
+  obj['Description'] = obj['Name'] + '-描述';
+  obj['Ext'] = obj['Name'] + '-Ext';
+  obj['ParentID'] = parentObj[obj['ID']]
+  res.json({
+    data: obj,
+    success: true
+  });
+}
+
+const getMaterialList = (req: Request, res: Response) => {
+  const data: MaterialItem[] = [
+    { ID: '物料1-id', Name: '物料1' },
+    { ID: '物料2-id', Name: '物料2' },
+    { ID: '物料3-id', Name: '物料3' },
+    { ID: '物料4-id', Name: '物料4' },
+    { ID: '物料5-id', Name: '物料5' },
+    { ID: '物料6-id', Name: '物料6' },
+    { ID: '物料7-id', Name: '物料7' },
+    { ID: '物料8-id', Name: '物料8' }
+  ];
+  res.json({
+    data: data,
+    success: true
+  });
+}
+
+
 export default {
-  'GET /api/assetList': getAssetList,
-  'GET /api/assetTree': getAssetTree
+  'GET /api/AssetTree': getAssetTree,
+  'GET /api/OneAsset/:id': getOneAsset,
+  'GET /api/getMaterialList': getMaterialList
 };

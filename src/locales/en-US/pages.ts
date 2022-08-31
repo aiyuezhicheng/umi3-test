@@ -105,12 +105,23 @@ export default {
   // 提示信息
   'pages.message.assetType.name.required.message': 'Asset type name cannot be empty',
   'pages.message.assetType.name.valid.message': 'The asset type name cannot have the same name',
+  'pages.message.asset.name.required.message':'Asset name cannot be empty',
+  'pages.message.asset.name.valid.message': 'The asset name cannot have the same name',
   //字段名
   'pages.fieldName.assetType.parentname': 'Parent asset type name',
   'pages.fieldName.assetType.name': 'Asset type name',
   'pages.fieldName.assetType.description': 'Asset type description',
   'pages.fieldName.assetType.raletiveMaterial': 'Related materials',
   'pages.fieldName.assetType.ext': 'Extend',
+  'pages.fieldName.asset.parentname': 'Parent asset name',
+  'pages.fieldName.asset.name': 'Asset name',
+  'pages.fieldName.asset.no': 'Asset no',
+  'pages.fieldName.asset.description': 'Asset description',
+  'pages.fieldName.asset.assetType': 'Asset type',
+  'pages.fieldName.asset.locationPoint': 'Location point',
+  'pages.fieldName.asset.scanPoint': 'Scan point',
+  'pages.fieldName.asset.accuracyOfInsensitiveUnlocking': 'Accuracy of insensitive unlocking(cm)',
+  'pages.fieldName.asset.raletiveMaterialByAssetType': 'Use asset category to associate materials',
   // 资产类别
   'pages.assetType.new.menu.smartDevice': 'New smart device',
   'pages.assetType.new.subMenu.smartLock': 'Smart lock',

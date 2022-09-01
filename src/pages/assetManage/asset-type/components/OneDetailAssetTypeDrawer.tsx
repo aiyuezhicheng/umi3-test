@@ -1,8 +1,30 @@
-import { Button, message, Input, Drawer, Tabs, Form, Select, Space, TreeSelect } from 'antd';
+import { PlusOutlined, EditOutlined, DeleteOutlined, TableOutlined } from '@ant-design/icons';
+import {
+  Button,
+  message,
+  Input,
+  Drawer,
+  Tabs,
+  Form,
+  Select,
+  Space,
+  TreeSelect,
+  Modal,
+  List,
+  Row,
+  Col,
+} from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useRequest, useIntl, FormattedMessage } from 'umi';
-import { AssetTypeItem } from '../data.d';
-import { getMaterialList, getAssetTypeTree, getOneAssetType } from '../service';
+import PropertyModal from '@/components/OnePropertyModal';
+import { AssetTypeItem, AssetTypePropertyItem } from '../data.d';
+import { ProcessListOptionsAndEngUnit, IsNotEmptyGuid } from '@/utils/common';
+import {
+  getMaterialList,
+  getAssetTypeTree,
+  getOneAssetType,
+  getOneAssetTypeProperties,
+} from '../service';
 
 export type detailProps = {
   action: string;
@@ -25,6 +47,7 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
     RelatedMaterielIDList: '',
     Ext: '',
   });
+  const [properties, setProperties] = useState<AssetTypePropertyItem[]>([]);
 
   const [basicInfoForm] = Form.useForm();
   basicInfoForm.setFieldsValue(basicInfo);
@@ -122,6 +145,7 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
   }, [id]);
 
   const { data: materialList } = useRequest(getMaterialList);
+  // const { data: engineeringUnitList } = useRequest(getEngineeringUnitList);
   const { data: assetTypeTree } = useRequest(getAssetTypeTree);
 
   console.log(assetTypeTree);
@@ -129,6 +153,25 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
   const changeTabPane = (activeKey: string) => {
     console.log(activeKey);
     setTabActivityKey(activeKey);
+    if (activeKey == 'property') {
+      getOneAssetTypeProperties(id!).then((result) => {
+        console.log(result);
+        const { data: properties } = result;
+        ProcessListOptionsAndEngUnit(properties, (newProperties: any) => {
+          console.log(newProperties);
+          setProperties(newProperties);
+        });
+        //  if(data && data.length > 0){
+        //   for(let i= 0;i<data.length ;i++){
+        //     const item = data[i]
+        //     if(item['RelatedEngineeringUnit'] && item['RelatedEngineeringUnit']['ID'] && !item['RelatedEngineeringUnit']['Name']){
+        //       const find = engineeringUnitList?.find(oneEngUnit=>oneEngUnit.ID == item['RelatedEngineeringUnit']['ID'])
+        //     }
+        //   }
+        //  }
+        //   engineeringUnitList
+      });
+    }
   };
   const renderTitle = () => {
     let title = '';
@@ -206,192 +249,272 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
     }
   };
 
-  return (
-    <Drawer
-      // forceRender={true}
-      title={renderTitle()}
-      width={600}
-      visible={visible}
-      // closable={false}
-      onClose={onClose}
-      extra={
-        <Space>
-          <Button onClick={onClose}>
-            {useIntl().formatMessage({
-              id: 'pages.operation.cancel',
-              defaultMessage: '取消',
-            })}
-          </Button>
-          <Button type="primary" onClick={saveOneAssetType}>
-            {useIntl().formatMessage({
-              id: 'pages.operation.confirm',
-              defaultMessage: '确定',
-            })}
-          </Button>
-        </Space>
+  const [isPropertyModalVisible, setIsPropertyModalVisible] = useState<boolean>(false);
+  // const [modalTitle, setModalTitle] = useState<string>('');
+  const intl = useIntl();
+  //显示编辑一个属性的对话框
+  // const showOnePropertyModal = (action:string,id?:string)=>{
+  //   console.log(action);
+  //   setIsPropertyModalVisible(true)
+  //   let title = ''
+  //   if(action == 'new'){
+  //     title = intl.formatMessage({ id: 'pages.operation.new', defaultMessage: '新建'})
+  //   }else{
+  //     title = intl.formatMessage({ id: 'pages.operation.edit', defaultMessage: '编辑'})
+  //   }
+  //   setModalTitle(title)
+  // }
+  // 对话框的确认
+  const handleOk = () => {
+    setIsPropertyModalVisible(false);
+  };
+  // 对话框的取消
+  const handleCancel = () => {
+    setIsPropertyModalVisible(false);
+  };
+
+  const renderOneProeprtyValue = (item: AssetTypePropertyItem) => {
+    let value = item['CurrentValue'] || item['DefaultValue'];
+    if (
+      value &&
+      IsNotEmptyGuid(value) &&
+      item['Options'] &&
+      (item['ValueType'] == 0 || item['ValueType'] == 3 || item['ValueType'] == 7)
+    ) {
+      const find = item['Options'].find(
+        (oneOption: { ID: string; Name: string }) => oneOption.ID == value,
+      );
+      if (find) {
+        value = find['Name'];
       }
-    >
-      <Tabs type="card" activeKey={tabActivityKey} onChange={changeTabPane}>
-        <TabPane
-          tab={useIntl().formatMessage({
-            id: 'pages.configDrawer.tab.basicInfo',
-            defaultMessage: '基本信息',
-          })}
-          key="basicInfo"
-        >
-          <Form
-            layout="horizontal"
-            labelCol={{ span: 6 }}
-            wrapperCol={{ span: 18 }}
-            // initialValues={basicInfo}
-            form={basicInfoForm}
-            onFinish={saveOneAssetTypeBasicInfo}
-          >
-            <Form.Item
-              name="ParentID"
-              label={useIntl().formatMessage({
-                id: 'pages.fieldName.assetType.parentname',
-                defaultMessage: '父资产类别名',
+    }
+    if (item.ValueType == 1 && item.RelatedEngineeringUnit?.Name) {
+      value += ' ' + item.RelatedEngineeringUnit?.Name;
+    }
+    return value;
+  };
+  return (
+    <>
+      <Drawer
+        // forceRender={true}
+        title={renderTitle()}
+        width={600}
+        visible={visible}
+        // closable={false}
+        onClose={onClose}
+        extra={
+          <Space>
+            <Button onClick={onClose}>
+              {useIntl().formatMessage({
+                id: 'pages.operation.cancel',
+                defaultMessage: '取消',
               })}
+            </Button>
+            <Button type="primary" onClick={saveOneAssetType}>
+              {useIntl().formatMessage({
+                id: 'pages.operation.confirm',
+                defaultMessage: '确定',
+              })}
+            </Button>
+          </Space>
+        }
+      >
+        <Tabs type="card" activeKey={tabActivityKey} onChange={changeTabPane}>
+          <TabPane
+            tab={useIntl().formatMessage({
+              id: 'pages.configDrawer.tab.basicInfo',
+              defaultMessage: '基本信息',
+            })}
+            key="basicInfo"
+          >
+            <Form
+              layout="horizontal"
+              labelCol={{ span: 6 }}
+              wrapperCol={{ span: 18 }}
+              // initialValues={basicInfo}
+              form={basicInfoForm}
+              onFinish={saveOneAssetTypeBasicInfo}
             >
-              <TreeSelect
-                key="ID"
-                showSearch
-                allowClear
-                style={{ width: '100%' }}
-                fieldNames={{ label: 'Name', value: 'ID', children: 'ChildList' }}
-                placeholder={useIntl().formatMessage({
+              <Form.Item
+                name="ParentID"
+                label={useIntl().formatMessage({
                   id: 'pages.fieldName.assetType.parentname',
                   defaultMessage: '父资产类别名',
                 })}
-                treeData={assetTypeTree}
-              />
-            </Form.Item>
-            <Form.Item
-              name="Name"
-              label={useIntl().formatMessage({
-                id: 'pages.fieldName.assetType.name',
-                defaultMessage: '资产类别名',
-              })}
-              rules={[
-                {
-                  required: true,
-                  message: useIntl().formatMessage({
-                    id: 'pages.message.assetType.name.required.message',
-                    defaultMessage: '资产类别名不能为空',
-                  }),
-                },
-                {
-                  validator(_rule, value, callback) {
-                    if (action !== 'new') {
-                      return Promise.resolve();
-                    }
-                    let tree: any[] = [];
-                    if (assetTypeTree && assetTypeTree.length > 0) {
-                      tree = [...assetTypeTree];
-                    }
-                    const isRight = judgeIsDuplicateName(value, tree);
-                    if (!isRight) {
-                      return Promise.reject(
-                        useIntl().formatMessage({
-                          id: 'pages.message.assetType.name.valid.message',
-                          defaultMessage: '资产类别名不能重名',
-                        }),
-                      );
-                    } else {
-                      return Promise.resolve();
-                    }
-                  },
-                },
-              ]}
-            >
-              <Input
-                placeholder={useIntl().formatMessage({
+              >
+                <TreeSelect
+                  key="ID"
+                  showSearch
+                  allowClear
+                  style={{ width: '100%' }}
+                  fieldNames={{ label: 'Name', value: 'ID', children: 'ChildList' }}
+                  placeholder={useIntl().formatMessage({
+                    id: 'pages.fieldName.assetType.parentname',
+                    defaultMessage: '父资产类别名',
+                  })}
+                  treeData={assetTypeTree}
+                />
+              </Form.Item>
+              <Form.Item
+                name="Name"
+                label={useIntl().formatMessage({
                   id: 'pages.fieldName.assetType.name',
                   defaultMessage: '资产类别名',
                 })}
-              />
-            </Form.Item>
-            <Form.Item
-              name="Description"
-              label={useIntl().formatMessage({
-                id: 'pages.fieldName.assetType.description',
-                defaultMessage: '资产类别描述',
-              })}
-            >
-              <TextArea
-                placeholder={useIntl().formatMessage({
+                rules={[
+                  {
+                    required: true,
+                    message: useIntl().formatMessage({
+                      id: 'pages.message.assetType.name.required.message',
+                      defaultMessage: '资产类别名不能为空',
+                    }),
+                  },
+                  {
+                    validator(_rule, value, callback) {
+                      if (action !== 'new') {
+                        return Promise.resolve();
+                      }
+                      let tree: any[] = [];
+                      if (assetTypeTree && assetTypeTree.length > 0) {
+                        tree = [...assetTypeTree];
+                      }
+                      const isRight = judgeIsDuplicateName(value, tree);
+                      if (!isRight) {
+                        return Promise.reject(
+                          useIntl().formatMessage({
+                            id: 'pages.message.assetType.name.valid.message',
+                            defaultMessage: '资产类别名不能重名',
+                          }),
+                        );
+                      } else {
+                        return Promise.resolve();
+                      }
+                    },
+                  },
+                ]}
+              >
+                <Input
+                  placeholder={useIntl().formatMessage({
+                    id: 'pages.fieldName.assetType.name',
+                    defaultMessage: '资产类别名',
+                  })}
+                />
+              </Form.Item>
+              <Form.Item
+                name="Description"
+                label={useIntl().formatMessage({
                   id: 'pages.fieldName.assetType.description',
                   defaultMessage: '资产类别描述',
                 })}
-                rows={4}
-              />
-            </Form.Item>
-            <Form.Item
-              name="RelatedMaterielIDList"
-              label={useIntl().formatMessage({
-                id: 'pages.fieldName.assetType.raletiveMaterial',
-                defaultMessage: '相关物料',
-              })}
-            >
-              <Select
-                showSearch
-                placeholder={useIntl().formatMessage({
+              >
+                <TextArea
+                  placeholder={useIntl().formatMessage({
+                    id: 'pages.fieldName.assetType.description',
+                    defaultMessage: '资产类别描述',
+                  })}
+                  rows={4}
+                />
+              </Form.Item>
+              <Form.Item
+                name="RelatedMaterielIDList"
+                label={useIntl().formatMessage({
                   id: 'pages.fieldName.assetType.raletiveMaterial',
                   defaultMessage: '相关物料',
                 })}
-                onSearch={onSearchRelativeMaterial}
-                filterOption={(input, option) =>
-                  (option!.children as unknown as string)
-                    .toLowerCase()
-                    .includes(input.toLowerCase())
-                }
               >
-                {materialList?.map((item: any) => {
-                  return (
-                    <Select.Option value={item.ID} key={item.ID}>
-                      {item.Name}
-                    </Select.Option>
-                  );
-                })}
-              </Select>
-            </Form.Item>
-            <Form.Item
-              name="Ext"
-              label={useIntl().formatMessage({
-                id: 'pages.fieldName.assetType.ext',
-                defaultMessage: '扩展',
-              })}
-            >
-              <TextArea
-                placeholder={useIntl().formatMessage({
+                <Select
+                  showSearch
+                  placeholder={useIntl().formatMessage({
+                    id: 'pages.fieldName.assetType.raletiveMaterial',
+                    defaultMessage: '相关物料',
+                  })}
+                  onSearch={onSearchRelativeMaterial}
+                  filterOption={(input, option) =>
+                    (option!.children as unknown as string)
+                      .toLowerCase()
+                      .includes(input.toLowerCase())
+                  }
+                >
+                  {materialList?.map((item: any) => {
+                    return (
+                      <Select.Option value={item.ID} key={item.ID}>
+                        {item.Name}
+                      </Select.Option>
+                    );
+                  })}
+                </Select>
+              </Form.Item>
+              <Form.Item
+                name="Ext"
+                label={useIntl().formatMessage({
                   id: 'pages.fieldName.assetType.ext',
                   defaultMessage: '扩展',
                 })}
-                rows={4}
-              />
-            </Form.Item>
-            <Form.Item>
-              <Button type="primary" htmlType="submit" className="login-form-button">
-                {useIntl().formatMessage({
-                  id: 'pages.operation.confirm',
-                  defaultMessage: '确定',
-                })}
-              </Button>
-            </Form.Item>
-          </Form>
-        </TabPane>
-        <TabPane
-          tab={useIntl().formatMessage({
-            id: 'pages.configDrawer.tab.property',
-            defaultMessage: '基本信息',
-          })}
-          key="property"
-        >
-          Content of card tab 2
-        </TabPane>
-      </Tabs>
-    </Drawer>
+              >
+                <TextArea
+                  placeholder={useIntl().formatMessage({
+                    id: 'pages.fieldName.assetType.ext',
+                    defaultMessage: '扩展',
+                  })}
+                  rows={4}
+                />
+              </Form.Item>
+              <Form.Item>
+                <Button type="primary" htmlType="submit" className="login-form-button">
+                  {useIntl().formatMessage({
+                    id: 'pages.operation.confirm',
+                    defaultMessage: '确定',
+                  })}
+                </Button>
+              </Form.Item>
+            </Form>
+          </TabPane>
+          <TabPane
+            tab={useIntl().formatMessage({
+              id: 'pages.configDrawer.tab.property',
+              defaultMessage: '属性',
+            })}
+            key="property"
+          >
+            <Button
+              type="primary"
+              icon={<TableOutlined />}
+              onClick={() => setIsPropertyModalVisible(true)}
+            >
+              {useIntl().formatMessage({
+                id: 'pages.operation.property',
+                defaultMessage: '外部数据定义',
+              })}
+            </Button>
+            {/* {properties.map(oneProperty=>{
+
+            })} */}
+            <List
+              itemLayout="horizontal"
+              dataSource={properties}
+              renderItem={(item) => (
+                <List.Item>
+                  <Row style={{ width: '100%' }}>
+                    <Col
+                      span={6}
+                      style={{ textAlign: 'right', display: 'inline-block', marginRight: '10px' }}
+                    >
+                      {item['Name']}:
+                    </Col>
+                    {renderOneProeprtyValue(item)}
+                  </Row>
+                </List.Item>
+              )}
+            />
+          </TabPane>
+        </Tabs>
+      </Drawer>
+      <PropertyModal
+        title={'外部属性定义'}
+        isPropertyModalVisible={isPropertyModalVisible}
+        proprties={properties}
+      ></PropertyModal>
+    </>
   );
 };
 

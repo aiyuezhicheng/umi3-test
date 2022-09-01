@@ -1,14 +1,15 @@
-export type property = {
-  List: 0,    //
-  Number: 1,    //
-  String: 2,    //
-  CanInputList: 3,    //
-  Signature: 4,    //
-  Date: 5,    //
-  FileProperty: 6,    //
-  MutilList: 7,    //
-  JsonString: 8
-}
+
+export type propertyDataType = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+// List: 0,    //列表
+// Number: 1,    //数值
+// String: 2,    //字符串
+// CanInputList: 3,    //可输入列表
+// Signature: 4,    //签名
+// Date: 5,    //日期时间
+// FileProperty: 6,    //文件
+// MutilList: 7,    //多选
+// JsonString: 8    // json
+
 
 
 export type entityType = {
@@ -50,4 +51,22 @@ export type entityType = {
   ServiceProject: 101,    //  项目
   SDCConfig: 201,    // 设置
   ListRelation: 210    //  列表关联关系
+}
+
+export type RelatedInfo = {
+  ID: string;
+  Name: string | null;
+}
+
+export type Property = {
+  ID?: string;
+  Name: string;
+  ValueType: propertyDataType;
+  RelatedResponseItem?: RelatedInfo;
+  ValueFormat?: string;
+  DefaultValue?: string;
+  CurrentValue?: string;
+  RelatedEngineeringUnit?: RelatedInfo;
+  IsMobileSync: boolean | false;
+  Invisible: boolean | false;
 }

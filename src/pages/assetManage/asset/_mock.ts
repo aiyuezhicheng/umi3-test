@@ -149,26 +149,30 @@ const getOneAsset = (req: Request, res: Response) => {
     ChildList: []
   }];
   const parentObj = {
-    '001':'',
-    '002':'',
-    '003':'',
-    '004':'',
-    '002-001':'002',
-    '002-001-001':'002-001',
-    '002-001-002':'002-001',
-    '002-001-001-001':'002-001-001',
-    '002-002':'002',
-    '002-003':'002',
-    '002-003-001':'002-003',
+    '001': '',
+    '002': '',
+    '003': '',
+    '004': '',
+    '002-001': '002',
+    '002-001-001': '002-001',
+    '002-001-002': '002-001',
+    '002-001-001-001': '002-001-001',
+    '002-002': '002',
+    '002-003': '002',
+    '002-003-001': '002-003',
   }
-  let obj= {};
+  let obj = {};
   console.log('id=' + id)
-  let item = treeList.find(item=>item.ID == id)
-  obj = {...item}
+  let item = treeList.find(item => item.ID == id)
+  obj = { ...item }
   delete obj['ChildList']
   obj['Description'] = obj['Name'] + '-描述';
   obj['Ext'] = obj['Name'] + '-Ext';
   obj['ParentID'] = parentObj[obj['ID']]
+  obj['Mark'] = obj['Name'] + '-资产号';
+  obj['IsPosition'] = true;
+  obj['IsEnabledScan'] = true;
+  obj['NoSenseUnlockAccuracy'] = 28;
   res.json({
     data: obj,
     success: true

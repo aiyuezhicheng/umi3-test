@@ -1,4 +1,15 @@
-import { Button, message, Input, Drawer, Tabs, Form, Select, Space, TreeSelect ,Checkbox} from 'antd';
+import {
+  Button,
+  message,
+  Input,
+  Drawer,
+  Tabs,
+  Form,
+  Select,
+  Space,
+  TreeSelect,
+  Checkbox,
+} from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useRequest, useIntl, FormattedMessage } from 'umi';
 import { AssetItem } from '../data';
@@ -25,7 +36,7 @@ const OneDetailAssetDrawer: React.FC<detailProps> = (props) => {
     IsPosition: false,
     IsEnabledScan: false,
     NoSenseUnlockAccuracy: 0,
-    IsUseAssetTypeRelatedMaterielIDList: false
+    IsUseAssetTypeRelatedMaterielIDList: false,
   });
 
   const [basicInfoForm] = Form.useForm();
@@ -284,44 +295,47 @@ const OneDetailAssetDrawer: React.FC<detailProps> = (props) => {
             <Form.Item
               name="IsPosition"
               label={useIntl().formatMessage({
-                id: 'pages.fieldName.assetType.locationPoint',
+                id: 'pages.fieldName.asset.locationPoint',
                 defaultMessage: '位置点',
               })}
               valuePropName="checked"
-            > 
-            <Checkbox></Checkbox>
+            >
+              <Checkbox></Checkbox>
             </Form.Item>
             <Form.Item
               name="IsEnabledScan"
               label={useIntl().formatMessage({
-                id: 'pages.fieldName.assetType.scanPoint',
+                id: 'pages.fieldName.asset.scanPoint',
                 defaultMessage: '扫描点',
               })}
-             valuePropName="checked"
-            > 
-            <Checkbox></Checkbox></Form.Item>
+              valuePropName="checked"
+            >
+              <Checkbox></Checkbox>
+            </Form.Item>
             <Form.Item
               name="NoSenseUnlockAccuracy"
               label={useIntl().formatMessage({
-                id: 'pages.fieldName.assetType.accuracyOfInsensitiveUnlocking',
-                defaultMessage: '无感解锁精度(单位厘米)',
-              })}
-            >
-            <Input
-              placeholder={useIntl().formatMessage({
                 id: 'pages.fieldName.asset.accuracyOfInsensitiveUnlocking',
                 defaultMessage: '无感解锁精度(单位厘米)',
               })}
-            /></Form.Item>
+            >
+              <Input
+                placeholder={useIntl().formatMessage({
+                  id: 'pages.fieldName.asset.accuracyOfInsensitiveUnlocking',
+                  defaultMessage: '无感解锁精度(单位厘米)',
+                })}
+              />
+            </Form.Item>
             <Form.Item
               name="IsUseAssetTypeRelatedMaterielIDList"
               label={useIntl().formatMessage({
-                id: 'pages.fieldName.assetType.raletiveMaterialByAssetType',
+                id: 'pages.fieldName.asset.raletiveMaterialByAssetType',
                 defaultMessage: '使用资产类别关联物料',
               })}
-            valuePropName="checked"
-            > 
-            <Checkbox></Checkbox></Form.Item>
+              valuePropName="checked"
+            >
+              <Checkbox></Checkbox>
+            </Form.Item>
             <Form.Item
               name="RelatedMaterielIDList"
               label={useIntl().formatMessage({
@@ -351,7 +365,6 @@ const OneDetailAssetDrawer: React.FC<detailProps> = (props) => {
                 })}
               </Select>
             </Form.Item>
-            
             <Form.Item>
               <Button type="primary" htmlType="submit" className="login-form-button">
                 {useIntl().formatMessage({

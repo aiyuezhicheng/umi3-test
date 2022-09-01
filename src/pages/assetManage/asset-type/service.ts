@@ -2,7 +2,7 @@
 /* eslint-disable */
 import { request } from 'umi';
 import AssetType from '.';
-import { AssetTypeTreeItem, AssetTypeItem,MaterialItem } from './data.d';
+import { AssetTypeTreeItem, AssetTypeItem, MaterialItem, AssetTypePropertyItem } from './data.d';
 
 // 获取资产树
 export async function getAssetTypeTree() {
@@ -13,27 +13,35 @@ export async function getAssetTypeTree() {
   });
 }
 
-// export async function getOneAssetType(id:string) {
-//   console.log(id)
-//   return request<{
-//     data: AssetTypeItem[];
-//   }>(`/api/OneAssetType?${id}`, {
-//     method: 'GET',
-//   });
-// }
-
-export async function getOneAssetType(id: string): Promise<{ data: AssetTypeItem}> {
+export async function getOneAssetType(id: string): Promise<{ data: AssetTypeItem }> {
   return request(`/api/OneAssetType/${id}`);
 }
-// export async function getOneAssetType(id:string): Promise<{ data: AssetTypeItem[] }> {
-//   return request(`/api/OneAssetType/${id}`);
-// }
-
 
 export async function getMaterialList() {
   return request<{
-    data:MaterialItem[];
+    data: MaterialItem[];
   }>('/api/getMaterialList', {
     method: 'GET',
   });
+}
+
+export async function getEngineeringUnitList() {
+  return request<{
+    data: MaterialItem[];
+  }>('/api/getEngineeringUnitList', {
+    method: 'GET',
+  });
+}
+
+export async function getEngineeringUnitNamesByIDs() {
+  return request<{
+    data: MaterialItem[];
+  }>('/api/getEngineeringUnitList', {
+    method: 'GET',
+  });
+}
+
+
+export async function getOneAssetTypeProperties(id: string): Promise<{ data: AssetTypePropertyItem[] }> {
+  return request(`/api/OneAssetTypeProperties/${id}`);
 }

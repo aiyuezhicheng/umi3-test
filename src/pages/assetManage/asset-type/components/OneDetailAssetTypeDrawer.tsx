@@ -17,6 +17,7 @@ import {
 import React, { useEffect, useState } from 'react';
 import { useRequest, useIntl, FormattedMessage } from 'umi';
 import PropertyModal from '@/components/OnePropertyModal';
+import Property from '@/components/OnePropertyModal/test';
 import { AssetTypeItem, AssetTypePropertyItem } from '../data.d';
 import { ProcessListOptionsAndEngUnit, IsNotEmptyGuid } from '@/utils/common';
 import {
@@ -504,16 +505,20 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
                     {renderOneProeprtyValue(item)}
                   </Row>
                 </List.Item>
+
               )}
+              
             />
+               <Property></Property>
           </TabPane>
         </Tabs>
       </Drawer>
       <PropertyModal
         title={'外部属性定义'}
         isPropertyModalVisible={isPropertyModalVisible}
-        proprties={properties}
+        properties={properties}
       ></PropertyModal>
+   
     </>
   );
 };

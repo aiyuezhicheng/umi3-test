@@ -368,7 +368,7 @@ const getOneAssetTypeProperties = (req: Request, res: Response) => {
     DefaultValue: "",
     Description: "",
     GroupName: "test",
-    ID: "资产类别属性008",
+    ID: "资产类别属性009",
     Invisible: false,
     IsMobileSync: true,
     IsNotSaveHistory: true,

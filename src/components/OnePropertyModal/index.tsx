@@ -1,17 +1,18 @@
 import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Button, message, Input, Drawer, Tabs, Form, Select, Space, TreeSelect, Modal } from 'antd';
 import type { ProColumns } from '@ant-design/pro-table';
-// import { EditableProTable, ProCard, ProFormField } from '@ant-design/pro-components';
+import { EditableProTable } from '@ant-design/pro-table';
 
 import React, { useEffect, useState } from 'react';
 import { useRequest, useIntl, FormattedMessage } from 'umi';
+import { Property } from '@/utils/data.d'
 // import { AssetTypeItem, AssetTypePropertyItem } from '../data.d';
 // import { getMaterialList, getAssetTypeTree, getOneAssetType } from '../service';
 
 type onePropertyModalProps = {
   title: string;
   isPropertyModalVisible: boolean;
-  proprties?: any[];
+  properties: any[];
   handleOk?: any;
   handleCancel?: any;
 };
@@ -22,36 +23,51 @@ const OnePropertyModal: React.FC<onePropertyModalProps> = (props) => {
     isPropertyModalVisible: isModalVisible,
     handleOk,
     handleCancel,
-    proprties,
+    properties,
   } = props;
 
-  const [customListObj, setCustomListObj] = useState({});
-  const [oneCustomListItems, setOneCustomListItems] = useState({});
-  const [engUnitObj, setEngUnitObj] = useState({});
+  // const [customListObj, setCustomListObj] = useState({});
+  // const [oneCustomListItems, setOneCustomListItems] = useState({});
+  // const [engUnitObj, setEngUnitObj] = useState({});
+  const [dataSource, setDataSource] = useState<any[]>([]);
+  
   useEffect(() => {
-    let data = {};
-    const list = [
-      { ID: '18d73844-ebbd-4a3c-af7a-0af21e8aa7a1', Name: '一周' },
-      { ID: '28d73844-ebbd-4a3c-af7a-0af21e8aa7a1', Name: '是/否' },
-      { ID: '38d73844-ebbd-4a3c-af7a-0af21e8aa7a1', Name: '设备' },
-    ];
-    list.map((item) => {
-      data[item['ID']] = { text: item.Name };
-    });
-    setCustomListObj(data);
-    let obj = {};
-    const engineeringUnitList = [
-      { ID: '8626dc3b-9af0-4641-8a88-4479491fa9b5', Name: '米' },
-      { ID: 'a626dc3b-9af0-4641-8a88-4479491fa9b5', Name: '厘米' },
-      { ID: 'b626dc3b-9af0-4641-8a88-4479491fa9b5', Name: '度' },
-      { ID: 'c626dc3b-9af0-4641-8a88-4479491fa9b5', Name: '摄氏度' },
-    ];
-    list.map((item) => {
-      obj[item['ID']] = { text: item.Name };
-    });
-    setCustomListObj(obj);
-  }, ['title']);
-  const columns: ProColumns<any>[] = [
+    console.log(properties)
+    setDataSource(properties || []);
+    // setEditableRowKeys(properties.map(item=>item.ID))
+  })
+  const [editableKeys, setEditableRowKeys] = useState<React.Key[]>(dataSource.map(item=>item.ID));
+
+  useEffect(()=>{
+    console.log(dataSource)
+    setEditableRowKeys(dataSource.map(item=>item.ID))
+  },['dataSource'])
+
+
+  // useEffect(() => {
+  //   let data = {};
+  //   const list = [
+  //     { ID: '18d73844-ebbd-4a3c-af7a-0af21e8aa7a1', Name: '一周' },
+  //     { ID: '28d73844-ebbd-4a3c-af7a-0af21e8aa7a1', Name: '是/否' },
+  //     { ID: '38d73844-ebbd-4a3c-af7a-0af21e8aa7a1', Name: '设备' },
+  //   ];
+  //   list.map((item) => {
+  //     data[item['ID']] = { text: item.Name };
+  //   });
+  //   setCustomListObj(data);
+  //   let obj = {};
+  //   const engineeringUnitList = [
+  //     { ID: '8626dc3b-9af0-4641-8a88-4479491fa9b5', Name: '米' },
+  //     { ID: 'a626dc3b-9af0-4641-8a88-4479491fa9b5', Name: '厘米' },
+  //     { ID: 'b626dc3b-9af0-4641-8a88-4479491fa9b5', Name: '度' },
+  //     { ID: 'c626dc3b-9af0-4641-8a88-4479491fa9b5', Name: '摄氏度' },
+  //   ];
+  //   engineeringUnitList.map((item) => {
+  //     obj[item['ID']] = { text: item.Name };
+  //   });
+  //   setCustomListObj(obj);
+  // }, ['title']);
+  const columns: ProColumns<Property>[] = [
     {
       title: <FormattedMessage id="pages.table.columnName.propertyName" defaultMessage="属性名" />,
       dataIndex: 'Name',
@@ -82,8 +98,8 @@ const OnePropertyModal: React.FC<onePropertyModalProps> = (props) => {
     },
     {
       title: <FormattedMessage id="pages.table.columnName.dataType" defaultMessage="数据类型" />,
-      key: 'state',
-      dataIndex: 'state',
+      key: 'ValueType',
+      dataIndex: 'ValueType',
       valueType: 'select',
       valueEnum: {
         1: {
@@ -123,29 +139,37 @@ const OnePropertyModal: React.FC<onePropertyModalProps> = (props) => {
       },
     },
     {
-      title: <FormattedMessage id="pages.table.columnName.listType" defaultMessage="列表类型" />,
-      key: 'state',
-      dataIndex: 'state',
-      valueType: 'select',
-      valueEnum: customListObj,
+      title: <FormattedMessage id="pages.table.columnName.propertyName" defaultMessage="属性名" />,
+      dataIndex: 'IsMobileSync',
     },
     {
-      title: (
-        <FormattedMessage id="pages.table.columnName.engineeringUnit" defaultMessage="工程单位" />
-      ),
-      key: 'state',
-      dataIndex: 'state',
-      valueType: 'select',
-      valueEnum: engUnitObj,
-    },
-    {
-      title: '操作',
-      valueType: 'option',
-      width: 250,
-      render: () => {
-        return null;
-      },
-    },
+      title: <FormattedMessage id="pages.table.columnName.propertyName" defaultMessage="属性名" />,
+      dataIndex: 'Invisible',
+    }
+    // {
+    //   title: <FormattedMessage id="pages.table.columnName.listType" defaultMessage="列表类型" />,
+    //   key: 'state',
+    //   dataIndex: 'state',
+    //   valueType: 'select',
+    //   valueEnum: customListObj,
+    // },
+    // {
+    //   title: (
+    //     <FormattedMessage id="pages.table.columnName.engineeringUnit" defaultMessage="工程单位" />
+    //   ),
+    //   key: 'state',
+    //   dataIndex: 'state',
+    //   valueType: 'select',
+    //   valueEnum: engUnitObj,
+    // },
+    // {
+    //   title: '操作',
+    //   valueType: 'option',
+    //   width: 250,
+    //   render: () => {
+    //     return null;
+    //   },
+    // },
   ];
   return (
     <Modal
@@ -175,6 +199,50 @@ const OnePropertyModal: React.FC<onePropertyModalProps> = (props) => {
           defaultMessage: '删除',
         })}
       </Button>
+      {console.log(properties)}
+      {JSON.stringify(editableKeys)}
+      {JSON.stringify(dataSource)}
+      <EditableProTable<any>
+        headerTitle="可编辑表格"
+        columns={columns}
+        rowKey="ID"
+        // scroll={{
+        //   x: 960,
+        // }}
+        value={dataSource}
+        onChange={setDataSource}
+        recordCreatorProps={{
+          newRecordType: 'dataSource',
+          record: () => ({
+            ID: Date.now(),
+          }),
+        }}
+        toolBarRender={() => {
+          return [
+            <Button
+              type="primary"
+              key="save"
+              onClick={() => {
+                // dataSource 就是当前数据，可以调用 api 将其保存
+                // console.log(dataSource);
+              }}
+            >
+              保存数据
+            </Button>,
+          ];
+        }}
+        editable={{
+          type: 'multiple',
+          editableKeys:dataSource.map(item=>item.ID),
+          // actionRender: (row, config, defaultDoms) => {
+          //   return [defaultDoms.delete];
+          // },
+          // onValuesChange: (record, recordList) => {
+          //   setDataSource(recordList);
+          // },
+          // onChange: setEditableRowKeys,
+        }}
+      />
     </Modal>
   );
 };

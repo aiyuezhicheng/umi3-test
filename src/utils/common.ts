@@ -39,7 +39,7 @@ export const GuidEmpty = "00000000-0000-0000-0000-000000000000";
 /// <summary>是否为Guid
 ///   <para></para>
 /// </summary>
-export const IsGuid = function (value: string) {
+export const IsGuid = (value: string) => {
   if (value && value.length == 36) {
     var re = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
     return re.test(value);
@@ -60,7 +60,7 @@ export const IsNotEmptyGuid = (value: any) => {
 }
 
 // 处理工程单位和列表项
-export function ProcessListOptionsAndEngUnit(properties: any[], callback: any) {
+export const ProcessListOptionsAndEngUnit = (properties: any[], callback: any) => {
   const processEngUnit = (engUnitIDs: string[], callback: any) => {
     if (engUnitIDs && engUnitIDs.length == 0) {
       callback(properties);
@@ -95,26 +95,31 @@ export function ProcessListOptionsAndEngUnit(properties: any[], callback: any) {
       callback(properties);
     } else {
       const obj: any = {
-        '8626dc3b-9af0-4641-8a88-4479491fa9b5': [
-          { ID: '8626dc3b-9af0-4641-8a88-4479491fa9b5', Name: '是' },
-          { ID: '1e6761d1-e8c2-4b03-b659-2043416cda2e', Name: '否' },
-        ],
-        '48d73844-ebbd-4a3c-af7a-0af21e8aa7a8': [
+        '18d73844-ebbd-4a3c-af7a-0af21e8aa7a1': [
           { ID: '48d73844-ebbd-4a3c-af7a-0af21e8aa7a8', Name: '周一' },
-          { ID: '周二0000', Name: '周二' },
-          { ID: '周三0000', Name: '周三' },
-          { ID: '周四0000', Name: '周四' },
-          { ID: '周五0000', Name: '周五' },
-          { ID: '周六0000', Name: '周六' },
+          { ID: '48d73844-ebbd-4a3c-af7a-0af21e8aa7b8', Name: '周二' },
+          { ID: '48d73844-ebbd-4a3c-af7a-0af21e8aa7c8', Name: '周三' },
+          { ID: '48d73844-ebbd-4a3c-af7a-0af21e8aa7d8', Name: '周四' },
+          { ID: '48d73844-ebbd-4a3c-af7a-0af21e8aa7e8', Name: '周五' },
+          { ID: '48d73844-ebbd-4a3c-af7a-0af21e8aa7f8', Name: '周六' },
+          { ID: '48d73844-ebbd-4a3c-af7a-0af21e8aa7g8', Name: '周日' },
+        ],
+        '28d73844-ebbd-4a3c-af7a-0af21e8aa7a1': [
+          { ID: '28d73844-ebbd-4a3c-af7a-0af21e8aaaa8', Name: '是' },
+          { ID: '28d73844-ebbd-4a3c-af7a-0af21e8aaba8', Name: '是' },
+        ],
+        '38d73844-ebbd-4a3c-af7a-0af21e8aa7a1': [
+          { ID: '38d73844-ebbd-4a3c-af7a-0af21e8aaaa8', Name: '鼠标' },
+          { ID: '38d73844-ebbd-4a3c-af7a-0af21e8abaa8', Name: '键盘' },
+          { ID: '38d73844-ebbd-4a3c-af7a-0af21e8acaa8', Name: '显视屏' },
         ]
       }
       for (let i = 0; i < properties.length; i++) {
         const oneProperty = properties[i];
         const relatedResponseItem = oneProperty['RelatedResponseItem']
         if (relatedResponseItem && IsNotEmptyGuid(relatedResponseItem.ID) && !relatedResponseItem.Name && obj[relatedResponseItem.ID]) {
-          const find = obj[relatedResponseItem.ID].find((item: any) => { return item.ID == relatedResponseItem.ID });
+          const find = obj[relatedResponseItem.ID].find((item: any) => { return item.ID == oneProperty.CurrentValue || oneProperty.DefaultValue });
           if (find) {
-            relatedResponseItem['Name'] = find['Name'];
             oneProperty['Options'] = obj[relatedResponseItem.ID]
           }
         }
@@ -145,4 +150,14 @@ export function ProcessListOptionsAndEngUnit(properties: any[], callback: any) {
   } else {
     callback([]);
   }
+}
+
+export const FormatDateTimeByFormat = (_format: string, _daytime: Date) => {
+  const year = _daytime.getFullYear() + '';
+  const month = ((_daytime.getMonth() + 1).toString().length == 1 ? "0" + (_daytime.getMonth() + 1) : (_daytime.getMonth() + 1)) + '';
+  const day = (_daytime.getDate().toString().length == 1 ? "0" + _daytime.getDate() : _daytime.getDate()) + '';
+  const hour = (_daytime.getHours().toString().length == 1 ? "0" + _daytime.getHours() : _daytime.getHours()) + '';
+  const minute = (_daytime.getMinutes().toString().length == 1 ? "0" + _daytime.getMinutes() : _daytime.getMinutes()) + '';
+  const second = (_daytime.getSeconds().toString().length == 1 ? "0" + _daytime.getSeconds() : _daytime.getSeconds()) + '';
+  return _format.replace("YYYY", year).replace("yyyy", year).replace("MM", month).replace("DD", day).replace("dd", day).replace("HH", hour).replace("hh", hour).replace("mm", minute).replace("ss", second);
 }

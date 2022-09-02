@@ -146,7 +146,6 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
   }, [id]);
 
   const { data: materialList } = useRequest(getMaterialList);
-  // const { data: engineeringUnitList } = useRequest(getEngineeringUnitList);
   const { data: assetTypeTree } = useRequest(getAssetTypeTree);
 
   console.log(assetTypeTree);
@@ -162,15 +161,6 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
           console.log(newProperties);
           setProperties(newProperties);
         });
-        //  if(data && data.length > 0){
-        //   for(let i= 0;i<data.length ;i++){
-        //     const item = data[i]
-        //     if(item['RelatedEngineeringUnit'] && item['RelatedEngineeringUnit']['ID'] && !item['RelatedEngineeringUnit']['Name']){
-        //       const find = engineeringUnitList?.find(oneEngUnit=>oneEngUnit.ID == item['RelatedEngineeringUnit']['ID'])
-        //     }
-        //   }
-        //  }
-        //   engineeringUnitList
       });
     }
   };
@@ -278,15 +268,19 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
     let value = item['CurrentValue'] || item['DefaultValue'];
     if (
       value &&
-      IsNotEmptyGuid(value) &&
       item['Options'] &&
       (item['ValueType'] == 0 || item['ValueType'] == 3 || item['ValueType'] == 7)
     ) {
-      const find = item['Options'].find(
-        (oneOption: { ID: string; Name: string }) => oneOption.ID == value,
-      );
-      if (find) {
-        value = find['Name'];
+      if (IsNotEmptyGuid(value) && (item['ValueType'] == 0 || item['ValueType'] == 3)) {
+        const find = item['Options'].find(
+          (oneOption: { ID: string; Name: string }) => oneOption.ID == value,
+        );
+        if (find) {
+          value = find['Name'];
+        }
+      } else if (item['ValueType'] == 7) {
+        const list = JSON.parse(value);
+        value = list.map((item: any) => item.Name).join(',');
       }
     }
     if (item.ValueType == 1 && item.RelatedEngineeringUnit?.Name) {
@@ -339,8 +333,8 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
               <Form.Item
                 name="ParentID"
                 label={useIntl().formatMessage({
-                  id: 'pages.fieldName.assetType.parentname',
-                  defaultMessage: '父资产类别名',
+                  id: 'pages.basicInfo.parentname',
+                  defaultMessage: '父级名称',
                 })}
               >
                 <TreeSelect
@@ -350,8 +344,8 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
                   style={{ width: '100%' }}
                   fieldNames={{ label: 'Name', value: 'ID', children: 'ChildList' }}
                   placeholder={useIntl().formatMessage({
-                    id: 'pages.fieldName.assetType.parentname',
-                    defaultMessage: '父资产类别名',
+                    id: 'pages.basicInfo.parentname',
+                    defaultMessage: '父级名称',
                   })}
                   treeData={assetTypeTree}
                 />
@@ -359,15 +353,15 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
               <Form.Item
                 name="Name"
                 label={useIntl().formatMessage({
-                  id: 'pages.fieldName.assetType.name',
-                  defaultMessage: '资产类别名',
+                  id: 'pages.basicInfo.name',
+                  defaultMessage: '名称',
                 })}
                 rules={[
                   {
                     required: true,
                     message: useIntl().formatMessage({
-                      id: 'pages.message.assetType.name.required.message',
-                      defaultMessage: '资产类别名不能为空',
+                      id: 'pages.message.name.required.message',
+                      defaultMessage: '名称不能为空',
                     }),
                   },
                   {
@@ -383,8 +377,8 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
                       if (!isRight) {
                         return Promise.reject(
                           useIntl().formatMessage({
-                            id: 'pages.message.assetType.name.valid.message',
-                            defaultMessage: '资产类别名不能重名',
+                            id: 'pages.message.name.valid.message',
+                            defaultMessage: '名称不能重名',
                           }),
                         );
                       } else {
@@ -396,22 +390,22 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
               >
                 <Input
                   placeholder={useIntl().formatMessage({
-                    id: 'pages.fieldName.assetType.name',
-                    defaultMessage: '资产类别名',
+                    id: 'pages.basicInfo.name',
+                    defaultMessage: '名称',
                   })}
                 />
               </Form.Item>
               <Form.Item
                 name="Description"
                 label={useIntl().formatMessage({
-                  id: 'pages.fieldName.assetType.description',
-                  defaultMessage: '资产类别描述',
+                  id: 'pages.basicInfo.description',
+                  defaultMessage: '描述',
                 })}
               >
                 <TextArea
                   placeholder={useIntl().formatMessage({
-                    id: 'pages.fieldName.assetType.description',
-                    defaultMessage: '资产类别描述',
+                    id: 'pages.basicInfo.description',
+                    defaultMessage: '描述',
                   })}
                   rows={4}
                 />
@@ -419,14 +413,14 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
               <Form.Item
                 name="RelatedMaterielIDList"
                 label={useIntl().formatMessage({
-                  id: 'pages.fieldName.assetType.raletiveMaterial',
+                  id: 'pages.basicInfo.raletiveMaterial',
                   defaultMessage: '相关物料',
                 })}
               >
                 <Select
                   showSearch
                   placeholder={useIntl().formatMessage({
-                    id: 'pages.fieldName.assetType.raletiveMaterial',
+                    id: 'pages.basicInfo.raletiveMaterial',
                     defaultMessage: '相关物料',
                   })}
                   onSearch={onSearchRelativeMaterial}
@@ -448,13 +442,13 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
               <Form.Item
                 name="Ext"
                 label={useIntl().formatMessage({
-                  id: 'pages.fieldName.assetType.ext',
+                  id: 'pages.basicInfo.ext',
                   defaultMessage: '扩展',
                 })}
               >
                 <TextArea
                   placeholder={useIntl().formatMessage({
-                    id: 'pages.fieldName.assetType.ext',
+                    id: 'pages.basicInfo.ext',
                     defaultMessage: '扩展',
                   })}
                   rows={4}
@@ -481,15 +475,13 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
               type="primary"
               icon={<TableOutlined />}
               onClick={() => setIsPropertyModalVisible(true)}
+              style={{ textAlign: 'right' }}
             >
               {useIntl().formatMessage({
                 id: 'pages.operation.property',
-                defaultMessage: '外部数据定义',
+                defaultMessage: '定义扩展属性',
               })}
             </Button>
-            {/* {properties.map(oneProperty=>{
-
-            })} */}
             <List
               itemLayout="horizontal"
               dataSource={properties}
@@ -505,20 +497,17 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
                     {renderOneProeprtyValue(item)}
                   </Row>
                 </List.Item>
-
               )}
-              
             />
-               <Property></Property>
           </TabPane>
         </Tabs>
       </Drawer>
       <PropertyModal
         title={'外部属性定义'}
         isPropertyModalVisible={isPropertyModalVisible}
+        handleCancel={handleCancel}
         properties={properties}
       ></PropertyModal>
-   
     </>
   );
 };

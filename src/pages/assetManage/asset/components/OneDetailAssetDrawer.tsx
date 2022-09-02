@@ -181,8 +181,8 @@ const OneDetailAssetDrawer: React.FC<detailProps> = (props) => {
             <Form.Item
               name="ParentID"
               label={useIntl().formatMessage({
-                id: 'pages.fieldName.asset.parentname',
-                defaultMessage: '父资产名',
+                id: 'pages.basicInfo.parentname',
+                defaultMessage: '父级名称',
               })}
             >
               <TreeSelect
@@ -192,8 +192,8 @@ const OneDetailAssetDrawer: React.FC<detailProps> = (props) => {
                 style={{ width: '100%' }}
                 fieldNames={{ label: 'Name', value: 'ID', children: 'ChildList' }}
                 placeholder={useIntl().formatMessage({
-                  id: 'pages.fieldName.asset.parentname',
-                  defaultMessage: '父资产名',
+                  id: 'pages.basicInfo.parentname',
+                  defaultMessage: '父级名称',
                 })}
                 treeData={assetTree}
               />
@@ -201,15 +201,15 @@ const OneDetailAssetDrawer: React.FC<detailProps> = (props) => {
             <Form.Item
               name="Name"
               label={useIntl().formatMessage({
-                id: 'pages.fieldName.asset.name',
-                defaultMessage: '资产名',
+                id: 'pages.basicInfo.name',
+                defaultMessage: '名称',
               })}
               rules={[
                 {
                   required: true,
                   message: useIntl().formatMessage({
-                    id: 'pages.message.asset.name.required.message',
-                    defaultMessage: '资产名不能为空',
+                    id: 'pages.message.name.required.message',
+                    defaultMessage: '名称不能为空',
                   }),
                 },
                 {
@@ -225,8 +225,8 @@ const OneDetailAssetDrawer: React.FC<detailProps> = (props) => {
                     if (!isRight) {
                       return Promise.reject(
                         useIntl().formatMessage({
-                          id: 'pages.message.asset.name.valid.message',
-                          defaultMessage: '资产名不能重名',
+                          id: 'pages.message.name.valid.message',
+                          defaultMessage: '名称不能重名',
                         }),
                       );
                     } else {
@@ -238,8 +238,8 @@ const OneDetailAssetDrawer: React.FC<detailProps> = (props) => {
             >
               <Input
                 placeholder={useIntl().formatMessage({
-                  id: 'pages.fieldName.asset.name',
-                  defaultMessage: '资产名',
+                  id: 'pages.basicInfo.name',
+                  defaultMessage: '名称',
                 })}
               />
             </Form.Item>
@@ -260,14 +260,14 @@ const OneDetailAssetDrawer: React.FC<detailProps> = (props) => {
             <Form.Item
               name="Description"
               label={useIntl().formatMessage({
-                id: 'pages.fieldName.asset.description',
-                defaultMessage: '资产描述',
+                id: 'pages.basicInfo.description',
+                defaultMessage: '描述',
               })}
             >
               <TextArea
                 placeholder={useIntl().formatMessage({
-                  id: 'pages.fieldName.asset.description',
-                  defaultMessage: '资产描述',
+                  id: 'pages.basicInfo.description',
+                  defaultMessage: '描述',
                 })}
                 rows={4}
               />
@@ -339,14 +339,14 @@ const OneDetailAssetDrawer: React.FC<detailProps> = (props) => {
             <Form.Item
               name="RelatedMaterielIDList"
               label={useIntl().formatMessage({
-                id: 'pages.fieldName.assetType.raletiveMaterial',
+                id: 'pages.basicInfo.raletiveMaterial',
                 defaultMessage: '相关物料',
               })}
             >
               <Select
                 showSearch
                 placeholder={useIntl().formatMessage({
-                  id: 'pages.fieldName.assetType.raletiveMaterial',
+                  id: 'pages.basicInfo.raletiveMaterial',
                   defaultMessage: '相关物料',
                 })}
                 onSearch={onSearchRelativeMaterial}

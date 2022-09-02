@@ -93,7 +93,7 @@ export default {
   'pages.operation.down': '下移',
   'pages.operation.confirm': '确定',
   'pages.operation.cancel': '取消',
-  'pages.operation.property': '外部数据定义',
+  'pages.operation.property': '定义扩展属性',
   // 弹框
   'pages.deleteDialog.title': '确认删除么?',
   'pages.dialog.save.success': '保存成功',
@@ -102,10 +102,8 @@ export default {
   'pages.configDrawer.tab.basicInfo': '基本信息',
   'pages.configDrawer.tab.property': '属性',
   // 提示信息
-  'pages.message.assetType.name.required.message': '资产类别名不能为空',
-  'pages.message.assetType.name.valid.message': '资产类别名不能重名',
-  'pages.message.asset.name.required.message':'资产名不能为空',
-  'pages.message.asset.name.valid.message': '资产名不能重名',
+  'pages.message.name.required.message': '名称不能为空',
+  'pages.message.name.valid.message': '名称不能重名',
   // 属性的字段名
   'pages.property.fieldName.propertyName':'属性名',
   'pages.property.fieldName.dataType':'数据类型',
@@ -136,15 +134,12 @@ export default {
   'pages.property.fieldName.jsonString':'Json字符串',
 
   //字段名
-  'pages.fieldName.assetType.parentname': '父资产类别名',
-  'pages.fieldName.assetType.name': '资产类别名',
-  'pages.fieldName.assetType.description': '资产类别描述',
-  'pages.fieldName.assetType.raletiveMaterial': '相关物料',
-  'pages.fieldName.assetType.ext': '扩展',
-  'pages.fieldName.asset.parentname': '父资产名',
-  'pages.fieldName.asset.name': '资产名',
+  'pages.basicInfo.parentname': '父级名称',
+  'pages.basicInfo.name': '名称',
+  'pages.basicInfo.description': '描述',
+  'pages.basicInfo.raletiveMaterial': '相关物料',
+  'pages.basicInfo.ext': '扩展',
   'pages.fieldName.asset.no': '资产号',
-  'pages.fieldName.asset.description': '资产描述',
   'pages.fieldName.asset.assetType': '资产类别',
   'pages.fieldName.asset.locationPoint': '位置点',
   'pages.fieldName.asset.scanPoint': '扫描点',

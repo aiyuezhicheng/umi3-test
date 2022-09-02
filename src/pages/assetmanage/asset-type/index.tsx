@@ -367,7 +367,7 @@ const AssetType: React.FC = () => {
                 <FormattedMessage id="pages.operation.export" defaultMessage="导出" />
               </Button>
             </Col>
-            <Col span={8} offset={8}>
+            <Col span={8} offset={8} style={{ textAlign: 'right' }}>
               <Search
                 placeholder={intl.formatMessage({
                   id: 'pages.operation.search',

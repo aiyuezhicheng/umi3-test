@@ -297,22 +297,22 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
         visible={visible}
         // closable={false}
         onClose={onClose}
-        extra={
-          <Space>
-            <Button onClick={onClose}>
-              {useIntl().formatMessage({
-                id: 'pages.operation.cancel',
-                defaultMessage: '取消',
-              })}
-            </Button>
-            <Button type="primary" onClick={saveOneAssetType}>
-              {useIntl().formatMessage({
-                id: 'pages.operation.confirm',
-                defaultMessage: '确定',
-              })}
-            </Button>
-          </Space>
-        }
+        // extra={
+        //   <Space>
+        //     <Button onClick={onClose}>
+        //       {useIntl().formatMessage({
+        //         id: 'pages.operation.cancel',
+        //         defaultMessage: '取消',
+        //       })}
+        //     </Button>
+        //     <Button type="primary" onClick={saveOneAssetType}>
+        //       {useIntl().formatMessage({
+        //         id: 'pages.operation.confirm',
+        //         defaultMessage: '确定',
+        //       })}
+        //     </Button>
+        //   </Space>
+        // }
       >
         <Tabs type="card" activeKey={tabActivityKey} onChange={changeTabPane}>
           <TabPane
@@ -471,17 +471,19 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
             })}
             key="property"
           >
+            <Row style={{ justifyContent: 'right' }}>
             <Button
               type="primary"
               icon={<TableOutlined />}
               onClick={() => setIsPropertyModalVisible(true)}
-              style={{ textAlign: 'right' }}
             >
               {useIntl().formatMessage({
                 id: 'pages.operation.property',
                 defaultMessage: '定义扩展属性',
               })}
             </Button>
+            </Row>
+            
             <List
               itemLayout="horizontal"
               dataSource={properties}

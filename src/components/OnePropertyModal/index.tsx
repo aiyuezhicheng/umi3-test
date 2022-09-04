@@ -1,4 +1,4 @@
-import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { PlusOutlined, EditOutlined, DeleteOutlined, FullscreenOutlined, FullscreenExitOutlined } from '@ant-design/icons';
 import {
   Button,
   message,
@@ -21,7 +21,11 @@ import type { DatePickerProps } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useRequest, useIntl, FormattedMessage } from 'umi';
 import { Property } from '@/utils/data.d';
-import { IsNotEmptyGuid, FormatDateTimeByFormat } from '@/utils/common';
+import {
+  IsNotEmptyGuid, FormatDateTimeByFormat, requestFullScreen,
+  exitFullScreen,
+  isFullscreenElement,
+} from '@/utils/common';
 
 type onePropertyModalProps = {
   title: string;
@@ -44,7 +48,7 @@ const OnePropertyModal: React.FC<onePropertyModalProps> = (props) => {
   const [engUnits, setEngUnitList] = useState<{ label: string; value: string }[]>([]);
   const [customListItems, setAllcustomListItems] = useState({});
   const [dataSource, setDataSource] = useState<any[]>([]);
-
+  const [fullScreen, setFullScreen] = useState(false);
   useEffect(() => {
     // console.log(properties)
     setDataSource(properties || []);
@@ -468,9 +472,19 @@ const OnePropertyModal: React.FC<onePropertyModalProps> = (props) => {
       },
     },
   ];
+  const renderModalTitle = () => {
+    return <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginRight: '30px' }}>
+      {title}{fullScreen ? <FullscreenExitOutlined onClick={() => {
+        setFullScreen(false); exitFullScreen();
+      }} /> : <FullscreenOutlined onClick={() => {
+        requestFullScreen(document.getElementsByClassName('propertyModal')[0].getElementsByClassName('ant-modal-content')[0]);
+      }} />}
+    </div>
+  }
   return (
     <Modal
-      title={title}
+      wrapClassName='propertyModal'
+      title={renderModalTitle()}
       visible={isModalVisible}
       onOk={handleOk}
       onCancel={handleCancel}
@@ -500,7 +514,7 @@ const OnePropertyModal: React.FC<onePropertyModalProps> = (props) => {
       {/*  {JSON.stringify(editableKeys)}
       {JSON.stringify(dataSource)} */}
       <EditableProTable<any>
-        headerTitle="可编辑表格"
+        // headerTitle="可编辑表格"
         columns={columns}
         rowKey="ID"
         scroll={{

@@ -94,6 +94,7 @@ export default {
   'pages.operation.confirm': '确定',
   'pages.operation.cancel': '取消',
   'pages.operation.property': '定义扩展属性',
+  'pages.operation.verification':'验证',
   // 弹框
   'pages.deleteDialog.title': '确认删除么?',
   'pages.dialog.save.success': '保存成功',

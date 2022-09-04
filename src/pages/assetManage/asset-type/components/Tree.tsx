@@ -9,6 +9,7 @@ import {
   ArrowUpOutlined,
   ArrowDownOutlined,
   CheckCircleOutlined,
+  CheckSquareOutlined
 } from '@ant-design/icons';
 import { Menu, Image, Space, Popconfirm, Tree, Input } from 'antd';
 import type { TreeProps } from 'antd/es/tree';
@@ -129,7 +130,7 @@ const TreeComponent: React.FC<AssetTreeProps> = (props) => {
   }, [searchKeyWords]);
 
   // 确认重命名
-  const confirmRename = (e) => {
+  const confirmRename = (e:any) => {
     let newName = '';
     console.log(e);
     if (e.type == 'click') {
@@ -382,6 +383,11 @@ const TreeComponent: React.FC<AssetTreeProps> = (props) => {
         label: <FormattedMessage id="pages.operation.allStow" defaultMessage="全部收起" />,
         icon: <UpSquareOutlined />,
         key: 'allStow',
+      },
+      {
+        label: <FormattedMessage id="pages.operation.verification" defaultMessage="验证" />,
+        icon: <CheckSquareOutlined />,
+        key: 'verification',
       },
     ];
     // 剪切一个树节点

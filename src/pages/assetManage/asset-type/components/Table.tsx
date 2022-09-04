@@ -68,6 +68,9 @@ const Table: React.FC<TableProps> = (props) => {
           <Button type="link" onClick={(): void => showDetailInfoDrawer('copy', '', record.ID)}>
             <FormattedMessage id="pages.operation.copy" defaultMessage="拷贝" />
           </Button>
+          <Button type="link" onClick={(): void => showDetailInfoDrawer('verification', '', record.ID)}>
+            <FormattedMessage id="pages.operation.verification" defaultMessage="验证" />
+          </Button>
         </>
       ),
     },

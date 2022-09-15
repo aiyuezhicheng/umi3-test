@@ -19,7 +19,6 @@ import {
   DatePicker,
   TimePicker,
   Checkbox,
-  List
 } from 'antd';
 import type { ProColumns } from '@ant-design/pro-table';
 import { EditableProTable } from '@ant-design/pro-table';
@@ -54,7 +53,7 @@ const valueFormatInNumber = [
   { label: '{0:N}', value: '{0:N}' },
   { label: '{0:N3}', value: '{0:N3}' },
   { label: '{0:N4}', value: '{0:N4}' },
-];
+]
 // 日期类型的格式
 const valueFormatInDateTime = [
   { label: 'yyyy-MM-dd', value: 'yyyy-MM-dd' },
@@ -63,7 +62,7 @@ const valueFormatInDateTime = [
   { label: 'HH时mm分ss秒', value: 'HH时mm分ss秒' },
   { label: 'yyyy-MM-dd HH:mm:ss', value: 'yyyy-MM-dd HH:mm:ss' },
   { label: 'yyyy年MM月dd日 HH时mm分ss秒', value: 'yyyy年MM月dd日 HH时mm分ss秒' },
-];
+]
 const OnePropertyModal: React.FC<onePropertyModalProps> = (props) => {
   const {
     title,
@@ -133,39 +132,49 @@ const OnePropertyModal: React.FC<onePropertyModalProps> = (props) => {
   // 日期时间
   const renderDateTime = (dateTimeFormat: string, value?: any) => {
     let dateTimeItem: any = '';
-    if (!value) {
-      value = FormatDateTimeByFormat('yyyy-MM-dd hh:mm:ss', new Date());
-    }
     if (dateTimeFormat) {
+      console.log(value);
+      let formatList = dateTimeFormat.split(' ');
+      // const defaultValue = value
+      //   ? FormatDateTimeByFormat('yyyy/MM/dd hh:mm:ss', new Date())
+      //   : FormatDateTimeByFormat('yyyy/MM/dd hh:mm:ss', new Date());
+      const defaultValue = '2022/08/01';
+      // `custom format: ${value.format(dateTimeFormat)}`;
       switch (dateTimeFormat) {
         case 'yyyy年MM月dd日':
         case 'yyyy-MM-dd':
           dateTimeItem = (
-            <>
-              <DatePicker format="YYYY-MM-DD" defaultValue={moment(value, 'YYYY-MM-DD')} />
-            </>
+            <DatePicker
+              defaultValue={moment(defaultValue, dateTimeFormat.toLocaleUpperCase())}
+              format={dateTimeFormat.toLocaleUpperCase()}
+            />
           );
+
           break;
-        case 'HH:mm:ss':
-        case 'HH时mm分ss秒':
-          dateTimeItem = (
-            <>
-              <TimePicker defaultOpenValue={moment(value, 'HH:mm:ss')} />
-            </>
-          );
-          break;
-        case 'yyyy-MM-dd HH:mm:ss':
-        case 'yyyy年MM月dd日 HH时mm分ss秒':
-          dateTimeItem = (
-            <>
-              <DatePicker
-                showTime
-                format="YYYY-MM-DD HH:mm:ss"
-                defaultValue={moment(value, 'YYYY-MM-DD')}
-              />
-            </>
-          );
-          break;
+        // case 'HH:mm:ss':
+        // case 'HH时mm分ss秒':
+        //   dateTimeItem = (
+        //     <TimePicker
+        //       defaultValue={moment(defaultValue, dateTimeFormat.toLocaleUpperCase())}
+        //       format={dateTimeFormat.toLocaleUpperCase()}
+        //     />
+        //   );
+        //   break;
+        // case 'yyyy-MM-dd HH:mm:ss':
+        // case 'yyyy年MM月dd日 HH时mm分ss秒':
+        //   dateTimeItem = (
+        //     <>
+        //       <DatePicker
+        //         defaultValue={moment(defaultValue, formatList[0].toLocaleUpperCase())}
+        //         format={formatList[0].toLocaleUpperCase()}
+        //       />
+        //       <TimePicker
+        //         defaultValue={moment(defaultValue, formatList[1].toLocaleUpperCase())}
+        //         format={formatList[1].toLocaleUpperCase()}
+        //       />
+        //     </>
+        //   );
+        //   break;
         default:
           break;
       }
@@ -191,7 +200,7 @@ const OnePropertyModal: React.FC<onePropertyModalProps> = (props) => {
             required: true,
             whitespace: true,
             message: '此项是必填项',
-          },
+          }
         ],
       },
     },
@@ -201,7 +210,7 @@ const OnePropertyModal: React.FC<onePropertyModalProps> = (props) => {
       dataIndex: 'ValueType',
       width: 100,
       renderFormItem: (_, config, data) => {
-        console.log(_, config, data);
+        console.log(_, config, data)
         const defaultValue: number = config.record?.ValueType || 2; // 默认字符串
         const typeOptions = [
           {
@@ -254,58 +263,11 @@ const OnePropertyModal: React.FC<onePropertyModalProps> = (props) => {
           },
         ];
         let disabled: boolean = false;
-        const changeOneValueType = (changedValueType: any) => {
-          console.log(changedValueType);
-          let obj = { ...config.record };
-          obj.ValueType = changedValueType;
-          switch (changedValueType) {
-            case 0: // 列表
-            case 3: // 可输入列表
-            case 7: // 多选列表
-              obj.ValueFormat = '';
-              break;
-            case 1:
-              // 格式
-              const findNumberValueFormat = valueFormatInNumber.find(
-                (item) => item.value == config.record?.ValueFormat,
-              );
-              if (!findNumberValueFormat) {
-                obj.ValueFormat = '{0:N}';
-              }
-
-              break;
-            case 2:
-            case 6: // 文件
-              // 格式
-              obj.ValueFormat = '';
-              break;
-
-            case 5:
-              // 格式
-              const findDateTimeValueFormat = valueFormatInNumber.find(
-                (item) => item.value == config.record?.ValueFormat,
-              );
-              if (!findDateTimeValueFormat) {
-                obj.ValueFormat = 'yyyy-MM-dd';
-              }
-              break;
-            case 8: // json
-              break;
-          }
-          // 列表类型
-          obj.RelatedResponseItem = { ID: GuidEmpty, Name: null };
-          // 工程单位
-          obj.RelatedEngineeringUnit = { ID: GuidEmpty, Name: null };
-          obj.DefaultValue = '';
-          if (obj.ID) data.setFieldValue(obj?.ID, obj);
-        };
+        const changeOneValueType=()=>{
+          console.log(1);
+        }
         return (
-          <Select
-            disabled={disabled}
-            onChange={(e) => {
-              changeOneValueType(e);
-            }}
-          >
+          <Select disabled={disabled} value={defaultValue} onChange={()=>{changeOneValueType()}}>
             {typeOptions.map((item) => (
               <Select.Option value={item.value} key={item.value}>
                 {item.label}
@@ -324,8 +286,17 @@ const OnePropertyModal: React.FC<onePropertyModalProps> = (props) => {
         if (!config.record || (config.record && [0, 3, 7].indexOf(config.record.ValueType) == -1)) {
           disabled = true;
         }
+        let value: string = GuidEmpty;
+        if (
+          config.record &&
+          config.record.RelatedResponseItem &&
+          config.record.RelatedResponseItem.ID &&
+          IsNotEmptyGuid(config.record.RelatedResponseItem.ID)
+        ) {
+          value = config.record.RelatedResponseItem.ID;
+        }
         return (
-          <Select disabled={disabled}>
+          <Select disabled={disabled} value={value}>
             <Select.Option value={GuidEmpty} key={GuidEmpty}>
               {' '}
             </Select.Option>
@@ -343,34 +314,30 @@ const OnePropertyModal: React.FC<onePropertyModalProps> = (props) => {
       dataIndex: 'ValueFormat',
       renderFormItem: (_, config, data) => {
         console.log(_, config, data);
-
-        // console.log(valueType);
+        const valueType = data.getFieldValue('ValueType');
+        console.log(valueType);
         let disabled = false; // 数值、日期时间、json才可编辑
         if (!config.record || (config.record && [1, 5, 8].indexOf(config.record.ValueType) == -1)) {
           disabled = true;
         }
-        // let defaultValue = '';
-        // if (config.record) {
-        //   // defaultValue = config.record.ValueFormat;
-        //   if(config.record?.ValueType == 1 && !config.record.ValueFormat){
-        //     defaultValue = '{0:N}'
-        //   }else if(config.record?.ValueType == 5 && !config.record.ValueFormat){
-        //     defaultValue = 'yyyy-MM-dd'
-        //   }else{
-        //     defaultValue = config.record.ValueFormat || '';
-        //   }
-        // }
-        // const obj = {...config.record};obj['ValueFormat'] = defaultValue;
-        // if(config.record && config.record.ID){
-        //   // data.setFieldValue(config.record.ID,obj);
-        // }
-        // console.log(defaultValue);
+        let defaultValue = '';
+        if (config.record) {
+          // defaultValue = config.record.ValueFormat;
+          if(config.record?.ValueType == 1 && !config.record.ValueFormat){
+            defaultValue = '{0:N}'
+          }else if(config.record?.ValueType == 5 && !config.record.ValueFormat){
+            defaultValue = 'yyyy-MM-dd'
+          }else{
+            defaultValue = config.record.ValueFormat || '';
+          }
+        }
+        console.log(defaultValue);
         console.log(disabled);
         let items;
-        switch (config.record?.ValueType) {
+        switch ( config.record?.ValueType) {
           case 1:
             items = (
-              <Select disabled={disabled}>
+              <Select disabled={disabled} defaultValue={defaultValue} value={defaultValue}>
                 {valueFormatInNumber.map((item) => (
                   <Select.Option value={item.value} key={item.value}>
                     {item.label}
@@ -381,7 +348,7 @@ const OnePropertyModal: React.FC<onePropertyModalProps> = (props) => {
             break;
           case 5:
             items = (
-              <Select disabled={disabled}>
+              <Select disabled={disabled} defaultValue={defaultValue || 'yyyy-MM-dd'}>
                 {valueFormatInDateTime.map((item) => (
                   <Select.Option value={item.value} key={item.value}>
                     {item.label}
@@ -405,7 +372,6 @@ const OnePropertyModal: React.FC<onePropertyModalProps> = (props) => {
         <FormattedMessage id="pages.property.fieldName.defaultValue" defaultMessage="缺省值" />
       ),
       dataIndex: 'DefaultValue',
-      width: 150,
       renderFormItem: (_, config, data) => {
         // // 这里返回的值与Protable的render返回的值差不多,能获取到index,row,data 只是这里是获取对象组,外面会在包一层
         // console.log(_, config, data);
@@ -431,30 +397,7 @@ const OnePropertyModal: React.FC<onePropertyModalProps> = (props) => {
         console.log(formatType);
         // mode={dataType == 7?"multiple":undefined}
         let defaultValueItem;
-        const renderCanInputList = (menu: any) => {
-          if (dataType == 3) {
-            return (
-              <>
-                {menu}
-                {/* <Divider style={{ margin: '8px 0' }} /> */}
-                <Space style={{ padding: '0 8px 4px' }}>
-                  <Input
-                    placeholder="Please enter item"
-                    // ref={inputRef}
-                    // value={name}
-                    // onChange={onNameChange}
-                  />
-                  {/* onClick={addItem} */}
-                  <Button type="text" icon={<PlusOutlined />}>
-                    Add item
-                  </Button>
-                </Space>
-              </>
-            );
-          } else {
-            return <></>;
-          }
-        };
+
         switch (dataType) {
           case 1:
           case 2:
@@ -464,10 +407,7 @@ const OnePropertyModal: React.FC<onePropertyModalProps> = (props) => {
           case 3:
           case 7:
             defaultValueItem = (
-              <Select
-                mode={dataType == 7 ? 'multiple' : undefined}
-                dropdownRender={(menu) => renderCanInputList(menu)}
-              >
+              <Select>
                 {options.map((item) => (
                   <Select.Option value={item.value} key={item.value}>
                     {item.label}
@@ -477,43 +417,11 @@ const OnePropertyModal: React.FC<onePropertyModalProps> = (props) => {
             );
             break;
           case 5:
-            defaultValueItem = renderDateTime(
-              config.record?.ValueFormat!,
-              config.record?.CurrentValue || config.record?.DefaultValue,
-            );
+            // defaultValueItem = renderDateTime(
+            //   config.record?.ValueFormat!,
+            //   config.record?.CurrentValue || config.record?.DefaultValue,
+            // );
             break;
-          case 6:
-            defaultValueItem = (
-              <>
-                <Button type="primary" onClick={showSelectFilesModal}>
-                  选择
-                </Button>
-                <List
-                  itemLayout="horizontal"
-                  dataSource={config.record?.DefaultValue?JSON.parse(config.record?.DefaultValue):[]}
-                  renderItem={(item:{ID:string,Source:'string',Name:'string'}[]) => (
-                    <List.Item>
-                      {item.Name}
-                      {/* <List.Item.Meta
-                        avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-                        title={<a href="https://ant.design">{item.title}</a>}
-                        description="Ant Design, a design language for background applications, is refined by Ant UED Team"
-                      /> */}
-                    </List.Item>
-                  )}
-                />
-                <Modal
-                  title="Basic Modal"
-                  open={isModalOpen}
-                  onOk={handleOk}
-                  onCancel={handleCancel}
-                >
-                  <p>Some contents...</p>
-                  <p>Some contents...</p>
-                  <p>Some contents...</p>
-                </Modal>
-              </>
-            );
           default:
             break;
         }
@@ -664,7 +572,7 @@ const OnePropertyModal: React.FC<onePropertyModalProps> = (props) => {
           defaultMessage: '删除',
         })}
       </Button>
-      {JSON.stringify(dataSource)}
+      {/* {JSON.stringify(dataSource)} */}
       {/*  {JSON.stringify(editableKeys)}
       {JSON.stringify(dataSource)} */}
       <EditableProTable<any>
@@ -675,8 +583,7 @@ const OnePropertyModal: React.FC<onePropertyModalProps> = (props) => {
           x: 960,
         }}
         value={dataSource}
-        // controlled={true}
-        // onChange={(value)=>{console.log(value)}}
+        onChange={(value)=>{console.log(value)}}
         // onChange={setDataSource}
         // recordCreatorProps={{
         //   newRecordType: 'dataSource',
@@ -708,31 +615,31 @@ const OnePropertyModal: React.FC<onePropertyModalProps> = (props) => {
           //   setDataSource(recordList);
           // },
           // onChange: setEditableRowKeys,
-          onValuesChange: (record, recordList) => {
-            console.log(record);
-            // switch(record.ValueType){
-            //   case 1:
-            //     // 格式
-            //     const findValueFormat =  valueFormatInNumber.find(item=>item.value == record.ValueFormat);
-            //     if(!findValueFormat){
-            //       record.ValueFormat = '{0:N}';
-            //     }
-            //     // 列表类型
-            //     record.RelatedResponseItem.ID = GuidEmpty;
-            //     break;
-            // }
-            // console.log(record);
-            // const changeRowIndex = recordList.findIndex(item=>item.ID == record.ID);
-            // if(changeRowIndex > -1){
-            //   recordList[changeRowIndex] = record
-            // }
-            console.log(recordList);
+          // onValuesChange: (record, recordList) => {
+          //   console.log(record);
+          //   switch(record.ValueType){
+          //     case 1:
+          //       // 格式
+          //       const findValueFormat =  valueFormatInNumber.find(item=>item.value == record.ValueFormat);
+          //       if(!findValueFormat){
+          //         record.ValueFormat = '{0:N}';
+          //       }
+          //       // 列表类型
+          //       record.RelatedResponseItem.ID = GuidEmpty;
+          //       break;
+          //   }
+          //   console.log(record);
+          //   const changeRowIndex = recordList.findIndex(item=>item.ID == record.ID);
+          //   if(changeRowIndex > -1){
+          //     recordList[changeRowIndex] = record
+          //   }
+          //   // console.log(recordList);
 
-            setDataSource(recordList);
-          },
-          // onChange:(editableKeys, editableRows) => {
-          //   console.log(editableKeys, editableRows);
+          //   setDataSource(recordList);
           // },
+          onChange:(editableKeys, editableRows) => {
+            console.log(editableKeys, editableRows);
+          },
           // onSave:(key, row,originRow,newLine) => {
           //   console.log(key, row,originRow,newLine);
           // }

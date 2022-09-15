@@ -243,7 +243,7 @@ const getOneAssetTypeProperties = (req: Request, res: Response) => {
     IsTelemeteringData: false,
     Name: "字符串",
     RelatedAssetType: { ID: 'a33567c2-2193-4db2-a219-efee78dcc5f8', Name: null },
-    RelatedEngineeringUnit: { ID: '8626dc3b-9af0-4641-8a88-4479491fa9b5', Name: null },
+    RelatedEngineeringUnit: { ID: '00000000-0000-0000-0000-000000000000', Name: null },
     RelatedResponseItem: { ID: '00000000-0000-0000-0000-000000000000', Name: null },
     SN: 1,
     ValueFormat: "",
@@ -263,7 +263,7 @@ const getOneAssetTypeProperties = (req: Request, res: Response) => {
     RelatedEngineeringUnit: { ID: '8626dc3b-9af0-4641-8a88-4479491fa9b5', Name: null },
     RelatedResponseItem: { ID: '00000000-0000-0000-0000-000000000000', Name: null },
     SN: 1,
-    ValueFormat: "",
+    ValueFormat: "{0:E}",
     ValueType: 1,
     CurrentValue: ''
 
@@ -331,7 +331,7 @@ const getOneAssetTypeProperties = (req: Request, res: Response) => {
     RelatedEngineeringUnit: { ID: '00000000-0000-0000-0000-000000000000', Name: null },
     RelatedResponseItem: { ID: '00000000-0000-0000-0000-000000000000', Name: null },
     SN: 1,
-    ValueFormat: "yyyy-MM-dd",
+    ValueFormat: "yyyy年MM月dd日",
     ValueType: 5,
   }, {
     DefaultValue: "",

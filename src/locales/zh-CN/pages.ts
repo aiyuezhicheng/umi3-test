@@ -95,10 +95,19 @@ export default {
   'pages.operation.cancel': '取消',
   'pages.operation.property': '定义扩展属性',
   'pages.operation.verification':'验证',
+  'pages.operation.deleteAll': '删除所有',
+  'pages.operation.insert': '插入',
+  'pages.operation.add': '新增',
+  'pages.operation.addLogic': '添加逻辑',
+  'pages.operation.insertLogic': '插入逻辑',
+  'pages.operation.deleteLogic': '删除逻辑',
+  'pages.operation.deleteAllLogic': '全部删除逻辑',
+
   // 弹框
   'pages.deleteDialog.title': '确认删除么?',
   'pages.dialog.save.success': '保存成功',
   'pages.dialog.delete.success': '删除成功!',
+
   // 配置抽屉信息tab
   'pages.configDrawer.tab.basicInfo': '基本信息',
   'pages.configDrawer.tab.property': '属性',
@@ -158,4 +167,21 @@ export default {
   'pages.assetType.new.subMenu.opcda': 'OPCDA',
   'pages.assetType.new.subMenu.opcua': 'OPCUA',
   'pages.assetType.new.subMenu.mqtt': 'MQTT',
+  //弹框 - 外部属性报警配置
+  'pages.modal.externalAttributeAlarmConfig.title': '编辑外部属性报警配置',
+  'pages.modal.externalAttributeAlarmConfig.fieldName.conditionType':'条件类型',
+  'pages.modal.externalAttributeAlarmConfig.fieldName.conditionValue':'条件值',
+  'pages.modal.externalAttributeAlarmConfig.fieldName.alarmLevel':'报警级别',
+  'pages.modal.externalAttributeAlarmConfig.fieldName.logic':'逻辑',
+  //弹框 - 报警逻辑
+  'pages.modal.AlarmLogic.title': '编辑报警逻辑',
+  'pages.modal.AlarmLogic.fieldName.logicalBehavior':'逻辑行为',
+  'pages.modal.AlarmLogic.fieldName.logicalBehavior.sendMessage':'发送消息',
+  'pages.modal.AlarmLogic.fieldName.logicalBehavior.createTask':'创建作业',
+  // 报警级别
+  'pages.alarmLevel.critical':'危险',
+  'pages.alarmLevel.major':'重要',
+  'pages.alarmLevel.minor':'次要',
+  'pages.alarmLevel.warning':'警告',
+  'pages.alarmLevel.indeterminate':'不确定',
 };

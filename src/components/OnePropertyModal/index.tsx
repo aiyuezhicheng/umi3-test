@@ -19,7 +19,8 @@ import {
   DatePicker,
   TimePicker,
   Checkbox,
-  List
+  List,
+  Tooltip,
 } from 'antd';
 import type { ProColumns } from '@ant-design/pro-table';
 import { EditableProTable } from '@ant-design/pro-table';
@@ -28,6 +29,7 @@ import type { DatePickerProps } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useRequest, useIntl, FormattedMessage } from 'umi';
 import { Property } from '@/utils/data.d';
+import ExternalAttributeAlarmConfig from './ExternalAttributeAlarmConfig'
 import {
   IsNotEmptyGuid,
   FormatDateTimeByFormat,
@@ -36,8 +38,6 @@ import {
   isFullscreenElement,
   GuidEmpty,
 } from '@/utils/common';
-import { find } from 'lodash';
-import Empty from 'antd/es/empty';
 
 type onePropertyModalProps = {
   title: string;
@@ -78,6 +78,10 @@ const OnePropertyModal: React.FC<onePropertyModalProps> = (props) => {
   const [customListItems, setAllcustomListItems] = useState({});
   const [dataSource, setDataSource] = useState<any[]>([]);
   const [fullScreen, setFullScreen] = useState(false);
+
+
+
+  // setTelemeteringAlertConfigModalVisible
   useEffect(() => {
     // console.log(properties)
     setDataSource(properties || []);
@@ -485,7 +489,7 @@ const OnePropertyModal: React.FC<onePropertyModalProps> = (props) => {
           case 6:
             defaultValueItem = (
               <>
-                <Button type="primary" onClick={showSelectFilesModal}>
+                {/* <Button type="primary" onClick={showSelectFilesModal}>
                   选择
                 </Button>
                 <List
@@ -494,11 +498,11 @@ const OnePropertyModal: React.FC<onePropertyModalProps> = (props) => {
                   renderItem={(item:{ID:string,Source:'string',Name:'string'}[]) => (
                     <List.Item>
                       {item.Name}
-                      {/* <List.Item.Meta
+                      <List.Item.Meta
                         avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
                         title={<a href="https://ant.design">{item.title}</a>}
                         description="Ant Design, a design language for background applications, is refined by Ant UED Team"
-                      /> */}
+                      />
                     </List.Item>
                   )}
                 />
@@ -511,7 +515,7 @@ const OnePropertyModal: React.FC<onePropertyModalProps> = (props) => {
                   <p>Some contents...</p>
                   <p>Some contents...</p>
                   <p>Some contents...</p>
-                </Modal>
+                </Modal> */}
               </>
             );
           default:
@@ -596,12 +600,28 @@ const OnePropertyModal: React.FC<onePropertyModalProps> = (props) => {
       },
     },
     {
-      title: <FormattedMessage id="pages.property.fieldName.groupName" defaultMessage="组名" />,
-      dataIndex: 'GroupName',
+      title: (
+        <FormattedMessage
+          id="pages.property.fieldName.telemeteringAlarmConfig"
+          defaultMessage="外部属性报警配置"
+        />
+      ),
+      dataIndex: 'TelemeteringAlertConfig',
+      width:250,
       renderFormItem: (_, config, data) => {
-        return <Input allowClear />;
+        return (
+         <ExternalAttributeAlarmConfig value={''}></ExternalAttributeAlarmConfig>
+        );
+        // return <Checkbox checked={config.record?.TelemeteringAlertConfig  || false}> </Checkbox>;
       },
     },
+    // {
+    //   title: <FormattedMessage id="pages.property.fieldName.groupName" defaultMessage="组名" />,
+    //   dataIndex: 'GroupName',
+    //   renderFormItem: (_, config, data) => {
+    //     return <Input allowClear />;
+    //   },
+    // },
   ];
   const renderModalTitle = () => {
     return (

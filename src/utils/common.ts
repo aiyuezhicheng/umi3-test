@@ -59,6 +59,18 @@ export const IsNotEmptyGuid = (value: any) => {
     return false;
 }
 
+// 新的GUID
+export const NewGuid = () => {
+  let guid: string = "";
+  for (var i = 1; i <= 32; i++) {
+    var n = Math.floor(Math.random() * 16.0).toString(16);
+    guid += n;
+    if ((i == 8) || (i == 12) || (i == 16) || (i == 20))
+      guid += "-";
+  }
+  return guid;
+}
+
 // 处理工程单位和列表项
 export const ProcessListOptionsAndEngUnit = (properties: any[], callback: any) => {
   const processEngUnit = (engUnitIDs: string[], callback: any) => {
@@ -160,4 +172,18 @@ export const FormatDateTimeByFormat = (_format: string, _daytime: Date) => {
   const minute = (_daytime.getMinutes().toString().length == 1 ? "0" + _daytime.getMinutes() : _daytime.getMinutes()) + '';
   const second = (_daytime.getSeconds().toString().length == 1 ? "0" + _daytime.getSeconds() : _daytime.getSeconds()) + '';
   return _format.replace("YYYY", year).replace("yyyy", year).replace("MM", month).replace("DD", day).replace("dd", day).replace("HH", hour).replace("hh", hour).replace("mm", minute).replace("ss", second);
+}
+
+// json字符串转对象
+export const JsonParseSafe = (str: string) => {
+  var res = null;
+  try {
+    if ((str.indexOf('{') >= 0 && str.indexOf('}') > 0) || str.indexOf('[') >= 0 && str.indexOf(']') > 0) {
+      res = JSON.parse(str);
+    }
+  }
+  catch (e) {
+    res = null;
+  }
+  return res;
 }

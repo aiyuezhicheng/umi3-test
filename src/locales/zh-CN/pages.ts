@@ -117,6 +117,7 @@ export default {
   // 提示信息
   'pages.message.name.required.message': '名称不能为空',
   'pages.message.name.valid.message': '名称不能重名',
+  'pages.message.required.message':'不能为空',
   // 属性的字段名
   'pages.property.fieldName.propertyName': '属性名',
   'pages.property.fieldName.dataType': '数据类型',

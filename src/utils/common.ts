@@ -174,8 +174,8 @@ export const FormatDateTimeByFormat = (_format: string, _daytime: Date) => {
   return _format.replace("YYYY", year).replace("yyyy", year).replace("MM", month).replace("DD", day).replace("dd", day).replace("HH", hour).replace("hh", hour).replace("mm", minute).replace("ss", second);
 }
 
-// json字符串转对象
-export const JsonParseSafe = (str: string) => {
+// 安全Json解析
+export const JsonParseSafe = (str: any) => {
   var res = null;
   try {
     if ((str.indexOf('{') >= 0 && str.indexOf('}') > 0) || str.indexOf('[') >= 0 && str.indexOf(']') > 0) {
@@ -184,6 +184,18 @@ export const JsonParseSafe = (str: string) => {
   }
   catch (e) {
     res = null;
+  }
+  return res;
+}
+
+// 安全Json序列化
+export const JsonStringifySafe = function (obj:any) {
+  var res = '';
+  try {
+      res = JSON.stringify(obj);
+  }
+  catch (e) {
+      res = '';
   }
   return res;
 }

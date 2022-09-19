@@ -72,7 +72,7 @@ const defaultData: DataSourceType[] = [
     Value: '2020-01-01 12:00:00',
     AlarmType: 'CRITICAL',
     LogicConfig:
-      '[{"AlarmLogicAction":1,"TaskGroupTemplateID":"00000000-0000-0000-0000-000000000000","TaskStandardID":"00000000-0000-0000-0000-000000000000"}]',
+      '[{"AlarmLogicAction":2,"TaskGroupTemplateID":"00000000-0000-0000-0000-000000000000","TaskStandardID":"00000000-0000-0000-0000-000000000000","TaskGroupTemplateName":"test1","TaskGroupTemplateDescription":"test1的描述","Duration":98}]',
   },
   {
     id: '2',
@@ -80,7 +80,7 @@ const defaultData: DataSourceType[] = [
     Value: '2020-09-10 12:00:00',
     AlarmType: 'CRITICAL',
     LogicConfig:
-      '[{"AlarmLogicAction":2,"TaskGroupTemplateID":"00000000-0000-0000-0000-000000000000","TaskStandardID":"00000000-0000-0000-0000-000000000000"}]',
+      '[{"AlarmLogicAction":1,"TaskGroupTemplateID":"00000000-0000-0000-0000-000000000000","TaskStandardID":"00000000-0000-0000-0000-000000000000","TaskGroupTemplateName":"","TaskGroupTemplateDescription":"","Duration":0}]',
   },
 ];
 
@@ -177,6 +177,7 @@ const ExternalAttributeAlarmConfig: React.FC<ExternalAttributeAlarmConfig> = (pr
                 // 收集报警逻辑值赋给一条"外部属性报警配置"
                 const alarmLogicList =
                   alarmLogicFormRef.current?.getFieldsValue()['alarmLogicList'];
+                  console.log(alarmLogicList)
                 const logicConfig = JsonStringifySafe(alarmLogicList);
                 oneRowValue.LogicConfig = logicConfig !== '[]' ? logicConfig : '';
                 externalAttributeAlarmForm.setFieldValue(oneRowValue.id, oneRowValue);
@@ -430,8 +431,6 @@ const ExternalAttributeAlarmConfig: React.FC<ExternalAttributeAlarmConfig> = (pr
                               />
                             }
                             name="Duration"
-                            min={1}
-                            max={10}
                             rules={[
                               {
                                 required: true,
@@ -722,7 +721,17 @@ const ExternalAttributeAlarmConfig: React.FC<ExternalAttributeAlarmConfig> = (pr
       <Input.Group compact>
         <Input
           style={{ width: 'calc(100% - 80px)' }}
-          defaultValue="git@github.com:ant-design/ant-design.git"
+          defaultValue={JSON.stringify([{
+            "Operator": "=",
+            "Value": "2022-09-08",
+            "AlarmType": "MAJOR",
+            "LogicConfig": "[{\"AlarmLogicAction\":2,\"TaskGroupTemplateID\":\"1541da51-69e4-4bda-a2a5-9155d03fe424\",\"TaskGroupTemplateName\":\"库存操作\",\"TaskStandardID\":\"cb8dd301-b386-4c10-b177-b380cc47d8e8\",\"Duration\":112}]"
+          }, {
+            "Operator": "=",
+            "Value": "2022-09-08",
+            "AlarmType": "MAJOR",
+            "LogicConfig": "[{\"AlarmLogicAction\":1,\"TaskGroupTemplateID\":\"00000000-0000-0000-0000-000000000000\",\"TaskStandardID\":\"00000000-0000-0000-0000-000000000000\"}]"
+          }])}
           disabled
           allowClear
         />
@@ -805,8 +814,7 @@ const ExternalAttributeAlarmConfig: React.FC<ExternalAttributeAlarmConfig> = (pr
                 title={<FormattedMessage id="pages.operation.copy" defaultMessage="拷贝" />}
                 key={row.id + 'copy'}
               >
-                <Button
-                  icon={<CopyOutlined />}
+                <CopyOutlined 
                   onClick={() => {
                     console.log(row, config, dom, form);
                     handleOneRowByOperation('copy', row, config);
@@ -827,8 +835,7 @@ const ExternalAttributeAlarmConfig: React.FC<ExternalAttributeAlarmConfig> = (pr
                 <Tooltip
                   title={<FormattedMessage id="pages.operation.delete" defaultMessage="删除" />}
                 >
-                  <Button
-                    icon={<DeleteOutlined />}
+                  <DeleteOutlined
                     onClick={() => {
                       console.log(config, form);
                     }}

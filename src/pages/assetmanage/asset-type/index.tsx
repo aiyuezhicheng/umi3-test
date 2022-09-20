@@ -75,8 +75,8 @@ const AssetType: React.FC = () => {
 
   //搜索关键字
   const onSearch = (value: string) => {
-    console.log(onSearch);
     setSearchKeyWords(value);
+    // 调用接口
     if (viewType == 'table') {
     } else {
     }
@@ -249,9 +249,8 @@ const AssetType: React.FC = () => {
     setTreeData(assetTypeTree);
   }, [assetTypeTree, searchKeyWords]);
 
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
   const deleteOneAsset = (oneAssetID: string) => {
-    console.log(oneAssetID);
     message.success(
       <FormattedMessage id="pages.dialog.delete.success" defaultMessage="删除成功!" />,
     );
@@ -263,7 +262,6 @@ const AssetType: React.FC = () => {
 
   // 导出
   const handleExport = () => {
-    console.log(tableData);
     const fileName = intl.formatMessage({
       id: 'menu.assetManage.asset-type',
       defaultMessage: '资产类别',
@@ -284,13 +282,11 @@ const AssetType: React.FC = () => {
 
   // 批量删除
   const handleBatchDelete = () => {
-    console.log(checked);
     const { confirm } = Modal;
     confirm({
       title: <FormattedMessage id="pages.deleteDialog.title" defaultMessage="确认删除么?" />,
       icon: <ExclamationCircleOutlined />,
       onOk() {
-        console.log('OK');
         message.success(
           <FormattedMessage id="pages.dialog.delete.success" defaultMessage="删除成功!" />,
         );
@@ -302,30 +298,6 @@ const AssetType: React.FC = () => {
     });
   };
 
-  const renderMainContent = () => {
-    if (viewType == 'table') {
-      return (
-        <Table
-          showDetailInfoDrawer={showDetailInfoDrawer}
-          deleteOneAsset={deleteOneAsset}
-          tableList={tableData}
-          setChecked={setChecked}
-          searchKeyWords={searchKeyWords}
-        ></Table>
-      );
-    } else {
-      return (
-        <TreeComponent
-          assetTypeTree={tree!}
-          setDetailVisible={setDetailVisible}
-          setDetailParams={setDetailParams}
-          setChecked={setChecked}
-          deleteOneAsset={deleteOneAsset}
-          searchKeyWords={searchKeyWords}
-        ></TreeComponent>
-      );
-    }
-  };
   return (
     <PageContainer title={false} loading={loading}>
       <div id="mainContainer" style={{ background: '#f0f2f5', height: '100%' }}>
@@ -341,30 +313,31 @@ const AssetType: React.FC = () => {
                 </Button>
               </Dropdown>
               <Button
-                type="primary"
-                icon={<DeleteOutlined />}
                 className={styles.tabOperationButton}
                 disabled={checked.length == 0}
                 onClick={handleBatchDelete}
               >
-                <FormattedMessage id="pages.operation.delete" defaultMessage="删除" />
+                <Space>
+                  <DeleteOutlined />
+                  <FormattedMessage id="pages.operation.delete" defaultMessage="删除" />
+                </Space>
               </Button>
-              {/* <Upload beforeUpload={beforeUpload}> */}
               <Button
-                type="primary"
-                icon={<UploadOutlined />}
                 className={styles.tabOperationButton}
               >
-                <FormattedMessage id="pages.operation.import" defaultMessage="导入" />
+                <Space>
+                  <UploadOutlined />
+                  <FormattedMessage id="pages.operation.import" defaultMessage="导入" />
+                </Space>
               </Button>
-              {/* </Upload> */}
               <Button
-                type="primary"
-                icon={<DownloadOutlined />}
                 className={styles.tabOperationButton}
                 onClick={handleExport}
               >
-                <FormattedMessage id="pages.operation.export" defaultMessage="导出" />
+                <Space>
+                  <DownloadOutlined />
+                  <FormattedMessage id="pages.operation.export" defaultMessage="导出" />
+                </Space>
               </Button>
             </Col>
             <Col span={8} offset={8} style={{ textAlign: 'right' }}>
@@ -406,7 +379,21 @@ const AssetType: React.FC = () => {
               )}
             </Col>
           </Row>
-          {renderMainContent()}
+          {viewType == 'table' && (<Table
+            showDetailInfoDrawer={showDetailInfoDrawer}
+            deleteOneAsset={deleteOneAsset}
+            tableList={tableData}
+            setChecked={setChecked}
+            searchKeyWords={searchKeyWords}
+          ></Table>)}
+          {viewType == 'tree' && (<TreeComponent
+            assetTypeTree={tree!}
+            setDetailVisible={setDetailVisible}
+            setDetailParams={setDetailParams}
+            setChecked={setChecked}
+            deleteOneAsset={deleteOneAsset}
+            searchKeyWords={searchKeyWords}
+          ></TreeComponent>)}
         </Space>
 
         <OneDetailAssetTypeDrawer

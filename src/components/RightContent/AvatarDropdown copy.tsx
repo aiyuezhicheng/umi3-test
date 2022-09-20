@@ -13,14 +13,12 @@ export type GlobalHeaderRightProps = {
 };
 
 /**
- * 退出登录，并且将当前的 url 保存（未对接艾动）
+ * 退出登录，并且将当前的 url 保存
  */
 const loginOut = async () => {
   await outLogin();
   const { query = {}, search, pathname } = history.location;
   const { redirect } = query;
-  // 移除token
-  localStorage.removeItem('token')
   // Note: There may be security issues, please note
   if (window.location.pathname !== '/user/login' && !redirect) {
     history.replace({
@@ -66,7 +64,7 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
 
   const { currentUser } = initialState;
 
-  if (!currentUser || !currentUser.UserName) {
+  if (!currentUser || !currentUser.name) {
     return loading;
   }
 
@@ -95,8 +93,8 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
   return (
     <HeaderDropdown overlay={menuHeaderDropdown}>
       <span className={`${styles.action} ${styles.account}`}>
-        {/* <Avatar size="small" className={styles.avatar} src={currentUser.avatar} alt="avatar" /> */}
-        <span className={`${styles.name} anticon`}>{currentUser.UserName}</span>
+        <Avatar size="small" className={styles.avatar} src={currentUser.avatar} alt="avatar" />
+        <span className={`${styles.name} anticon`}>{currentUser.name}</span>
       </span>
     </HeaderDropdown>
   );

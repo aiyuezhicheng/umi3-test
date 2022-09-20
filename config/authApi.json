@@ -1,0 +1,239 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "imgenius Auth Service API",
+    "description": "身份认证和授权服务API",
+    "version": "v1"
+  },
+  "paths": {
+    "/AuthService/api/v1/Auth/token": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "获取Token",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResultAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResultAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResultAPIResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/AuthService/api/v1/Auth/user": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "获取当前token用户信息",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginUserAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginUserAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginUserAPIResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "LoginModel": {
+        "required": [
+          "LoginID",
+          "Password"
+        ],
+        "type": "object",
+        "properties": {
+          "Project": {
+            "type": "string",
+            "description": "工程ID或工程名称（如果为空，系统自动选择）",
+            "nullable": true
+          },
+          "LoginID": {
+            "minLength": 1,
+            "type": "string",
+            "description": "登录ID"
+          },
+          "Password": {
+            "minLength": 1,
+            "type": "string",
+            "description": "密码"
+          }
+        },
+        "additionalProperties": false,
+        "description": "登录信息"
+      },
+      "LoginUser": {
+        "type": "object",
+        "properties": {
+          "SessionID": {
+            "type": "string",
+            "description": "回话ID",
+            "format": "uuid"
+          },
+          "ProjectID": {
+            "type": "string",
+            "description": "工程ID",
+            "format": "uuid"
+          },
+          "UserID": {
+            "type": "string",
+            "description": "用户ID",
+            "format": "uuid"
+          },
+          "LoginID": {
+            "type": "string",
+            "description": "登录ID",
+            "nullable": true
+          },
+          "UserName": {
+            "type": "string",
+            "description": "用户名",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "登录用户"
+      },
+      "LoginUserAPIResult": {
+        "type": "object",
+        "properties": {
+          "IsOk": {
+            "type": "boolean",
+            "description": "操作所否成功"
+          },
+          "ErrorID": {
+            "type": "string",
+            "description": "错误代码",
+            "nullable": true
+          },
+          "ErrorMsg": {
+            "type": "string",
+            "description": "错误信息",
+            "nullable": true
+          },
+          "Response": {
+            "$ref": "#/components/schemas/LoginUser"
+          }
+        },
+        "additionalProperties": false,
+        "description": "API返回结果"
+      },
+      "TokenResult": {
+        "type": "object",
+        "properties": {
+          "Token": {
+            "type": "string",
+            "description": "Token",
+            "nullable": true
+          },
+          "ExpiresIn": {
+            "type": "string",
+            "description": "过期时间",
+            "format": "date-time"
+          },
+          "TokenType": {
+            "type": "string",
+            "description": "Token类型",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "获取Token返回结果"
+      },
+      "TokenResultAPIResult": {
+        "type": "object",
+        "properties": {
+          "IsOk": {
+            "type": "boolean",
+            "description": "操作所否成功"
+          },
+          "ErrorID": {
+            "type": "string",
+            "description": "错误代码",
+            "nullable": true
+          },
+          "ErrorMsg": {
+            "type": "string",
+            "description": "错误信息",
+            "nullable": true
+          },
+          "Response": {
+            "$ref": "#/components/schemas/TokenResult"
+          }
+        },
+        "additionalProperties": false,
+        "description": "API返回结果"
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "Add JWT with Bearer",
+        "scheme": "Bearer"
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": [ ]
+    }
+  ],
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "认证和授权"
+    }
+  ]
+}

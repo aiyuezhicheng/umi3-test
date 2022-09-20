@@ -1,0 +1,3146 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "imgenius Base Service API",
+    "description": "基础服务API",
+    "version": "v1"
+  },
+  "paths": {
+    "/BaseService/api/v1/Attachment/{id}": {
+      "get": {
+        "tags": [
+          "Attachment"
+        ],
+        "summary": "得到附件",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "附件ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "附件",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMAttachmentAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMAttachmentAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMAttachmentAPIResult"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Attachment"
+        ],
+        "summary": "删除附件",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "附件ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "是否成功",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BaseService/api/v1/Attachment/name/{name}": {
+      "get": {
+        "tags": [
+          "Attachment"
+        ],
+        "summary": "得到附件（根据名字）",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "名字",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "附件",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMAttachmentAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMAttachmentAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMAttachmentAPIResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BaseService/api/v1/Attachment/list": {
+      "get": {
+        "tags": [
+          "Attachment"
+        ],
+        "summary": "得到所有附件",
+        "responses": {
+          "200": {
+            "description": "所有附件列表",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMAttachmentListAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMAttachmentListAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMAttachmentListAPIResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BaseService/api/v1/Attachment/download/{attachmentID}": {
+      "get": {
+        "tags": [
+          "Attachment"
+        ],
+        "summary": "下载附件",
+        "parameters": [
+          {
+            "name": "attachmentID",
+            "in": "path",
+            "description": "附件ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "文件数据",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMAttachmentContentAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMAttachmentContentAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMAttachmentContentAPIResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BaseService/api/v1/Attachment": {
+      "post": {
+        "tags": [
+          "Attachment"
+        ],
+        "summary": "创建附件",
+        "requestBody": {
+          "description": "附件",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMAttachment"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMAttachment"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMAttachment"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "创建的附件ID",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuidAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuidAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuidAPIResult"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Attachment"
+        ],
+        "summary": "修改附件",
+        "requestBody": {
+          "description": "附件",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMAttachment"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMAttachment"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMAttachment"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "是否成功",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BaseService/api/v1/Attachment/Upload/{id}/{url}": {
+      "put": {
+        "tags": [
+          "Attachment"
+        ],
+        "summary": "上载附件",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "附件ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "url",
+            "in": "path",
+            "description": "要上载的附件Url",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "是否成功",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BaseService/api/v1/Attachment/validate": {
+      "put": {
+        "tags": [
+          "Attachment"
+        ],
+        "summary": "验证附件",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "验证的附件",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "是否成功",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BaseService/api/v1/EngUnit/{id}": {
+      "get": {
+        "tags": [
+          "EngUnit"
+        ],
+        "summary": "得到工程单位",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "工程单位ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "工程单位",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMEngUnitAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMEngUnitAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMEngUnitAPIResult"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "EngUnit"
+        ],
+        "summary": "删除工程单位",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "工程单位ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "是否成功",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BaseService/api/v1/EngUnit/name/{name}": {
+      "get": {
+        "tags": [
+          "EngUnit"
+        ],
+        "summary": "得到工程单位（根据名字）",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "名字",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "工程单位",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMEngUnitAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMEngUnitAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMEngUnitAPIResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BaseService/api/v1/EngUnit/list": {
+      "get": {
+        "tags": [
+          "EngUnit"
+        ],
+        "summary": "得到所有工程单位",
+        "responses": {
+          "200": {
+            "description": "工程单位列表",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMEngUnitListAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMEngUnitListAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMEngUnitListAPIResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BaseService/api/v1/EngUnit": {
+      "post": {
+        "tags": [
+          "EngUnit"
+        ],
+        "summary": "创建工程单位",
+        "requestBody": {
+          "description": "工程单位",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMEngUnit"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMEngUnit"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMEngUnit"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "创建的工程单位ID",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuidAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuidAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuidAPIResult"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "EngUnit"
+        ],
+        "summary": "修改工程单位",
+        "requestBody": {
+          "description": "工程单位",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMEngUnit"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMEngUnit"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMEngUnit"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "是否成功",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BaseService/api/v1/EngUnit/names/{ids}": {
+      "get": {
+        "tags": [
+          "EngUnit"
+        ],
+        "summary": "批量获取名字",
+        "parameters": [
+          {
+            "name": "ids",
+            "in": "path",
+            "description": "多个ID用逗号分隔",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ID和名字列表",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMIDNameListAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMIDNameListAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMIDNameListAPIResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BaseService/api/v1/EngUnit/validate/{id}": {
+      "put": {
+        "tags": [
+          "EngUnit"
+        ],
+        "summary": "验证工程单位",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "验证的工程单位id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "是否成功",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BaseService/api/v1/EventLevel/{id}": {
+      "get": {
+        "tags": [
+          "EventLevel"
+        ],
+        "summary": "得到例外等级",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "例外等级ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "例外等级",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMEventLevelAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMEventLevelAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMEventLevelAPIResult"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "EventLevel"
+        ],
+        "summary": "删除例外等级",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "例外等级ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "是否成功",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BaseService/api/v1/EventLevel/name/{name}": {
+      "get": {
+        "tags": [
+          "EventLevel"
+        ],
+        "summary": "得到例外等级（根据名字）",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "名字",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "例外等级",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMEventLevelAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMEventLevelAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMEventLevelAPIResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BaseService/api/v1/EventLevel/list": {
+      "get": {
+        "tags": [
+          "EventLevel"
+        ],
+        "summary": "得到所有例外等级",
+        "responses": {
+          "200": {
+            "description": "所有例外等级列表",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMEventLevelListAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMEventLevelListAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMEventLevelListAPIResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BaseService/api/v1/EventLevel": {
+      "post": {
+        "tags": [
+          "EventLevel"
+        ],
+        "summary": "创建例外等级",
+        "requestBody": {
+          "description": "例外等级",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMEventLevel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMEventLevel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMEventLevel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "创建的例外等级ID",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuidAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuidAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuidAPIResult"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "EventLevel"
+        ],
+        "summary": "修改例外等级",
+        "requestBody": {
+          "description": "例外等级",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMEventLevel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMEventLevel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMEventLevel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "是否成功",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BaseService/api/v1/EventLevel/validate": {
+      "put": {
+        "tags": [
+          "EventLevel"
+        ],
+        "summary": "验证例外等级",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "验证的例外等级",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "是否成功",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BaseService/api/v1/GlobalPropertyTemplate/{id}": {
+      "get": {
+        "tags": [
+          "GlobalPropertyTemplate"
+        ],
+        "summary": "得到全局属性模板",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "全局属性模板ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "全局属性模板",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMGlobalPropertyTemplateAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMGlobalPropertyTemplateAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMGlobalPropertyTemplateAPIResult"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "GlobalPropertyTemplate"
+        ],
+        "summary": "删除全局属性模板",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "全局属性模板ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "是否成功",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BaseService/api/v1/GlobalPropertyTemplate/name/{name}": {
+      "get": {
+        "tags": [
+          "GlobalPropertyTemplate"
+        ],
+        "summary": "得到全局属性模板（根据名字）",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "名字",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "entityType",
+            "in": "query",
+            "description": "属性类型（组织单元为8，用户为9，岗位为11，其他均为作业组）",
+            "schema": {
+              "$ref": "#/components/schemas/IMEntityType"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "全局属性模板",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMGlobalPropertyTemplateAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMGlobalPropertyTemplateAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMGlobalPropertyTemplateAPIResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BaseService/api/v1/GlobalPropertyTemplate/list": {
+      "get": {
+        "tags": [
+          "GlobalPropertyTemplate"
+        ],
+        "summary": "得到所有全局属性模板",
+        "parameters": [
+          {
+            "name": "entityType",
+            "in": "query",
+            "description": "属性模板的分类（组织单元为8，用户为9，岗位为11，其他均为作业组）",
+            "schema": {
+              "$ref": "#/components/schemas/IMEntityType"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "所有全局属性模板列表",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMGlobalPropertyTemplateListAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMGlobalPropertyTemplateListAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMGlobalPropertyTemplateListAPIResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BaseService/api/v1/GlobalPropertyTemplate": {
+      "post": {
+        "tags": [
+          "GlobalPropertyTemplate"
+        ],
+        "summary": "创建全局属性模板",
+        "requestBody": {
+          "description": "全局属性模板",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMGlobalPropertyTemplate"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMGlobalPropertyTemplate"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMGlobalPropertyTemplate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "创建的全局属性模板ID",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuidAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuidAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuidAPIResult"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "GlobalPropertyTemplate"
+        ],
+        "summary": "修改全局属性模板",
+        "requestBody": {
+          "description": "全局属性模板",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMGlobalPropertyTemplate"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMGlobalPropertyTemplate"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMGlobalPropertyTemplate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "是否成功",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BaseService/api/v1/GlobalPropertyTemplate/validate": {
+      "put": {
+        "tags": [
+          "GlobalPropertyTemplate"
+        ],
+        "summary": "验证全局属性模板",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "验证的全局属性模板",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "是否成功",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BaseService/api/v1/ShiftPolicy/{id}": {
+      "get": {
+        "tags": [
+          "ShiftPolicy"
+        ],
+        "summary": "得到轮班",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "轮班ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "轮班",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMShiftPolicyAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMShiftPolicyAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMShiftPolicyAPIResult"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ShiftPolicy"
+        ],
+        "summary": "删除轮班",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "轮班ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "是否成功",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BaseService/api/v1/ShiftPolicy/name/{name}": {
+      "get": {
+        "tags": [
+          "ShiftPolicy"
+        ],
+        "summary": "得到轮班（根据名字）",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "名字",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "轮班",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMShiftPolicyAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMShiftPolicyAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMShiftPolicyAPIResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BaseService/api/v1/ShiftPolicy/list": {
+      "get": {
+        "tags": [
+          "ShiftPolicy"
+        ],
+        "summary": "得到所有轮班",
+        "responses": {
+          "200": {
+            "description": "所有轮班列表",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMShiftPolicyListAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMShiftPolicyListAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMShiftPolicyListAPIResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BaseService/api/v1/ShiftPolicy": {
+      "post": {
+        "tags": [
+          "ShiftPolicy"
+        ],
+        "summary": "创建轮班",
+        "requestBody": {
+          "description": "轮班",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMShiftPolicy"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMShiftPolicy"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMShiftPolicy"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "创建的轮班ID",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuidAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuidAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuidAPIResult"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "ShiftPolicy"
+        ],
+        "summary": "修改轮班",
+        "requestBody": {
+          "description": "轮班",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMShiftPolicy"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMShiftPolicy"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMShiftPolicy"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "是否成功",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BaseService/api/v1/ShiftPolicy/validate": {
+      "put": {
+        "tags": [
+          "ShiftPolicy"
+        ],
+        "summary": "验证轮班",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "验证的轮班",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "是否成功",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BaseService/api/v1/UserDefinedList/{id}": {
+      "get": {
+        "tags": [
+          "UserDefinedList"
+        ],
+        "summary": "得到列表（项）",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "列表（项）ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "列表（项）",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMUserDefinedListAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMUserDefinedListAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMUserDefinedListAPIResult"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "UserDefinedList"
+        ],
+        "summary": "删除列表（项）",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "列表ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "是否成功",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BaseService/api/v1/UserDefinedList/name/{parentID}/{name}": {
+      "get": {
+        "tags": [
+          "UserDefinedList"
+        ],
+        "summary": "得到列表（项）（根据名字）",
+        "parameters": [
+          {
+            "name": "parentID",
+            "in": "path",
+            "description": "父节点ID，如果为空，表示顶层节点；如果为invalid，表示不指定父节点",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "description": "名字",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "列表（项）",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMUserDefinedListAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMUserDefinedListAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMUserDefinedListAPIResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BaseService/api/v1/UserDefinedList/list": {
+      "get": {
+        "tags": [
+          "UserDefinedList"
+        ],
+        "summary": "得到所有列表（包括项）",
+        "responses": {
+          "200": {
+            "description": "所有列表（项）列表",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMUserDefinedListListAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMUserDefinedListListAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMUserDefinedListListAPIResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BaseService/api/v1/UserDefinedList/child/{parentID}": {
+      "get": {
+        "tags": [
+          "UserDefinedList"
+        ],
+        "summary": "得到直接儿子列表（项）",
+        "parameters": [
+          {
+            "name": "parentID",
+            "in": "path",
+            "description": "父节点ID，如果为Guid.Empty，表示列表，否则为列表下的列表项",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "列表列表（项）",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMUserDefinedListListAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMUserDefinedListListAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMUserDefinedListListAPIResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BaseService/api/v1/UserDefinedList/tree": {
+      "get": {
+        "tags": [
+          "UserDefinedList"
+        ],
+        "summary": "得到列表树",
+        "responses": {
+          "200": {
+            "description": "列表树",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMTreeNodeListAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMTreeNodeListAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMTreeNodeListAPIResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BaseService/api/v1/UserDefinedList": {
+      "post": {
+        "tags": [
+          "UserDefinedList"
+        ],
+        "summary": "创建列表（项）",
+        "requestBody": {
+          "description": "列表（项）",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMUserDefinedList"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMUserDefinedList"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMUserDefinedList"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "创建的列表ID",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuidAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuidAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuidAPIResult"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "UserDefinedList"
+        ],
+        "summary": "修改列表（项）",
+        "requestBody": {
+          "description": "列表（项）",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMUserDefinedList"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMUserDefinedList"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMUserDefinedList"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "是否成功",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BaseService/api/v1/UserDefinedList/relation/{listRelationID}": {
+      "get": {
+        "tags": [
+          "UserDefinedList"
+        ],
+        "summary": "得到列表关联关系",
+        "parameters": [
+          {
+            "name": "listRelationID",
+            "in": "path",
+            "description": "列表关联关系ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "列表关联关系",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMListRelationAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMListRelationAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMListRelationAPIResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BaseService/api/v1/UserDefinedList/relations": {
+      "get": {
+        "tags": [
+          "UserDefinedList"
+        ],
+        "summary": "得到所有列表关联关系",
+        "responses": {
+          "200": {
+            "description": "列表关联关系列表",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMListRelationListAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMListRelationListAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMListRelationListAPIResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BaseService/api/v1/UserDefinedList/relation": {
+      "post": {
+        "tags": [
+          "UserDefinedList"
+        ],
+        "summary": "保存列表关联关系",
+        "requestBody": {
+          "description": "列表关联关系",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMListRelation"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMListRelation"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMListRelation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "列表关联关系ID",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuidAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuidAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GuidAPIResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BaseService/api/v1/UserDefinedList/relation/{id}": {
+      "delete": {
+        "tags": [
+          "UserDefinedList"
+        ],
+        "summary": "删除列表关联关系",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "列表关联关系ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "是否成功",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanAPIResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/BaseService/api/v1/UserDefinedList/validate": {
+      "put": {
+        "tags": [
+          "UserDefinedList"
+        ],
+        "summary": "验证列表",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "验证的id",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "是否成功",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "BooleanAPIResult": {
+        "type": "object",
+        "properties": {
+          "IsOk": {
+            "type": "boolean",
+            "description": "操作所否成功"
+          },
+          "ErrorID": {
+            "type": "string",
+            "description": "错误代码",
+            "nullable": true
+          },
+          "ErrorMsg": {
+            "type": "string",
+            "description": "错误信息",
+            "nullable": true
+          },
+          "Response": {
+            "type": "boolean",
+            "description": "返回对象"
+          }
+        },
+        "additionalProperties": false,
+        "description": "API返回结果"
+      },
+      "GuidAPIResult": {
+        "type": "object",
+        "properties": {
+          "IsOk": {
+            "type": "boolean",
+            "description": "操作所否成功"
+          },
+          "ErrorID": {
+            "type": "string",
+            "description": "错误代码",
+            "nullable": true
+          },
+          "ErrorMsg": {
+            "type": "string",
+            "description": "错误信息",
+            "nullable": true
+          },
+          "Response": {
+            "type": "string",
+            "description": "返回对象",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false,
+        "description": "API返回结果"
+      },
+      "IMAttachment": {
+        "type": "object",
+        "properties": {
+          "ID": {
+            "type": "string",
+            "description": "ID",
+            "format": "uuid"
+          },
+          "Name": {
+            "type": "string",
+            "description": "名称",
+            "nullable": true
+          },
+          "SN": {
+            "type": "integer",
+            "description": "序号",
+            "format": "int32"
+          },
+          "Description": {
+            "type": "string",
+            "description": "描述",
+            "nullable": true
+          },
+          "SourceUrl": {
+            "type": "string",
+            "description": "源Url",
+            "nullable": true
+          },
+          "ServerFileName": {
+            "type": "string",
+            "description": "服务器端文件名",
+            "nullable": true
+          },
+          "IsUpload": {
+            "type": "boolean",
+            "description": "是否上传"
+          },
+          "UploadTime": {
+            "type": "string",
+            "description": "上传时间",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false,
+        "description": "附件信息类"
+      },
+      "IMAttachmentAPIResult": {
+        "type": "object",
+        "properties": {
+          "IsOk": {
+            "type": "boolean",
+            "description": "操作所否成功"
+          },
+          "ErrorID": {
+            "type": "string",
+            "description": "错误代码",
+            "nullable": true
+          },
+          "ErrorMsg": {
+            "type": "string",
+            "description": "错误信息",
+            "nullable": true
+          },
+          "Response": {
+            "$ref": "#/components/schemas/IMAttachment"
+          }
+        },
+        "additionalProperties": false,
+        "description": "API返回结果"
+      },
+      "IMAttachmentContent": {
+        "type": "object",
+        "properties": {
+          "FileName": {
+            "type": "string",
+            "description": "文件名",
+            "nullable": true
+          },
+          "Data": {
+            "type": "string",
+            "description": "数据\r\n            16进制字符串",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "附件内容类"
+      },
+      "IMAttachmentContentAPIResult": {
+        "type": "object",
+        "properties": {
+          "IsOk": {
+            "type": "boolean",
+            "description": "操作所否成功"
+          },
+          "ErrorID": {
+            "type": "string",
+            "description": "错误代码",
+            "nullable": true
+          },
+          "ErrorMsg": {
+            "type": "string",
+            "description": "错误信息",
+            "nullable": true
+          },
+          "Response": {
+            "$ref": "#/components/schemas/IMAttachmentContent"
+          }
+        },
+        "additionalProperties": false,
+        "description": "API返回结果"
+      },
+      "IMAttachmentListAPIResult": {
+        "type": "object",
+        "properties": {
+          "IsOk": {
+            "type": "boolean",
+            "description": "操作所否成功"
+          },
+          "ErrorID": {
+            "type": "string",
+            "description": "错误代码",
+            "nullable": true
+          },
+          "ErrorMsg": {
+            "type": "string",
+            "description": "错误信息",
+            "nullable": true
+          },
+          "Response": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IMAttachment"
+            },
+            "description": "返回对象",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "API返回结果"
+      },
+      "IMDataType": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "type": "integer",
+        "description": "数据类型",
+        "format": "int32"
+      },
+      "IMEngUnit": {
+        "type": "object",
+        "properties": {
+          "ID": {
+            "type": "string",
+            "description": "ID",
+            "format": "uuid"
+          },
+          "Name": {
+            "type": "string",
+            "description": "名称",
+            "nullable": true
+          },
+          "Description": {
+            "type": "string",
+            "description": "描述",
+            "nullable": true
+          },
+          "SN": {
+            "type": "integer",
+            "description": "序号",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false,
+        "description": "工程单位类"
+      },
+      "IMEngUnitAPIResult": {
+        "type": "object",
+        "properties": {
+          "IsOk": {
+            "type": "boolean",
+            "description": "操作所否成功"
+          },
+          "ErrorID": {
+            "type": "string",
+            "description": "错误代码",
+            "nullable": true
+          },
+          "ErrorMsg": {
+            "type": "string",
+            "description": "错误信息",
+            "nullable": true
+          },
+          "Response": {
+            "$ref": "#/components/schemas/IMEngUnit"
+          }
+        },
+        "additionalProperties": false,
+        "description": "API返回结果"
+      },
+      "IMEngUnitListAPIResult": {
+        "type": "object",
+        "properties": {
+          "IsOk": {
+            "type": "boolean",
+            "description": "操作所否成功"
+          },
+          "ErrorID": {
+            "type": "string",
+            "description": "错误代码",
+            "nullable": true
+          },
+          "ErrorMsg": {
+            "type": "string",
+            "description": "错误信息",
+            "nullable": true
+          },
+          "Response": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IMEngUnit"
+            },
+            "description": "返回对象",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "API返回结果"
+      },
+      "IMEntityType": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          30,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          80,
+          81,
+          90,
+          91,
+          100,
+          101,
+          201,
+          210
+        ],
+        "type": "integer",
+        "description": "实体类型",
+        "format": "int32"
+      },
+      "IMEventLevel": {
+        "type": "object",
+        "properties": {
+          "ID": {
+            "type": "string",
+            "description": "ID",
+            "format": "uuid"
+          },
+          "Name": {
+            "type": "string",
+            "description": "名称",
+            "nullable": true
+          },
+          "SN": {
+            "type": "integer",
+            "description": "序号",
+            "format": "int32"
+          },
+          "Description": {
+            "type": "string",
+            "description": "描述",
+            "nullable": true
+          },
+          "Level": {
+            "type": "integer",
+            "description": "等级（正整数）",
+            "format": "int32"
+          },
+          "Color": {
+            "type": "integer",
+            "description": "颜色",
+            "format": "int64"
+          },
+          "IconName": {
+            "type": "string",
+            "description": "图标名",
+            "nullable": true
+          },
+          "IconType": {
+            "type": "string",
+            "description": "图标类型",
+            "nullable": true
+          },
+          "IconData": {
+            "type": "string",
+            "description": "图标数据",
+            "format": "byte",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "例外等级类"
+      },
+      "IMEventLevelAPIResult": {
+        "type": "object",
+        "properties": {
+          "IsOk": {
+            "type": "boolean",
+            "description": "操作所否成功"
+          },
+          "ErrorID": {
+            "type": "string",
+            "description": "错误代码",
+            "nullable": true
+          },
+          "ErrorMsg": {
+            "type": "string",
+            "description": "错误信息",
+            "nullable": true
+          },
+          "Response": {
+            "$ref": "#/components/schemas/IMEventLevel"
+          }
+        },
+        "additionalProperties": false,
+        "description": "API返回结果"
+      },
+      "IMEventLevelListAPIResult": {
+        "type": "object",
+        "properties": {
+          "IsOk": {
+            "type": "boolean",
+            "description": "操作所否成功"
+          },
+          "ErrorID": {
+            "type": "string",
+            "description": "错误代码",
+            "nullable": true
+          },
+          "ErrorMsg": {
+            "type": "string",
+            "description": "错误信息",
+            "nullable": true
+          },
+          "Response": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IMEventLevel"
+            },
+            "description": "返回对象",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "API返回结果"
+      },
+      "IMGlobalPropertyTemplate": {
+        "type": "object",
+        "properties": {
+          "ID": {
+            "type": "string",
+            "description": "ID",
+            "format": "uuid"
+          },
+          "Name": {
+            "type": "string",
+            "description": "名称",
+            "nullable": true
+          },
+          "SN": {
+            "type": "integer",
+            "description": "序号",
+            "format": "int32"
+          },
+          "RelatedResponseItem": {
+            "$ref": "#/components/schemas/IMRelatedInfo"
+          },
+          "RelatedEngineeringUnit": {
+            "$ref": "#/components/schemas/IMRelatedInfo"
+          },
+          "ValueType": {
+            "$ref": "#/components/schemas/IMDataType"
+          },
+          "ValueFormat": {
+            "type": "string",
+            "description": "属性值的格式",
+            "nullable": true
+          },
+          "DefaultValue": {
+            "type": "string",
+            "description": "属性默认值",
+            "nullable": true
+          },
+          "IsMobileSync": {
+            "type": "boolean",
+            "description": "终端是否同步"
+          },
+          "EntityType": {
+            "type": "string",
+            "description": "属性默认值",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "全局属性模板类"
+      },
+      "IMGlobalPropertyTemplateAPIResult": {
+        "type": "object",
+        "properties": {
+          "IsOk": {
+            "type": "boolean",
+            "description": "操作所否成功"
+          },
+          "ErrorID": {
+            "type": "string",
+            "description": "错误代码",
+            "nullable": true
+          },
+          "ErrorMsg": {
+            "type": "string",
+            "description": "错误信息",
+            "nullable": true
+          },
+          "Response": {
+            "$ref": "#/components/schemas/IMGlobalPropertyTemplate"
+          }
+        },
+        "additionalProperties": false,
+        "description": "API返回结果"
+      },
+      "IMGlobalPropertyTemplateListAPIResult": {
+        "type": "object",
+        "properties": {
+          "IsOk": {
+            "type": "boolean",
+            "description": "操作所否成功"
+          },
+          "ErrorID": {
+            "type": "string",
+            "description": "错误代码",
+            "nullable": true
+          },
+          "ErrorMsg": {
+            "type": "string",
+            "description": "错误信息",
+            "nullable": true
+          },
+          "Response": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IMGlobalPropertyTemplate"
+            },
+            "description": "返回对象",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "API返回结果"
+      },
+      "IMIDName": {
+        "type": "object",
+        "properties": {
+          "ID": {
+            "type": "string",
+            "description": "ID",
+            "nullable": true
+          },
+          "Name": {
+            "type": "string",
+            "description": "名字",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "IMIDName"
+      },
+      "IMIDNameListAPIResult": {
+        "type": "object",
+        "properties": {
+          "IsOk": {
+            "type": "boolean",
+            "description": "操作所否成功"
+          },
+          "ErrorID": {
+            "type": "string",
+            "description": "错误代码",
+            "nullable": true
+          },
+          "ErrorMsg": {
+            "type": "string",
+            "description": "错误信息",
+            "nullable": true
+          },
+          "Response": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IMIDName"
+            },
+            "description": "返回对象",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "API返回结果"
+      },
+      "IMListRelation": {
+        "type": "object",
+        "properties": {
+          "ID": {
+            "type": "string",
+            "description": "ID",
+            "format": "uuid"
+          },
+          "Name": {
+            "type": "string",
+            "description": "名称",
+            "nullable": true
+          },
+          "Columns": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "列",
+            "nullable": true
+          },
+          "Rows": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid"
+              }
+            },
+            "description": "所有行",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "列表关联关系类"
+      },
+      "IMListRelationAPIResult": {
+        "type": "object",
+        "properties": {
+          "IsOk": {
+            "type": "boolean",
+            "description": "操作所否成功"
+          },
+          "ErrorID": {
+            "type": "string",
+            "description": "错误代码",
+            "nullable": true
+          },
+          "ErrorMsg": {
+            "type": "string",
+            "description": "错误信息",
+            "nullable": true
+          },
+          "Response": {
+            "$ref": "#/components/schemas/IMListRelation"
+          }
+        },
+        "additionalProperties": false,
+        "description": "API返回结果"
+      },
+      "IMListRelationListAPIResult": {
+        "type": "object",
+        "properties": {
+          "IsOk": {
+            "type": "boolean",
+            "description": "操作所否成功"
+          },
+          "ErrorID": {
+            "type": "string",
+            "description": "错误代码",
+            "nullable": true
+          },
+          "ErrorMsg": {
+            "type": "string",
+            "description": "错误信息",
+            "nullable": true
+          },
+          "Response": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IMListRelation"
+            },
+            "description": "返回对象",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "API返回结果"
+      },
+      "IMRelatedInfo": {
+        "type": "object",
+        "properties": {
+          "ID": {
+            "type": "string",
+            "description": "ID",
+            "format": "uuid"
+          },
+          "Name": {
+            "type": "string",
+            "description": "名字",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "关联信息类"
+      },
+      "IMShift": {
+        "type": "object",
+        "properties": {
+          "ID": {
+            "type": "string",
+            "description": "ID",
+            "format": "uuid"
+          },
+          "Name": {
+            "type": "string",
+            "description": "名称",
+            "nullable": true
+          },
+          "StartTime": {
+            "type": "string",
+            "description": "开始时间",
+            "format": "date-time"
+          },
+          "EndTime": {
+            "type": "string",
+            "description": "结束时间",
+            "format": "date-time"
+          },
+          "Color": {
+            "type": "integer",
+            "description": "班次颜色",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": false,
+        "description": "班次类"
+      },
+      "IMShiftPolicy": {
+        "type": "object",
+        "properties": {
+          "ID": {
+            "type": "string",
+            "description": "ID",
+            "format": "uuid"
+          },
+          "Name": {
+            "type": "string",
+            "description": "名称",
+            "nullable": true
+          },
+          "SN": {
+            "type": "integer",
+            "description": "序号",
+            "format": "int32"
+          },
+          "Description": {
+            "type": "string",
+            "description": "描述",
+            "nullable": true
+          },
+          "Shifts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IMShift"
+            },
+            "description": "轮班制度下班次列表",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "轮班类"
+      },
+      "IMShiftPolicyAPIResult": {
+        "type": "object",
+        "properties": {
+          "IsOk": {
+            "type": "boolean",
+            "description": "操作所否成功"
+          },
+          "ErrorID": {
+            "type": "string",
+            "description": "错误代码",
+            "nullable": true
+          },
+          "ErrorMsg": {
+            "type": "string",
+            "description": "错误信息",
+            "nullable": true
+          },
+          "Response": {
+            "$ref": "#/components/schemas/IMShiftPolicy"
+          }
+        },
+        "additionalProperties": false,
+        "description": "API返回结果"
+      },
+      "IMShiftPolicyListAPIResult": {
+        "type": "object",
+        "properties": {
+          "IsOk": {
+            "type": "boolean",
+            "description": "操作所否成功"
+          },
+          "ErrorID": {
+            "type": "string",
+            "description": "错误代码",
+            "nullable": true
+          },
+          "ErrorMsg": {
+            "type": "string",
+            "description": "错误信息",
+            "nullable": true
+          },
+          "Response": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IMShiftPolicy"
+            },
+            "description": "返回对象",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "API返回结果"
+      },
+      "IMTreeNode": {
+        "type": "object",
+        "properties": {
+          "ID": {
+            "type": "string",
+            "description": "节点ID",
+            "format": "uuid"
+          },
+          "Name": {
+            "type": "string",
+            "description": "节点名称",
+            "nullable": true
+          },
+          "EntityType": {
+            "$ref": "#/components/schemas/IMEntityType"
+          },
+          "ExProperty": {
+            "type": "string",
+            "description": "其它属性",
+            "nullable": true
+          },
+          "ChildList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IMTreeNode"
+            },
+            "description": "子节点列表",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "树节点类"
+      },
+      "IMTreeNodeListAPIResult": {
+        "type": "object",
+        "properties": {
+          "IsOk": {
+            "type": "boolean",
+            "description": "操作所否成功"
+          },
+          "ErrorID": {
+            "type": "string",
+            "description": "错误代码",
+            "nullable": true
+          },
+          "ErrorMsg": {
+            "type": "string",
+            "description": "错误信息",
+            "nullable": true
+          },
+          "Response": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IMTreeNode"
+            },
+            "description": "返回对象",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "API返回结果"
+      },
+      "IMUserDefinedList": {
+        "type": "object",
+        "properties": {
+          "ID": {
+            "type": "string",
+            "description": "ID",
+            "format": "uuid"
+          },
+          "Name": {
+            "type": "string",
+            "description": "名称",
+            "nullable": true
+          },
+          "SN": {
+            "type": "integer",
+            "description": "序号",
+            "format": "int32"
+          },
+          "Description": {
+            "type": "string",
+            "description": "描述",
+            "nullable": true
+          },
+          "Type": {
+            "$ref": "#/components/schemas/IMEntityType"
+          },
+          "ParentID": {
+            "type": "string",
+            "description": "父节点ID",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false,
+        "description": "自定义列表类"
+      },
+      "IMUserDefinedListAPIResult": {
+        "type": "object",
+        "properties": {
+          "IsOk": {
+            "type": "boolean",
+            "description": "操作所否成功"
+          },
+          "ErrorID": {
+            "type": "string",
+            "description": "错误代码",
+            "nullable": true
+          },
+          "ErrorMsg": {
+            "type": "string",
+            "description": "错误信息",
+            "nullable": true
+          },
+          "Response": {
+            "$ref": "#/components/schemas/IMUserDefinedList"
+          }
+        },
+        "additionalProperties": false,
+        "description": "API返回结果"
+      },
+      "IMUserDefinedListListAPIResult": {
+        "type": "object",
+        "properties": {
+          "IsOk": {
+            "type": "boolean",
+            "description": "操作所否成功"
+          },
+          "ErrorID": {
+            "type": "string",
+            "description": "错误代码",
+            "nullable": true
+          },
+          "ErrorMsg": {
+            "type": "string",
+            "description": "错误信息",
+            "nullable": true
+          },
+          "Response": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IMUserDefinedList"
+            },
+            "description": "返回对象",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "API返回结果"
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "Add JWT with Bearer",
+        "scheme": "Bearer"
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": [ ]
+    }
+  ],
+  "tags": [
+    {
+      "name": "Attachment",
+      "description": "附件"
+    },
+    {
+      "name": "EngUnit",
+      "description": "工程单位"
+    },
+    {
+      "name": "EventLevel",
+      "description": "例外等级"
+    },
+    {
+      "name": "GlobalPropertyTemplate",
+      "description": "全局属性模板"
+    },
+    {
+      "name": "ShiftPolicy",
+      "description": "轮班"
+    },
+    {
+      "name": "UserDefinedList",
+      "description": "自定义列表"
+    }
+  ]
+}

@@ -1,0 +1,2952 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "imgenius Base Service API",
+    "description": "组织架构服务API",
+    "version": "v1"
+  },
+  "paths": {
+    "/OrgStructureService/api/v1/BusinessDimension/{id}": {
+      "get": {
+        "tags": [
+          "BusinessDimension"
+        ],
+        "summary": "得到业务范畴",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "业务范畴ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMBusinessDimension"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMBusinessDimension"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMBusinessDimension"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "BusinessDimension"
+        ],
+        "summary": "删除业务范畴",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "业务范畴ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "是否成功",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/OrgStructureService/api/v1/BusinessDimension/name/{parentID}/{name}": {
+      "get": {
+        "tags": [
+          "BusinessDimension"
+        ],
+        "summary": "得到业务范畴（根据名字）",
+        "parameters": [
+          {
+            "name": "parentID",
+            "in": "path",
+            "description": "父节点ID，如果为空，表示顶层节点；如果为invalid，表示不指定父节点",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "description": "名字",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "业务范畴（分类）",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMBusinessDimension"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMBusinessDimension"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMBusinessDimension"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/OrgStructureService/api/v1/BusinessDimension/list": {
+      "get": {
+        "tags": [
+          "BusinessDimension"
+        ],
+        "summary": "得到所有业务范畴",
+        "responses": {
+          "200": {
+            "description": "所有业务范畴列表",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMBusinessDimension"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMBusinessDimension"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMBusinessDimension"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/OrgStructureService/api/v1/BusinessDimension/child/{parentID}": {
+      "get": {
+        "tags": [
+          "BusinessDimension"
+        ],
+        "summary": "得到直接儿子业务范畴（分类）",
+        "parameters": [
+          {
+            "name": "parentID",
+            "in": "path",
+            "description": "父节点ID。如果为Guid.Empty，表示业务范畴分类，否则为业务范畴分类下的业务范畴",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "业务范畴（分类）列表",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMBusinessDimension"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMBusinessDimension"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMBusinessDimension"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/OrgStructureService/api/v1/BusinessDimension/tree": {
+      "get": {
+        "tags": [
+          "BusinessDimension"
+        ],
+        "summary": "得到业务范畴树",
+        "responses": {
+          "200": {
+            "description": "业务范畴树",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMTreeNode"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMTreeNode"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMTreeNode"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/OrgStructureService/api/v1/BusinessDimension": {
+      "post": {
+        "tags": [
+          "BusinessDimension"
+        ],
+        "summary": "创建业务范畴",
+        "requestBody": {
+          "description": "业务范畴",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMBusinessDimension"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMBusinessDimension"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMBusinessDimension"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "创建的业务范畴ID",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "BusinessDimension"
+        ],
+        "summary": "修改业务范畴",
+        "requestBody": {
+          "description": "业务范畴",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMBusinessDimension"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMBusinessDimension"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMBusinessDimension"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "是否成功",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/OrgStructureService/api/v1/OrgUnit/{id}": {
+      "get": {
+        "tags": [
+          "OrgUnit"
+        ],
+        "summary": "得到组织单元",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "组织单元ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMOrgUnit"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMOrgUnit"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMOrgUnit"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "OrgUnit"
+        ],
+        "summary": "删除组织单元",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "组织单元ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "是否成功",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/OrgStructureService/api/v1/OrgUnit/name/{parentID}/{name}": {
+      "get": {
+        "tags": [
+          "OrgUnit"
+        ],
+        "summary": "得到组织单元（根据名字）",
+        "parameters": [
+          {
+            "name": "parentID",
+            "in": "path",
+            "description": "父节点ID，如果为空，表示顶层节点；如果为invalid，表示不指定父节点",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "description": "名字",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "组织单元",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMOrgUnit"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMOrgUnit"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMOrgUnit"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/OrgStructureService/api/v1/OrgUnit/list": {
+      "get": {
+        "tags": [
+          "OrgUnit"
+        ],
+        "summary": "得到所有组织单元",
+        "responses": {
+          "200": {
+            "description": "组织单元列表",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMOrgUnit"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMOrgUnit"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMOrgUnit"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/OrgStructureService/api/v1/OrgUnit/idList": {
+      "post": {
+        "tags": [
+          "OrgUnit"
+        ],
+        "summary": "按照ID列表 得到多个组织单元",
+        "description": "内部不验证参数的有效性",
+        "requestBody": {
+          "description": "组织单元ID列表",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "实体列表",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMOrgUnit"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMOrgUnit"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMOrgUnit"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/OrgStructureService/api/v1/OrgUnit/child/{parentID}": {
+      "get": {
+        "tags": [
+          "OrgUnit"
+        ],
+        "summary": "得到直接儿子组织单元",
+        "parameters": [
+          {
+            "name": "parentID",
+            "in": "path",
+            "description": "父节点ID，如果为空，表示顶层组织单元",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "组织单元列表",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMOrgUnit"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMOrgUnit"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMOrgUnit"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/OrgStructureService/api/v1/OrgUnit/tree": {
+      "get": {
+        "tags": [
+          "OrgUnit"
+        ],
+        "summary": "得到组织单元树",
+        "responses": {
+          "200": {
+            "description": "组织单元树",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMTreeNode"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMTreeNode"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMTreeNode"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/OrgStructureService/api/v1/OrgUnit/shift/{id}": {
+      "get": {
+        "tags": [
+          "OrgUnit"
+        ],
+        "summary": "得到组织单元分配的轮班",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "组织单元ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "分配的轮班",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMOUShift"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMOUShift"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMOUShift"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/OrgStructureService/api/v1/OrgUnit/DutyRoster": {
+      "post": {
+        "tags": [
+          "OrgUnit"
+        ],
+        "summary": "得到组织单元下的排班表",
+        "parameters": [
+          {
+            "name": "startDate",
+            "in": "query",
+            "description": "开始日期",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "description": "结束日期",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "组织单元ID列表",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "排班表",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMDutyRoster"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMDutyRoster"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMDutyRoster"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/OrgStructureService/api/v1/OrgUnit": {
+      "post": {
+        "tags": [
+          "OrgUnit"
+        ],
+        "summary": "创建组织单元",
+        "requestBody": {
+          "description": "组织单元",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMOrgUnit"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMOrgUnit"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMOrgUnit"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "创建的组织单元ID",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "OrgUnit"
+        ],
+        "summary": "修改组织单元",
+        "requestBody": {
+          "description": "组织单元",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMOrgUnit"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMOrgUnit"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMOrgUnit"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "是否成功",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/OrgStructureService/api/v1/OrgUnit/validate": {
+      "put": {
+        "tags": [
+          "OrgUnit"
+        ],
+        "summary": "验证组织单元",
+        "requestBody": {
+          "description": "验证的组织单元",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMOrgUnit"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMOrgUnit"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMOrgUnit"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "是否成功",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/OrgStructureService/api/v1/Post": {
+      "get": {
+        "tags": [
+          "Post"
+        ],
+        "summary": "得到岗位",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "岗位ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMPost"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMPost"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMPost"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Post"
+        ],
+        "summary": "创建岗位",
+        "requestBody": {
+          "description": "岗位",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMPost"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMPost"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMPost"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "创建的岗位ID",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Post"
+        ],
+        "summary": "修改岗位",
+        "requestBody": {
+          "description": "岗位",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMPost"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMPost"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMPost"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "是否成功",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/OrgStructureService/api/v1/Post/name/{name}": {
+      "get": {
+        "tags": [
+          "Post"
+        ],
+        "summary": "得到岗位（根据名字）",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "名字",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "岗位",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMPost"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMPost"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMPost"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/OrgStructureService/api/v1/Post/list": {
+      "get": {
+        "tags": [
+          "Post"
+        ],
+        "summary": "得到所有岗位",
+        "responses": {
+          "200": {
+            "description": "所有岗位列表",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMPost"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMPost"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMPost"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/OrgStructureService/api/v1/Post/{id}": {
+      "delete": {
+        "tags": [
+          "Post"
+        ],
+        "summary": "删除岗位",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "岗位ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "是否成功",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/OrgStructureService/api/v1/User/{id}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "得到用户（根据ID）",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "用户（不带角色信息）",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMUser"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMUser"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMUser"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "summary": "删除用户",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "是否成功",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/OrgStructureService/api/v1/User/name/{parentID}/{name}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "得到用户（根据名字）",
+        "parameters": [
+          {
+            "name": "parentID",
+            "in": "path",
+            "description": "父节点ID，如果为空，表示顶层节点；如果为invalid，表示不指定父节点",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "description": "名字",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "用户（不带角色信息）",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMUser"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMUser"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMUser"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/OrgStructureService/api/v1/User/list": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "得到所有用户",
+        "parameters": [
+          {
+            "name": "withRoles",
+            "in": "query",
+            "description": "是否包含角色",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "所有用户列表",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMUser"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMUser"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMUser"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "summary": "批量删除用户",
+        "requestBody": {
+          "description": "用户ID列表",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "删除结果",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringMutilAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringMutilAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringMutilAPIResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/OrgStructureService/api/v1/User/child/{parentID}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "得到直接儿子用户",
+        "parameters": [
+          {
+            "name": "parentID",
+            "in": "path",
+            "description": "父节点ID，如果为空，表示顶层用户",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "用户列表",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMUser"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMUser"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMUser"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/OrgStructureService/api/v1/User/id/{loginName}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "根据登录名获取用户ID",
+        "parameters": [
+          {
+            "name": "loginName",
+            "in": "path",
+            "description": "用户登录名",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "该登录的用户",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/OrgStructureService/api/v1/User/role/{id}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "得到用户所有角色",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "所有角色",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMRole"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMRole"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMRole"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "修改用户角色",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "用户ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "角色列表",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/IMRole"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/IMRole"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/IMRole"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "是否成功",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/OrgStructureService/api/v1/User/orgUnit/{orgUnitID}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "得到属于指定组织单元（包括子孙）的所有用户",
+        "parameters": [
+          {
+            "name": "orgUnitID",
+            "in": "path",
+            "description": "组织单元ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "指定组织单元的用户",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/OrgStructureService/api/v1/User/orgUnit/{orgUnitID}/{withRoles}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "得到属于指定组织单元的所有用户",
+        "parameters": [
+          {
+            "name": "orgUnitID",
+            "in": "path",
+            "description": "组织单元ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "withRoles",
+            "in": "path",
+            "description": "是否携带角色",
+            "required": true,
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "指定组织单元的用户",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMUser"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMUser"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMUser"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/OrgStructureService/api/v1/User/post/{postID}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "得到属于指定岗位的所有用户",
+        "parameters": [
+          {
+            "name": "postID",
+            "in": "path",
+            "description": "岗位ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "指定岗位的用户列表",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMUser"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMUser"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMUser"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/OrgStructureService/api/v1/User/baseInfo/post/{postIDs}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "得到属于指定岗位的所有用户基本信息",
+        "parameters": [
+          {
+            "name": "postIDs",
+            "in": "path",
+            "description": "岗位ID，多个之间是有逗号分隔",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "用户基本信息列表",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/OrgStructureService/api/v1/User/businessDimension/{businessDimensionID}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "得到属于指定业务范畴的所有用户",
+        "parameters": [
+          {
+            "name": "businessDimensionID",
+            "in": "path",
+            "description": "业务范畴ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "指定业务范畴的用户列表",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMUser"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMUser"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMUser"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/OrgStructureService/api/v1/User/tree": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "得到用户树",
+        "responses": {
+          "200": {
+            "description": "用户树",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMTreeNode"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMTreeNode"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMTreeNode"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/OrgStructureService/api/v1/User/tree/baseInfo": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "得到用户树",
+        "responses": {
+          "200": {
+            "description": "用户树",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMTreeNode_User"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMTreeNode_User"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMTreeNode_User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/OrgStructureService/api/v1/User": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "创建用户",
+        "requestBody": {
+          "description": "用户",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMUser"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMUser"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMUser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "创建的用户ID",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "修改用户",
+        "requestBody": {
+          "description": "用户",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMUser"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMUser"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMUser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "是否成功",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/OrgStructureService/api/v1/User/Import": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "批量导入",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/IMUser"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/IMUser"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/IMUser"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "导入结果",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringMutilAPIResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringMutilAPIResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringMutilAPIResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/OrgStructureService/api/v1/User/isStop/{id}/{state}": {
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "设置用户是否停用",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "用户id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "state",
+            "in": "path",
+            "description": "true为停用，false为启用",
+            "required": true,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "IMBusinessDimension": {
+        "type": "object",
+        "properties": {
+          "ID": {
+            "type": "string",
+            "description": "ID",
+            "format": "uuid"
+          },
+          "Name": {
+            "type": "string",
+            "description": "名称",
+            "nullable": true
+          },
+          "Description": {
+            "type": "string",
+            "description": "描述",
+            "nullable": true
+          },
+          "SN": {
+            "type": "integer",
+            "description": "序号",
+            "format": "int32"
+          },
+          "Type": {
+            "$ref": "#/components/schemas/IMEntityType"
+          },
+          "ParentID": {
+            "type": "string",
+            "description": "父节点ID",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false,
+        "description": "业务范畴类"
+      },
+      "IMDayRoster": {
+        "type": "object",
+        "properties": {
+          "Date": {
+            "type": "string",
+            "description": "日期",
+            "format": "date-time"
+          },
+          "ShiftOrgUnitList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IMShiftOrgUnit"
+            },
+            "description": "当天班次和组织单元关系",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "每天排班实体类"
+      },
+      "IMDutyRoster": {
+        "type": "object",
+        "properties": {
+          "ParentOrgUnit": {
+            "$ref": "#/components/schemas/IMOrgUnit"
+          },
+          "ShiftPolicy": {
+            "$ref": "#/components/schemas/IMShiftPolicy"
+          },
+          "StartDate": {
+            "type": "string",
+            "description": "开始日期",
+            "format": "date-time"
+          },
+          "EndDate": {
+            "type": "string",
+            "description": "结束日期",
+            "format": "date-time"
+          },
+          "DayRosterList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IMDayRoster"
+            },
+            "description": "每天排班列表",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "排班表实体类"
+      },
+      "IMEntityType": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          30,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          80,
+          81,
+          90,
+          91,
+          100,
+          101,
+          201,
+          210
+        ],
+        "type": "integer",
+        "description": "实体类型",
+        "format": "int32"
+      },
+      "IMOrgUnit": {
+        "type": "object",
+        "properties": {
+          "ID": {
+            "type": "string",
+            "description": "ID",
+            "format": "uuid"
+          },
+          "Name": {
+            "type": "string",
+            "description": "名称",
+            "nullable": true
+          },
+          "Description": {
+            "type": "string",
+            "description": "描述",
+            "nullable": true
+          },
+          "SN": {
+            "type": "integer",
+            "description": "序号",
+            "format": "int32"
+          },
+          "ParentOrgUnitID": {
+            "type": "string",
+            "description": "所属组织单元ID",
+            "format": "uuid"
+          },
+          "IsSetAsset": {
+            "type": "boolean",
+            "description": "是否设置了管辖的资产"
+          },
+          "IsAutoApplyChild": {
+            "type": "boolean",
+            "description": "管辖范围自动应用到子资产"
+          },
+          "CustomProperty": {
+            "type": "string",
+            "description": "自定义属性",
+            "nullable": true
+          },
+          "AssetIDList": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "所管辖的资产列表",
+            "nullable": true
+          },
+          "FOUShiftList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IMOUShift"
+            },
+            "description": "所用的轮班制度实例列表",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "组织单元类"
+      },
+      "IMOUShift": {
+        "type": "object",
+        "properties": {
+          "ID": {
+            "type": "string",
+            "description": "ID",
+            "format": "uuid"
+          },
+          "Name": {
+            "type": "string",
+            "description": "名称",
+            "nullable": true
+          },
+          "SN": {
+            "type": "integer",
+            "description": "序号",
+            "format": "int32"
+          },
+          "ShiftPolicyID": {
+            "type": "string",
+            "description": "轮班制度模板 ID",
+            "format": "uuid"
+          },
+          "OrgUnitID": {
+            "type": "string",
+            "description": "所属组织单元ID",
+            "format": "uuid"
+          },
+          "StartDate": {
+            "type": "string",
+            "description": "起始日期",
+            "format": "date-time"
+          },
+          "EndDate": {
+            "type": "string",
+            "description": "结束日期，默认为 DateTime.MaxValue",
+            "format": "date-time"
+          },
+          "CycleDay": {
+            "type": "integer",
+            "description": "轮转周期天数",
+            "format": "int32"
+          },
+          "FShiftCycleList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IMShiftCycle"
+            },
+            "description": "轮转周期排班序列列表",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "轮班制度实例类"
+      },
+      "IMPost": {
+        "type": "object",
+        "properties": {
+          "ID": {
+            "type": "string",
+            "description": "ID",
+            "format": "uuid"
+          },
+          "Name": {
+            "type": "string",
+            "description": "名称",
+            "nullable": true
+          },
+          "SN": {
+            "type": "integer",
+            "description": "序号",
+            "format": "int32"
+          },
+          "Description": {
+            "type": "string",
+            "description": "描述",
+            "nullable": true
+          },
+          "CustomProperty": {
+            "type": "string",
+            "description": "自定义属性",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "岗位类"
+      },
+      "IMRelatedInfo": {
+        "type": "object",
+        "properties": {
+          "ID": {
+            "type": "string",
+            "description": "ID",
+            "format": "uuid"
+          },
+          "Name": {
+            "type": "string",
+            "description": "名字",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "关联信息类"
+      },
+      "IMRole": {
+        "type": "object",
+        "properties": {
+          "ID": {
+            "type": "string",
+            "description": "ID",
+            "format": "uuid"
+          },
+          "Name": {
+            "type": "string",
+            "description": "名称",
+            "nullable": true
+          },
+          "RelatedOrgUnit": {
+            "$ref": "#/components/schemas/IMRelatedInfo"
+          },
+          "RelatedPost": {
+            "$ref": "#/components/schemas/IMRelatedInfo"
+          },
+          "RelatedBusinessDimensions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IMRelatedInfo"
+            },
+            "description": "角色业务范畴列表",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "角色类"
+      },
+      "IMShift": {
+        "type": "object",
+        "properties": {
+          "ID": {
+            "type": "string",
+            "description": "ID",
+            "format": "uuid"
+          },
+          "Name": {
+            "type": "string",
+            "description": "名称",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "班次类"
+      },
+      "IMShiftCycle": {
+        "type": "object",
+        "properties": {
+          "OUShiftID": {
+            "type": "string",
+            "description": "轮班制度实例ID",
+            "format": "uuid"
+          },
+          "Day": {
+            "type": "integer",
+            "description": "轮班周期中第几天",
+            "format": "int32"
+          },
+          "ShiftID": {
+            "type": "string",
+            "description": "轮班制度中的班次",
+            "format": "uuid"
+          },
+          "OrgUnitID": {
+            "type": "string",
+            "description": "排班的组织单元",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false,
+        "description": "轮班周期类"
+      },
+      "IMShiftOrgUnit": {
+        "type": "object",
+        "properties": {
+          "ShiftID": {
+            "type": "string",
+            "description": "班次ID",
+            "format": "uuid"
+          },
+          "OrgUnitID": {
+            "type": "string",
+            "description": "组织单元ID",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false,
+        "description": "班次组织单元对应实体类"
+      },
+      "IMShiftPolicy": {
+        "type": "object",
+        "properties": {
+          "ID": {
+            "type": "string",
+            "description": "ID",
+            "format": "uuid"
+          },
+          "Name": {
+            "type": "string",
+            "description": "名称",
+            "nullable": true
+          },
+          "SN": {
+            "type": "integer",
+            "description": "序号",
+            "format": "int32"
+          },
+          "Shifts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IMShift"
+            },
+            "description": "轮班制度下班次列表",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "轮班类"
+      },
+      "IMTreeNode": {
+        "type": "object",
+        "properties": {
+          "ID": {
+            "type": "string",
+            "description": "节点ID",
+            "format": "uuid"
+          },
+          "Name": {
+            "type": "string",
+            "description": "节点名称",
+            "nullable": true
+          },
+          "EntityType": {
+            "$ref": "#/components/schemas/IMEntityType"
+          },
+          "ExProperty": {
+            "type": "string",
+            "description": "其它属性",
+            "nullable": true
+          },
+          "ChildList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IMTreeNode"
+            },
+            "description": "子节点列表",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "树节点类"
+      },
+      "IMTreeNode_User": {
+        "type": "object",
+        "properties": {
+          "ID": {
+            "type": "string",
+            "description": "节点ID",
+            "format": "uuid"
+          },
+          "Name": {
+            "type": "string",
+            "description": "节点名称",
+            "nullable": true
+          },
+          "EntityType": {
+            "$ref": "#/components/schemas/IMEntityType"
+          },
+          "ExProperty": {
+            "type": "string",
+            "description": "其它属性",
+            "nullable": true
+          },
+          "ChildList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IMTreeNode_User"
+            },
+            "description": "子节点列表",
+            "nullable": true
+          },
+          "UserInfo": {
+            "$ref": "#/components/schemas/IMUser"
+          }
+        },
+        "additionalProperties": false,
+        "description": "用户数据树节点类"
+      },
+      "IMUser": {
+        "type": "object",
+        "properties": {
+          "ID": {
+            "type": "string",
+            "description": "ID",
+            "format": "uuid"
+          },
+          "Name": {
+            "type": "string",
+            "description": "名称",
+            "nullable": true
+          },
+          "SN": {
+            "type": "integer",
+            "description": "序号",
+            "format": "int32"
+          },
+          "LoginName": {
+            "type": "string",
+            "description": "登录名",
+            "nullable": true
+          },
+          "Password": {
+            "type": "string",
+            "description": "登录密码",
+            "nullable": true
+          },
+          "EMail": {
+            "type": "string",
+            "description": "邮件地址",
+            "nullable": true
+          },
+          "MobilePhone": {
+            "type": "string",
+            "description": "手机号码",
+            "nullable": true
+          },
+          "UserType": {
+            "$ref": "#/components/schemas/IMUserType"
+          },
+          "UserRoles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IMRole"
+            },
+            "description": "用户角色列表",
+            "nullable": true
+          },
+          "ManagerID": {
+            "type": "string",
+            "description": "父节点ID",
+            "format": "uuid"
+          },
+          "IsMultiRoseLogin": {
+            "type": "boolean",
+            "description": "是否多用角色登陆"
+          },
+          "IsExpert": {
+            "type": "boolean",
+            "description": "是否为后台专家"
+          },
+          "IsStop": {
+            "type": "boolean",
+            "description": "用户是否停用"
+          },
+          "CustomProperty": {
+            "type": "string",
+            "description": "自定义属性",
+            "nullable": true
+          },
+          "PasswordLastModifyTime": {
+            "type": "string",
+            "description": "上次修改密码时间",
+            "format": "date-time"
+          },
+          "PasswordErrorCount": {
+            "type": "integer",
+            "description": "密码连续输入错误次数",
+            "format": "int32"
+          },
+          "IsLock": {
+            "type": "boolean",
+            "description": "是否锁定"
+          },
+          "LockTime": {
+            "type": "string",
+            "description": "锁定时间",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false,
+        "description": "用户类"
+      },
+      "IMUserType": {
+        "enum": [
+          0,
+          1,
+          2
+        ],
+        "type": "integer",
+        "description": "用户类别",
+        "format": "int32"
+      },
+      "StringAPIResult": {
+        "type": "object",
+        "properties": {
+          "IsOk": {
+            "type": "boolean",
+            "description": "操作所否成功"
+          },
+          "ErrorID": {
+            "type": "string",
+            "description": "错误代码",
+            "nullable": true
+          },
+          "ErrorMsg": {
+            "type": "string",
+            "description": "错误信息",
+            "nullable": true
+          },
+          "Response": {
+            "type": "string",
+            "description": "返回对象",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "API返回结果"
+      },
+      "StringMutilAPIResult": {
+        "type": "object",
+        "properties": {
+          "SuccessCount": {
+            "type": "integer",
+            "description": "成功的数量",
+            "format": "int32"
+          },
+          "FailCount": {
+            "type": "integer",
+            "description": "失败的数量",
+            "format": "int32"
+          },
+          "SkipCount": {
+            "type": "integer",
+            "description": "跳过的树",
+            "format": "int32"
+          },
+          "IsOk": {
+            "type": "boolean",
+            "description": "操作所否成功"
+          },
+          "ErrorID": {
+            "type": "string",
+            "description": "错误代码",
+            "nullable": true
+          },
+          "ErrorMsg": {
+            "type": "string",
+            "description": "错误信息",
+            "nullable": true
+          },
+          "ResultList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StringAPIResult"
+            },
+            "description": "每个操作详细结果",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "批量操作返回结果"
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "Add JWT with Bearer",
+        "scheme": "Bearer"
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": [ ]
+    }
+  ],
+  "tags": [
+    {
+      "name": "BusinessDimension",
+      "description": "业务范畴"
+    },
+    {
+      "name": "OrgUnit",
+      "description": "组织单元"
+    },
+    {
+      "name": "Post",
+      "description": "岗位"
+    },
+    {
+      "name": "User",
+      "description": "用户"
+    }
+  ]
+}

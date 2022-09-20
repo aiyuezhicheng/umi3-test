@@ -1,0 +1,1649 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "imgenius Asset Service API",
+    "description": "资产服务API",
+    "version": "v1"
+  },
+  "paths": {
+    "/AssetService/api/v1/Asset/{id}": {
+      "get": {
+        "tags": [
+          "Asset"
+        ],
+        "summary": "得到资产",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "资产ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMAsset"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMAsset"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMAsset"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Asset"
+        ],
+        "summary": "删除资产",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "资产ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "是否成功",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/AssetService/api/v1/Asset/name/{parentID}/{name}": {
+      "get": {
+        "tags": [
+          "Asset"
+        ],
+        "summary": "得到资产（根据名字）",
+        "parameters": [
+          {
+            "name": "parentID",
+            "in": "path",
+            "description": "父节点ID，如果为空，表示顶层节点；如果为invalid，表示不指定父节点",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "description": "名字",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "资产",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMAsset"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMAsset"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMAsset"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/AssetService/api/v1/Asset/mark/{mark}": {
+      "get": {
+        "tags": [
+          "Asset"
+        ],
+        "summary": "得到指定资产号的资产",
+        "parameters": [
+          {
+            "name": "mark",
+            "in": "path",
+            "description": "资产号",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "资产",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMAsset"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMAsset"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMAsset"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/AssetService/api/v1/Asset/list": {
+      "get": {
+        "tags": [
+          "Asset"
+        ],
+        "summary": "得到所有资产",
+        "responses": {
+          "200": {
+            "description": "所有资产列表",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMAsset"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMAsset"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMAsset"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/AssetService/api/v1/Asset/child/{parentID}": {
+      "get": {
+        "tags": [
+          "Asset"
+        ],
+        "summary": "得到直接儿子资产",
+        "parameters": [
+          {
+            "name": "parentID",
+            "in": "path",
+            "description": "父节点ID，如果为空，表示顶层资产",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "资产列表",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMAsset"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMAsset"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMAsset"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/AssetService/api/v1/Asset/type/{assetTypeID}": {
+      "get": {
+        "tags": [
+          "Asset"
+        ],
+        "summary": "得到属于指定资产类别的所有资产",
+        "parameters": [
+          {
+            "name": "assetTypeID",
+            "in": "path",
+            "description": "资产类别ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "资产列表",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMAsset"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMAsset"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMAsset"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/AssetService/api/v1/Asset/property/{assetID}": {
+      "get": {
+        "tags": [
+          "Asset"
+        ],
+        "summary": "得到资产属性",
+        "parameters": [
+          {
+            "name": "assetID",
+            "in": "path",
+            "description": "资产ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "资产属性列表",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMAssetProperty"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMAssetProperty"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMAssetProperty"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Asset"
+        ],
+        "summary": "保存资产属性",
+        "parameters": [
+          {
+            "name": "assetID",
+            "in": "path",
+            "description": "资产ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "资产属性",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/IMAssetProperty"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/IMAssetProperty"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/IMAssetProperty"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "是否成功",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/AssetService/api/v1/Asset/property/idList": {
+      "post": {
+        "tags": [
+          "Asset"
+        ],
+        "summary": "根据资产属性ID列表获取资产属性",
+        "requestBody": {
+          "description": "资产属性ID列表",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "资产属性列表",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMAssetProperty"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMAssetProperty"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMAssetProperty"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/AssetService/api/v1/Asset/property/{assetID}/{propertyName}": {
+      "get": {
+        "tags": [
+          "Asset"
+        ],
+        "summary": "得到资产属性",
+        "parameters": [
+          {
+            "name": "assetID",
+            "in": "path",
+            "description": "资产ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "propertyName",
+            "in": "path",
+            "description": "属性名",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "资产属性",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMAssetProperty"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMAssetProperty"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMAssetProperty"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/AssetService/api/v1/Asset/tree": {
+      "get": {
+        "tags": [
+          "Asset"
+        ],
+        "summary": "得到资产树",
+        "responses": {
+          "200": {
+            "description": "资产树",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMTreeNode"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMTreeNode"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMTreeNode"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/AssetService/api/v1/Asset/tree/{assetTypeNames}": {
+      "get": {
+        "tags": [
+          "Asset"
+        ],
+        "summary": "得到资产树（带筛选功能）",
+        "parameters": [
+          {
+            "name": "assetTypeNames",
+            "in": "path",
+            "description": "资产类别名称，多个资产类别名称用英文逗号分隔",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "资产树",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMTreeNode"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMTreeNode"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMTreeNode"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/AssetService/api/v1/Asset": {
+      "post": {
+        "tags": [
+          "Asset"
+        ],
+        "summary": "创建资产",
+        "requestBody": {
+          "description": "资产",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMAsset"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMAsset"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMAsset"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "创建的资产ID",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Asset"
+        ],
+        "summary": "修改资产",
+        "requestBody": {
+          "description": "资产",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMAsset"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMAsset"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMAsset"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "是否成功",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/AssetService/api/v1/AssetType/{id}": {
+      "get": {
+        "tags": [
+          "AssetType"
+        ],
+        "summary": "得到资产类别",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "资产类别ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMAssetType"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMAssetType"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMAssetType"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "AssetType"
+        ],
+        "summary": "删除资产类别",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "资产类别ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/AssetService/api/v1/AssetType/name/{name}": {
+      "get": {
+        "tags": [
+          "AssetType"
+        ],
+        "summary": "得到资产类别（根据名字）",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "名字",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMAssetType"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMAssetType"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMAssetType"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/AssetService/api/v1/AssetType/list": {
+      "get": {
+        "tags": [
+          "AssetType"
+        ],
+        "summary": "得到所有资产类别",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMAssetType"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMAssetType"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMAssetType"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/AssetService/api/v1/AssetType/property/{assetTypeID}": {
+      "get": {
+        "tags": [
+          "AssetType"
+        ],
+        "summary": "得到资产类别属性",
+        "parameters": [
+          {
+            "name": "assetTypeID",
+            "in": "path",
+            "description": "资产类别ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMAssetTypeProperty"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMAssetTypeProperty"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMAssetTypeProperty"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/AssetService/api/v1/AssetType/child/{parentID}": {
+      "get": {
+        "tags": [
+          "AssetType"
+        ],
+        "summary": "得到直接儿子资产类别",
+        "parameters": [
+          {
+            "name": "parentID",
+            "in": "path",
+            "description": "父节点ID。如果为Guid.Empty，表示顶层资产类别",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMAssetType"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMAssetType"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMAssetType"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/AssetService/api/v1/AssetType/tree": {
+      "get": {
+        "tags": [
+          "AssetType"
+        ],
+        "summary": "得到资产类别树",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMTreeNode"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMTreeNode"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IMTreeNode"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/AssetService/api/v1/AssetType": {
+      "post": {
+        "tags": [
+          "AssetType"
+        ],
+        "summary": "创建资产类别",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMAssetType"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMAssetType"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMAssetType"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "AssetType"
+        ],
+        "summary": "编辑资产类别",
+        "requestBody": {
+          "description": "编辑的资产类别",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMAssetType"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMAssetType"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/IMAssetType"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/AssetService/api/v1/AssetType/property/{atid}": {
+      "put": {
+        "tags": [
+          "AssetType"
+        ],
+        "summary": "保存资产类别属性",
+        "parameters": [
+          {
+            "name": "atid",
+            "in": "path",
+            "description": "资产类别id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/IMAssetTypeProperty"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/IMAssetTypeProperty"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/IMAssetTypeProperty"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "IMAsset": {
+        "type": "object",
+        "properties": {
+          "ID": {
+            "type": "string",
+            "description": "ID",
+            "format": "uuid"
+          },
+          "Name": {
+            "type": "string",
+            "description": "名称",
+            "nullable": true
+          },
+          "Description": {
+            "type": "string",
+            "description": "描述",
+            "nullable": true
+          },
+          "SN": {
+            "type": "integer",
+            "description": "序号",
+            "format": "int32"
+          },
+          "ParentAssetID": {
+            "type": "string",
+            "description": "父级资产ID",
+            "format": "uuid"
+          },
+          "Mark": {
+            "type": "string",
+            "description": "资产号（用于系统内部管理和识别）",
+            "nullable": true
+          },
+          "IsPosition": {
+            "type": "boolean",
+            "description": "是否是位置标签，默认为是"
+          },
+          "PositionName": {
+            "type": "string",
+            "description": "位置名称，默认为资产名称",
+            "nullable": true
+          },
+          "IsEnabledScan": {
+            "type": "boolean",
+            "description": "是否为扫描点"
+          },
+          "RelatedAssetType": {
+            "$ref": "#/components/schemas/IMRelatedInfo"
+          },
+          "Properties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IMAssetProperty"
+            },
+            "description": "资产属性",
+            "nullable": true
+          },
+          "NoSenseUnlockAccuracy": {
+            "type": "integer",
+            "description": "无感解锁精度(单位厘米)",
+            "format": "int32"
+          },
+          "IsUseAssetTypeRelatedMaterielIDList": {
+            "type": "boolean",
+            "description": "是否使用资产类别的关联物料"
+          },
+          "RelatedMaterielIDList": {
+            "type": "string",
+            "description": "关联物料IDList",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "资产实体类"
+      },
+      "IMAssetProperty": {
+        "type": "object",
+        "properties": {
+          "ID": {
+            "type": "string",
+            "description": "ID",
+            "format": "uuid"
+          },
+          "Name": {
+            "type": "string",
+            "description": "名称",
+            "nullable": true
+          },
+          "Description": {
+            "type": "string",
+            "description": "描述",
+            "nullable": true
+          },
+          "SN": {
+            "type": "integer",
+            "description": "序号",
+            "format": "int32"
+          },
+          "RelatedAsset": {
+            "$ref": "#/components/schemas/IMRelatedInfo"
+          },
+          "RelatedAssetTypeProperty": {
+            "$ref": "#/components/schemas/IMRelatedInfo"
+          },
+          "RelatedResponseItem": {
+            "$ref": "#/components/schemas/IMRelatedInfo"
+          },
+          "RelatedEngineeringUnit": {
+            "$ref": "#/components/schemas/IMRelatedInfo"
+          },
+          "ValueType": {
+            "$ref": "#/components/schemas/IMDataType"
+          },
+          "ValueFormat": {
+            "type": "string",
+            "description": "属性值的格式",
+            "nullable": true
+          },
+          "DefaultValue": {
+            "type": "string",
+            "description": "属性默认值",
+            "nullable": true
+          },
+          "CurrentValue": {
+            "type": "string",
+            "description": "属性当前值",
+            "nullable": true
+          },
+          "ModifyValueOn": {
+            "type": "string",
+            "description": "属性当前值修改时间",
+            "format": "date-time"
+          },
+          "IsNotSaveHistory": {
+            "type": "boolean",
+            "description": "是否不保存历史"
+          },
+          "IsMobileSync": {
+            "type": "boolean",
+            "description": "终端是否同步"
+          },
+          "IsTelemeteringData": {
+            "type": "boolean",
+            "description": "是否为外部属性"
+          },
+          "ExtTag": {
+            "type": "string",
+            "description": "外部Tag",
+            "nullable": true
+          },
+          "TelemeteringAlertConfig": {
+            "type": "string",
+            "description": "外部属性报警配置",
+            "nullable": true
+          },
+          "Invisible": {
+            "type": "boolean",
+            "description": "不可查看"
+          },
+          "GroupName": {
+            "type": "string",
+            "description": "分组名",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "资产属性类"
+      },
+      "IMAssetType": {
+        "type": "object",
+        "properties": {
+          "ID": {
+            "type": "string",
+            "description": "ID",
+            "format": "uuid"
+          },
+          "Name": {
+            "type": "string",
+            "description": "名称",
+            "nullable": true
+          },
+          "Description": {
+            "type": "string",
+            "description": "描述",
+            "nullable": true
+          },
+          "SN": {
+            "type": "integer",
+            "description": "序号",
+            "format": "int32"
+          },
+          "ParentID": {
+            "type": "string",
+            "description": "父ID",
+            "format": "uuid"
+          },
+          "RelatedMaterielIDList": {
+            "type": "string",
+            "description": "关联物料IDList",
+            "nullable": true
+          },
+          "Ext": {
+            "type": "string",
+            "description": "扩展参数",
+            "nullable": true
+          },
+          "Properties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IMAssetTypeProperty"
+            },
+            "description": "资产类别属性",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "资产类别类"
+      },
+      "IMAssetTypeProperty": {
+        "type": "object",
+        "properties": {
+          "ID": {
+            "type": "string",
+            "description": "ID",
+            "format": "uuid"
+          },
+          "Name": {
+            "type": "string",
+            "description": "名称",
+            "nullable": true
+          },
+          "Description": {
+            "type": "string",
+            "description": "描述",
+            "nullable": true
+          },
+          "SN": {
+            "type": "integer",
+            "description": "序号",
+            "format": "int32"
+          },
+          "RelatedAssetType": {
+            "$ref": "#/components/schemas/IMRelatedInfo"
+          },
+          "RelatedResponseItem": {
+            "$ref": "#/components/schemas/IMRelatedInfo"
+          },
+          "RelatedEngineeringUnit": {
+            "$ref": "#/components/schemas/IMRelatedInfo"
+          },
+          "ValueType": {
+            "$ref": "#/components/schemas/IMDataType"
+          },
+          "ValueFormat": {
+            "type": "string",
+            "description": "属性值的格式",
+            "nullable": true
+          },
+          "DefaultValue": {
+            "type": "string",
+            "description": "属性默认值",
+            "nullable": true
+          },
+          "IsNotSaveHistory": {
+            "type": "boolean",
+            "description": "是否不保存历史"
+          },
+          "IsMobileSync": {
+            "type": "boolean",
+            "description": "终端是否同步"
+          },
+          "IsTelemeteringData": {
+            "type": "boolean",
+            "description": "是否为外部属性"
+          },
+          "TelemeteringAlertConfig": {
+            "type": "string",
+            "description": "外部属性报警配置",
+            "nullable": true
+          },
+          "Invisible": {
+            "type": "boolean",
+            "description": "不可查看"
+          },
+          "GroupName": {
+            "type": "string",
+            "description": "分组名列表",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "资产类别属性类"
+      },
+      "IMDataType": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "type": "integer",
+        "description": "数据类型",
+        "format": "int32"
+      },
+      "IMEntityType": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          30,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          80,
+          81,
+          90,
+          91,
+          100,
+          101,
+          201,
+          210
+        ],
+        "type": "integer",
+        "description": "实体类型",
+        "format": "int32"
+      },
+      "IMRelatedInfo": {
+        "type": "object",
+        "properties": {
+          "ID": {
+            "type": "string",
+            "description": "ID",
+            "format": "uuid"
+          },
+          "Name": {
+            "type": "string",
+            "description": "名字",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": ""
+      },
+      "IMTreeNode": {
+        "type": "object",
+        "properties": {
+          "ID": {
+            "type": "string",
+            "description": "节点ID",
+            "format": "uuid"
+          },
+          "Name": {
+            "type": "string",
+            "description": "节点名称",
+            "nullable": true
+          },
+          "EntityType": {
+            "$ref": "#/components/schemas/IMEntityType"
+          },
+          "ExProperty": {
+            "type": "string",
+            "description": "其它属性",
+            "nullable": true
+          },
+          "ChildList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IMTreeNode"
+            },
+            "description": "子节点列表",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "树节点类"
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "Add JWT with Bearer",
+        "scheme": "Bearer"
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": [ ]
+    }
+  ],
+  "tags": [
+    {
+      "name": "Asset",
+      "description": "资产"
+    },
+    {
+      "name": "AssetType",
+      "description": "资产类别"
+    }
+  ]
+}

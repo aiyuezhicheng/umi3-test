@@ -1,11 +1,12 @@
 import type { Settings as LayoutSettings } from '@ant-design/pro-layout';
 import { SettingDrawer } from '@ant-design/pro-layout';
 import { PageLoading } from '@ant-design/pro-layout';
-import type { RunTimeLayoutConfig } from 'umi';
+import { message } from 'antd';
+import type { RunTimeLayoutConfig, RequestConfig } from 'umi';
 import { history, Link } from 'umi';
 import RightContent from '@/components/RightContent';
 import Footer from '@/components/Footer';
-import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
+import { getUser as queryCurrentUser } from './services/auth/Auth';
 import { BookOutlined, LinkOutlined } from '@ant-design/icons';
 import defaultSettings from '../config/defaultSettings';
 
@@ -22,14 +23,17 @@ export const initialStateConfig = {
  * */
 export async function getInitialState(): Promise<{
   settings?: Partial<LayoutSettings>;
-  currentUser?: API.CurrentUser;
+  currentUser?: API.LoginUser;
   loading?: boolean;
-  fetchUserInfo?: () => Promise<API.CurrentUser | undefined>;
+  fetchUserInfo?: () => Promise<API.LoginUser | undefined>;
 }> {
   const fetchUserInfo = async () => {
     try {
       const msg = await queryCurrentUser();
-      return msg.data;
+      const { IsOk, Response } = msg;
+      if (IsOk) {
+        return Response;
+      }
     } catch (error) {
       history.push(loginPath);
     }
@@ -106,4 +110,37 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     },
     ...initialState?.settings,
   };
+};
+
+// 请求前拦截
+// const authHeaderInterceptor: RequestInterceptor = ( url: string, options:  RequestOptionsInit ) => {
+const authHeaderInterceptor = (url: string, options: any) => {
+  const obj: any = options;
+  if (localStorage.getItem('token')) {
+    const token = localStorage.getItem('token');
+    obj.headers = {
+      ...obj.headers,
+      Authorization: 'Bearer ' + token,
+    };
+  }
+  return { url, obj };
+};
+
+/**
+ * 异常处理
+ */
+// const errorHandler = ( error: ResponseError ) => {
+const errorHandler = (error: any) => {
+  const { response } = error;
+  if (!response) {
+    message.error('您的网络发生异常，无法连接服务器');
+  }
+  throw error;
+};
+
+export const request: RequestConfig = {
+  errorHandler,
+  credentials: 'include',
+  // 新增自动添加AccessToken的请求前拦截器
+  requestInterceptors: [authHeaderInterceptor],
 };

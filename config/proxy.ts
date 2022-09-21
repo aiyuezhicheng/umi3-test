@@ -17,6 +17,11 @@ export default {
       changeOrigin: true,
       pathRewrite: { '^': '' },
     },
+    '/AssetService/api/':{
+      target: 'http://localhost:5180',//资产接口地址
+      changeOrigin: true,
+      pathRewrite: { '^': '' },
+    }
   },
   test: {
     '/api/': {

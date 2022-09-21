@@ -199,3 +199,46 @@ export const JsonStringifySafe = function (obj:any) {
   }
   return res;
 }
+
+// 找到树中指定节点
+export const FindOneByIDInTree = (
+  tree: API.IMTreeNode[], // 所有树节点
+  data: API.IMTreeNode[], // 当前循环的树节点
+  key: string,            // 指定某节点ID
+  callback: (
+    node: API.IMTreeNode, // 指定某节点
+    i: number,
+    data: API.IMTreeNode[],
+    tree: API.IMTreeNode[],
+  ) => void,
+) => {
+  for (let i = 0; i < data.length; i++) {
+    if (data[i].ID === key) {
+      return callback(data[i], i, data, tree);
+    }
+    if (data[i].ChildList) {
+      FindOneByIDInTree(tree, data[i].ChildList!, key, callback);
+    }
+  }
+};
+
+// 树转换成列表
+export const ConvertToList = (tree: API.IMTreeNode[]) => {
+  let list: any = [];
+  if (tree && tree.length > 0) {
+    for (let i = 0; i < tree.length; i++) {
+      const oneNode = tree[i];
+      if (oneNode.ChildList && oneNode.ChildList.length > 0) {
+        let childList = ConvertToList(oneNode.ChildList);
+        // if (oneNode.ChildList) {
+        //   delete oneNode.ChildList;
+        // }
+        list.push(oneNode);
+        list = list.concat(childList);
+      } else {
+        list.push(oneNode);
+      }
+    }
+  }
+  return list;
+};

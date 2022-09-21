@@ -4,7 +4,7 @@ import { request } from 'umi';
 
 /** 编辑资产类别 PUT /AssetService/api/v1/AssetType */
 export async function putAssetType(body: API.IMAssetType, options?: { [key: string]: any }) {
-  return request<boolean>('/AssetService/api/v1/AssetType', {
+  return request<API.AssetTypeAPIResult>('/AssetService/api/v1/AssetType', {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -16,7 +16,7 @@ export async function putAssetType(body: API.IMAssetType, options?: { [key: stri
 
 /** 创建资产类别 POST /AssetService/api/v1/AssetType */
 export async function postAssetType(body: API.IMAssetType, options?: { [key: string]: any }) {
-  return request<string>('/AssetService/api/v1/AssetType', {
+  return request<API.AssetTypeAPIResult>('/AssetService/api/v1/AssetType', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -33,7 +33,7 @@ export async function getAssetTypeId(
   options?: { [key: string]: any },
 ) {
   const { id: param0, ...queryParams } = params;
-  return request<API.IMAssetType>(`/AssetService/api/v1/AssetType/${param0}`, {
+  return request<API.AssetTypeAPIResult>(`/AssetService/api/v1/AssetType/${param0}`, {
     method: 'GET',
     params: { ...queryParams },
     ...(options || {}),
@@ -47,7 +47,7 @@ export async function deleteAssetTypeId(
   options?: { [key: string]: any },
 ) {
   const { id: param0, ...queryParams } = params;
-  return request<boolean>(`/AssetService/api/v1/AssetType/${param0}`, {
+  return request<API.AssetTypeAPIResult>(`/AssetService/api/v1/AssetType/${param0}`, {
     method: 'DELETE',
     params: { ...queryParams },
     ...(options || {}),
@@ -125,7 +125,7 @@ export async function putAssetTypePropertyAtid(
 
 /** 得到资产类别树 GET /AssetService/api/v1/AssetType/tree */
 export async function getAssetTypeTree(options?: { [key: string]: any }) {
-  return request<API.IMTreeNode[]>('/AssetService/api/v1/AssetType/tree', {
+  return request<API.AssetTypeAPIResult>('/AssetService/api/v1/AssetType/tree', {
     method: 'GET',
     ...(options || {}),
   });

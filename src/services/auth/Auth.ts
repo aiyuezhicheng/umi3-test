@@ -15,7 +15,6 @@ export async function postToken(body: API.LoginModel) {
 
 /** 获取当前token用户信息 GET /AuthService/api/v1/Auth/user */
 export async function getUser(options?: { [key: string]: any }) {
-  console.log(localStorage.getItem('token'));
   return request<API.LoginUserAPIResult>('/AuthService/api/v1/Auth/user', {
     method: 'GET',
     ...(options || {}),

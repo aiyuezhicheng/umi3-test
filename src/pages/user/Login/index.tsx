@@ -11,7 +11,7 @@ import React, { useState } from 'react';
 import { ProFormCaptcha, ProFormCheckbox, ProFormText, LoginForm } from '@ant-design/pro-form';
 import { useIntl, history, FormattedMessage, SelectLang, useModel } from 'umi';
 import Footer from '@/components/Footer';
-import { postToken } from '@/services/auth/Auth';
+import { postToken as login } from '@/services/auth/Auth';
 import { getFakeCaptcha } from '@/services/ant-design-pro/login';
 
 import styles from './index.less';
@@ -49,7 +49,7 @@ const Login: React.FC = () => {
   const handleSubmit = async (values: API.LoginModel) => {
     try {
       // 登录
-      const loginResult: API.TokenResultAPIResult | string = await postToken({
+      const loginResult: API.TokenResultAPIResult | string = await login({
         ...values,
         Project: '',
       });
@@ -152,7 +152,7 @@ const Login: React.FC = () => {
                 }}
                 placeholder={intl.formatMessage({
                   id: 'pages.login.username.placeholder',
-                  defaultMessage: '用户名: admin or user',
+                  defaultMessage: '用户名',
                 })}
                 rules={[
                   {
@@ -174,7 +174,7 @@ const Login: React.FC = () => {
                 }}
                 placeholder={intl.formatMessage({
                   id: 'pages.login.password.placeholder',
-                  defaultMessage: '密码: ant.design',
+                  defaultMessage: '密码',
                 })}
                 rules={[
                   {

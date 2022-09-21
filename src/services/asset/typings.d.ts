@@ -158,6 +158,8 @@ declare namespace API {
     Ext?: string;
     /** 资产类别属性 */
     Properties?: IMAssetTypeProperty[];
+
+    ChildList?: IMAssetType[];
   };
 
   type IMAssetTypeProperty = {
@@ -261,4 +263,14 @@ declare namespace API {
     /** 资产类别id */
     atid: string;
   };
+
+  type AssetTypeAPIResult = {
+    /** 操作所否成功 */
+    IsOk?: boolean;
+    /** 错误代码 */
+    ErrorID?: string;
+    /** 错误信息 */
+    ErrorMsg?: string;
+    Response?: IMTreeNode[] | string | boolean | API.IMAssetType;
+  }
 }

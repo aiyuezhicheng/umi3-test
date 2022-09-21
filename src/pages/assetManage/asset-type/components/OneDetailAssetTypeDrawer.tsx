@@ -1,4 +1,4 @@
-import { PlusOutlined, EditOutlined, DeleteOutlined, TableOutlined } from '@ant-design/icons';
+import { TableOutlined } from '@ant-design/icons';
 import {
   Button,
   message,
@@ -7,25 +7,19 @@ import {
   Tabs,
   Form,
   Select,
-  Space,
   TreeSelect,
-  Modal,
   List,
   Row,
   Col,
 } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { useRequest, useIntl, FormattedMessage } from 'umi';
+import { useRequest, useIntl, FormattedMessage, useModel } from 'umi';
 import PropertyModal from '@/components/OnePropertyModal';
-import Property from '@/components/OnePropertyModal/test';
-import { AssetTypeItem, AssetTypePropertyItem } from '../data.d';
+import { AssetTypePropertyItem } from '../data.d';
 import { ProcessListOptionsAndEngUnit, IsNotEmptyGuid } from '@/utils/common';
-import {
-  getMaterialList,
-  getAssetTypeTree,
-  getOneAssetType,
-  getOneAssetTypeProperties,
-} from '../service';
+import { getMaterialList, getOneAssetTypeProperties,} from '../service';
+
+import { getAssetTypeId as queryOneAssetTypeByID } from '@/services/asset/AssetType';
 
 export type detailProps = {
   action: string;
@@ -38,10 +32,11 @@ export type detailProps = {
 const { TabPane } = Tabs;
 const { TextArea } = Input;
 const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
-  console.log(props);
+  const { tree, addOne, editOne } = useModel('assetType');
   const { action, visible, id, onClose, newKey } = props;
   const [tabActivityKey, setTabActivityKey] = useState<string>('basicInfo');
-  const [basicInfo, setBasicInfo] = useState<AssetTypeItem>({
+  const [isPropertyModalVisible, setIsPropertyModalVisible] = useState<boolean>(false);
+  const [basicInfo, setBasicInfo] = useState<API.IMAssetType>({
     ParentID: '',
     Name: '',
     Description: '',
@@ -49,79 +44,79 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
     Ext: '',
   });
   const [properties, setProperties] = useState<AssetTypePropertyItem[]>([]);
-
   const [basicInfoForm] = Form.useForm();
   basicInfoForm.setFieldsValue(basicInfo);
 
   useEffect(() => {
     // 新建设备或新建数据源有初始默认值
-    if (action == 'new' && newKey) {
+    if (action == 'new') {
       let name = '';
       let description = '';
       let ext = '';
+      if (newKey) {
+        switch (newKey) {
+          case 'smartLock': // 智能锁
+            name = '智能锁';
+            ext = JSON.stringify({
+              DllName: '',
+              ClassName: 'iDong.imgenius.Device.SmartLock',
+              OpList: [{ Name: '获取秘钥', FuncName: 'GetLOCKSecretKey' }],
+            });
+            break;
+          case 'smartCar': // 智能车
+            name = '智能车';
+            ext = JSON.stringify({
+              DllName: '',
+              ClassName: 'iDong.imgenius.Device.SmartCar',
+              OpList: [{ Name: '调度智能车', FuncName: 'HandlingTools' }],
+            });
+            break;
+          case 'camera': // 摄像头
+            name = '摄像头';
+            ext = JSON.stringify({
+              DllName: '',
+              ClassName: 'iDong.imgenius.Device.Camera',
+              OpList: [{ Name: '旋转摄像头', FuncName: 'RotatingCamera' }],
+            });
+            break;
+          case 'cctv': // CCTV
+            name = 'CCTV';
+            ext = JSON.stringify({
+              DllName: '',
+              ClassName: 'iDong.imgenius.Device.CCTV',
+              OpList: [{ Name: '调整显示场景', FuncName: 'CallCCTV' }],
+            });
+            break;
+          case 'inkBottle-yanhua': // 智能车
+            name = '墨水瓶-研华';
+            ext = JSON.stringify({
+              DllName: '',
+              ClassName: 'iDong.imgenius.Device.ePaper',
+              OpList: [{ Name: '更新墨水屏', FuncName: 'Show' }],
+            });
+            break;
 
-      switch (newKey) {
-        case 'smartLock': // 智能锁
-          name = '智能锁';
-          ext = JSON.stringify({
-            DllName: '',
-            ClassName: 'iDong.imgenius.Device.SmartLock',
-            OpList: [{ Name: '获取秘钥', FuncName: 'GetLOCKSecretKey' }],
-          });
-          break;
-        case 'smartCar': // 智能车
-          name = '智能车';
-          ext = JSON.stringify({
-            DllName: '',
-            ClassName: 'iDong.imgenius.Device.SmartCar',
-            OpList: [{ Name: '调度智能车', FuncName: 'HandlingTools' }],
-          });
-          break;
-        case 'camera': // 摄像头
-          name = '摄像头';
-          ext = JSON.stringify({
-            DllName: '',
-            ClassName: 'iDong.imgenius.Device.Camera',
-            OpList: [{ Name: '旋转摄像头', FuncName: 'RotatingCamera' }],
-          });
-          break;
-        case 'cctv': // CCTV
-          name = 'CCTV';
-          ext = JSON.stringify({
-            DllName: '',
-            ClassName: 'iDong.imgenius.Device.CCTV',
-            OpList: [{ Name: '调整显示场景', FuncName: 'CallCCTV' }],
-          });
-          break;
-        case 'inkBottle-yanhua': // 智能车
-          name = '墨水瓶-研华';
-          ext = JSON.stringify({
-            DllName: '',
-            ClassName: 'iDong.imgenius.Device.ePaper',
-            OpList: [{ Name: '更新墨水屏', FuncName: 'Show' }],
-          });
-          break;
-
-        case 'inkBottle-zhikong': // 电子墨水屏-智控
-          name = '电子墨水屏-智控';
-          ext = JSON.stringify({
-            DllName: '',
-            ClassName: 'iDong.imgenius.Device.ePaper_ZK',
-            OpList: [{ Name: '更新墨水屏_智控', FuncName: 'Show' }],
-          });
-          break;
-        case 'opcda': // OPCDA
-          name = 'OPCDAClient';
-          description = 'OPC DA';
-          break;
-        case 'opcua': // OPCDA
-          name = 'OPCUAClient';
-          description = 'OPC UA';
-          break;
-        case 'mqtt': // MQTT
-          name = 'MQTTSub';
-          description = 'MQTT订阅';
-          break;
+          case 'inkBottle-zhikong': // 电子墨水屏-智控
+            name = '电子墨水屏-智控';
+            ext = JSON.stringify({
+              DllName: '',
+              ClassName: 'iDong.imgenius.Device.ePaper_ZK',
+              OpList: [{ Name: '更新墨水屏_智控', FuncName: 'Show' }],
+            });
+            break;
+          case 'opcda': // OPCDA
+            name = 'OPCDAClient';
+            description = 'OPC DA';
+            break;
+          case 'opcua': // OPCDA
+            name = 'OPCUAClient';
+            description = 'OPC UA';
+            break;
+          case 'mqtt': // MQTT
+            name = 'MQTTSub';
+            description = 'MQTT订阅';
+            break;
+        }
       }
       const newBasicInfo = {
         ParentID: '',
@@ -136,35 +131,42 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
   }, [newKey]);
 
   useEffect(() => {
-    console.log(id);
     if (id) {
-      getOneAssetType(id).then(({ data }) => {
-        setBasicInfo(data);
-        basicInfoForm.setFieldsValue(data);
+      queryOneAssetTypeByID({ id }).then((result: API.AssetTypeAPIResult) => {
+        if (result.IsOk) {
+          setBasicInfo(result.Response as API.IMAssetType);
+          basicInfoForm.setFieldsValue(result.Response as API.IMAssetType);
+        } else {
+          message.error(
+            <>
+              <FormattedMessage
+                id="pages.message.api.errorReason"
+                defaultMessage="调用接口失败的原因为："
+              />
+              {result.ErrorMsg}
+            </>,
+          );
+        }
       });
     }
   }, [id]);
 
   const { data: materialList } = useRequest(getMaterialList);
-  const { data: assetTypeTree } = useRequest(getAssetTypeTree);
-
-  console.log(assetTypeTree);
 
   const changeTabPane = (activeKey: string) => {
-    console.log(activeKey);
     setTabActivityKey(activeKey);
     if (activeKey == 'property') {
       getOneAssetTypeProperties(id!).then((result) => {
-        console.log(result);
         const { data: properties } = result;
         ProcessListOptionsAndEngUnit(properties, (newProperties: any) => {
-          console.log(newProperties);
           setProperties(newProperties);
         });
       });
     }
   };
-  const renderTitle = () => {
+
+  // 标题
+  const renderDrawerTitle = () => {
     let title = '';
     switch (action) {
       case 'new':
@@ -190,35 +192,12 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
     }
     return title;
   };
+
+  // 搜索物料
   const onSearchRelativeMaterial = (value: string) => {
     console.log('search' + value);
   };
-  const saveOneAssetType = async (values: Record<string, any>) => {
-    // // setError([]);
-    // try {
-    //   // await fakeSubmitForm(values);
-    //   message.success('提交成功');
-    // } catch {
-    //   // console.log
-    // }
-  };
 
-  const saveOneAssetTypeBasicInfo = async (values: Record<string, any>) => {
-    // // setError([]);
-    const createParams = { ...values };
-    if (id && action == 'edit') {
-      createParams['ID'] = id;
-    }
-    console.log(values);
-    console.log(createParams);
-    try {
-      message.success(
-        <FormattedMessage id="pages.dialog.save.success" defaultMessage="保存成功!" />,
-      );
-    } catch {
-      // console.log
-    }
-  };
   // 判断资产类别名称是否重名
   const judgeIsDuplicateName = (value: string, list: any) => {
     if (list && list.length > 0) {
@@ -240,30 +219,17 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
     }
   };
 
-  const [isPropertyModalVisible, setIsPropertyModalVisible] = useState<boolean>(false);
-  // const [modalTitle, setModalTitle] = useState<string>('');
-  const intl = useIntl();
-  //显示编辑一个属性的对话框
-  // const showOnePropertyModal = (action:string,id?:string)=>{
-  //   console.log(action);
-  //   setIsPropertyModalVisible(true)
-  //   let title = ''
-  //   if(action == 'new'){
-  //     title = intl.formatMessage({ id: 'pages.operation.new', defaultMessage: '新建'})
-  //   }else{
-  //     title = intl.formatMessage({ id: 'pages.operation.edit', defaultMessage: '编辑'})
-  //   }
-  //   setModalTitle(title)
-  // }
   // 对话框的确认
   const handleOk = () => {
     setIsPropertyModalVisible(false);
   };
+
   // 对话框的取消
   const handleCancel = () => {
     setIsPropertyModalVisible(false);
   };
 
+  // 显示该资产类别的属性值
   const renderOneProeprtyValue = (item: AssetTypePropertyItem) => {
     let value = item['CurrentValue'] || item['DefaultValue'];
     if (
@@ -288,32 +254,63 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
     }
     return value;
   };
+
+  // 收集一个资产类别
+  const handleCollectOneAssetType = () => {
+    const errors = basicInfoForm.getFieldsError();
+    if (errors.find((item) => item.errors.length > 0)) {
+      return;
+    }
+    const basicInfoAfterEdit = basicInfoForm.getFieldsValue();
+    if (id && action == 'edit') {
+      basicInfoAfterEdit['ID'] = id;
+    } else {
+      delete basicInfoAfterEdit['ID'];
+    }
+    basicInfoAfterEdit['Properties'] = [];
+    setBasicInfo(basicInfoAfterEdit);
+    if (action == 'new' || action == 'copy') {
+      addOne(basicInfoAfterEdit).then((result) => {
+        if (result.IsOk) {
+          message.success(
+            <FormattedMessage id="pages.message.add.success" defaultMessage="新增成功!" />,
+          );
+        } else {
+          message.success(
+            <>
+              <FormattedMessage
+                id="pages.message.api.errorReason"
+                defaultMessage="调用接口失败的原因为："
+              />
+              {result.ErrorMsg}
+            </>,
+          );
+        }
+      });
+    } else {
+      editOne(basicInfoAfterEdit).then((result) => {
+        if (result.IsOk) {
+          message.success(
+            <FormattedMessage id="pages.message.edit.success" defaultMessage="编辑成功!" />,
+          );
+        } else {
+          message.success(
+            <>
+              <FormattedMessage
+                id="pages.message.api.errorReason"
+                defaultMessage="调用接口失败的原因为："
+              />
+              {result.ErrorMsg}
+            </>,
+          );
+        }
+      });
+    }
+  };
+
   return (
     <>
-      <Drawer
-        // forceRender={true}
-        title={renderTitle()}
-        width={600}
-        visible={visible}
-        // closable={false}
-        onClose={onClose}
-        // extra={
-        //   <Space>
-        //     <Button onClick={onClose}>
-        //       {useIntl().formatMessage({
-        //         id: 'pages.operation.cancel',
-        //         defaultMessage: '取消',
-        //       })}
-        //     </Button>
-        //     <Button type="primary" onClick={saveOneAssetType}>
-        //       {useIntl().formatMessage({
-        //         id: 'pages.operation.confirm',
-        //         defaultMessage: '确定',
-        //       })}
-        //     </Button>
-        //   </Space>
-        // }
-      >
+      <Drawer title={renderDrawerTitle()} width={600} visible={visible} onClose={onClose}>
         <Tabs type="card" activeKey={tabActivityKey} onChange={changeTabPane}>
           <TabPane
             tab={useIntl().formatMessage({
@@ -326,9 +323,8 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
               layout="horizontal"
               labelCol={{ span: 6 }}
               wrapperCol={{ span: 18 }}
-              // initialValues={basicInfo}
               form={basicInfoForm}
-              onFinish={saveOneAssetTypeBasicInfo}
+              onFinish={onClose}
             >
               <Form.Item
                 name="ParentID"
@@ -339,7 +335,7 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
               >
                 <TreeSelect
                   key="ID"
-                  showSearch
+                  showSearch={true}
                   allowClear
                   style={{ width: '100%' }}
                   fieldNames={{ label: 'Name', value: 'ID', children: 'ChildList' }}
@@ -347,7 +343,7 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
                     id: 'pages.basicInfo.parentname',
                     defaultMessage: '父级名称',
                   })}
-                  treeData={assetTypeTree}
+                  treeData={tree}
                 />
               </Form.Item>
               <Form.Item
@@ -368,10 +364,6 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
                     validator(_rule, value, callback) {
                       if (action !== 'new') {
                         return Promise.resolve();
-                      }
-                      let tree: any[] = [];
-                      if (assetTypeTree && assetTypeTree.length > 0) {
-                        tree = [...assetTypeTree];
                       }
                       const isRight = judgeIsDuplicateName(value, tree);
                       if (!isRight) {
@@ -455,7 +447,12 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
                 />
               </Form.Item>
               <Form.Item>
-                <Button type="primary" htmlType="submit" className="login-form-button">
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  className="login-form-button"
+                  onClick={() => handleCollectOneAssetType()}
+                >
                   {useIntl().formatMessage({
                     id: 'pages.operation.confirm',
                     defaultMessage: '确定',
@@ -472,18 +469,18 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
             key="property"
           >
             <Row style={{ justifyContent: 'right' }}>
-            <Button
-              type="primary"
-              icon={<TableOutlined />}
-              onClick={() => setIsPropertyModalVisible(true)}
-            >
-              {useIntl().formatMessage({
-                id: 'pages.operation.property',
-                defaultMessage: '定义扩展属性',
-              })}
-            </Button>
+              <Button
+                type="primary"
+                icon={<TableOutlined />}
+                onClick={() => setIsPropertyModalVisible(true)}
+              >
+                {useIntl().formatMessage({
+                  id: 'pages.operation.property',
+                  defaultMessage: '定义扩展属性',
+                })}
+              </Button>
             </Row>
-            
+
             <List
               itemLayout="horizontal"
               dataSource={properties}

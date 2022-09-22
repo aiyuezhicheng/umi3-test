@@ -1,7 +1,6 @@
 // @ts-ignore
 /* eslint-disable */
 import { request } from 'umi';
-import AssetType from '.';
 import { AssetTypeTreeItem, AssetTypeItem, MaterialItem, AssetTypePropertyItem } from './data.d';
 
 // 获取资产树

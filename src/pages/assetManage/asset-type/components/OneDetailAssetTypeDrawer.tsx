@@ -16,10 +16,11 @@ import React, { useEffect, useState } from 'react';
 import { useRequest, useIntl, FormattedMessage, useModel } from 'umi';
 import PropertyModal from '@/components/OnePropertyModal';
 import { AssetTypePropertyItem } from '../data.d';
-import { ProcessListOptionsAndEngUnit, IsNotEmptyGuid } from '@/utils/common';
-import { getMaterialList, getOneAssetTypeProperties,} from '../service';
+import { ProcessListOptionsAndEngUnit, IsNotEmptyGuid, FindOneByIDInTree } from '@/utils/common';
+import { getMaterialList, getOneAssetTypeProperties } from '../service';
 
 import { getAssetTypeId as queryOneAssetTypeByID } from '@/services/asset/AssetType';
+import { GuidEmpty } from '../../../../utils/common';
 
 export type detailProps = {
   action: string;
@@ -36,16 +37,8 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
   const { action, visible, id, onClose, newKey } = props;
   const [tabActivityKey, setTabActivityKey] = useState<string>('basicInfo');
   const [isPropertyModalVisible, setIsPropertyModalVisible] = useState<boolean>(false);
-  const [basicInfo, setBasicInfo] = useState<API.IMAssetType>({
-    ParentID: '',
-    Name: '',
-    Description: '',
-    RelatedMaterielIDList: '',
-    Ext: '',
-  });
   const [properties, setProperties] = useState<AssetTypePropertyItem[]>([]);
   const [basicInfoForm] = Form.useForm();
-  basicInfoForm.setFieldsValue(basicInfo);
 
   useEffect(() => {
     // 新建设备或新建数据源有初始默认值
@@ -125,7 +118,6 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
         RelatedMaterielIDList: '',
         Ext: ext,
       };
-      setBasicInfo(newBasicInfo);
       basicInfoForm.setFieldsValue(newBasicInfo);
     }
   }, [newKey]);
@@ -134,8 +126,11 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
     if (id) {
       queryOneAssetTypeByID({ id }).then((result: API.AssetTypeAPIResult) => {
         if (result.IsOk) {
-          setBasicInfo(result.Response as API.IMAssetType);
-          basicInfoForm.setFieldsValue(result.Response as API.IMAssetType);
+          let oneAssetType = result.Response as API.IMAssetType;
+          if (oneAssetType.ParentID == GuidEmpty) {
+            oneAssetType.ParentID = '';
+          }
+          basicInfoForm.setFieldsValue(oneAssetType);
         } else {
           message.error(
             <>
@@ -257,36 +252,45 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
 
   // 收集一个资产类别
   const handleCollectOneAssetType = () => {
-    const errors = basicInfoForm.getFieldsError();
-    if (errors.find((item) => item.errors.length > 0)) {
-      return;
-    }
     const basicInfoAfterEdit = basicInfoForm.getFieldsValue();
     if (id && action == 'edit') {
       basicInfoAfterEdit['ID'] = id;
     } else {
       delete basicInfoAfterEdit['ID'];
+      basicInfoAfterEdit['Properties'] = null;
     }
-    basicInfoAfterEdit['Properties'] = [];
-    setBasicInfo(basicInfoAfterEdit);
+    if (basicInfoAfterEdit.ParentID == '') {
+      basicInfoAfterEdit.ParentID = GuidEmpty;
+    }
     if (action == 'new' || action == 'copy') {
-      addOne(basicInfoAfterEdit).then((result) => {
-        if (result.IsOk) {
-          message.success(
-            <FormattedMessage id="pages.message.add.success" defaultMessage="新增成功!" />,
-          );
-        } else {
-          message.success(
-            <>
-              <FormattedMessage
-                id="pages.message.api.errorReason"
-                defaultMessage="调用接口失败的原因为："
-              />
-              {result.ErrorMsg}
-            </>,
-          );
-        }
-      });
+      const addOneFunc = () => {
+        addOne(basicInfoAfterEdit).then((result) => {
+          if (result.IsOk) {
+            message.success(
+              <FormattedMessage id="pages.message.add.success" defaultMessage="新增成功!" />,
+            );
+          } else {
+            message.success(
+              <>
+                <FormattedMessage
+                  id="pages.message.api.errorReason"
+                  defaultMessage="调用接口失败的原因为："
+                />
+                {result.ErrorMsg}
+              </>,
+            );
+          }
+        });
+      };
+      if (basicInfoAfterEdit.ParentID == GuidEmpty) {
+        basicInfoAfterEdit.SN = tree.length + 1;
+        addOneFunc();
+      } else {
+        FindOneByIDInTree(tree, tree, basicInfoAfterEdit.ParentID, (parentNode) => {
+          basicInfoAfterEdit.SN = parentNode.ChildList ? parentNode.ChildList.length + 1 : 0;
+          addOneFunc();
+        });
+      }
     } else {
       editOne(basicInfoAfterEdit).then((result) => {
         if (result.IsOk) {
@@ -310,7 +314,13 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
 
   return (
     <>
-      <Drawer title={renderDrawerTitle()} width={600} visible={visible} onClose={onClose}>
+      <Drawer
+        title={renderDrawerTitle()}
+        width={600}
+        visible={visible}
+        onClose={onClose}
+        forceRender
+      >
         <Tabs type="card" activeKey={tabActivityKey} onChange={changeTabPane}>
           <TabPane
             tab={useIntl().formatMessage({
@@ -359,24 +369,6 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
                       id: 'pages.message.name.required.message',
                       defaultMessage: '名称不能为空',
                     }),
-                  },
-                  {
-                    validator(_rule, value, callback) {
-                      if (action !== 'new') {
-                        return Promise.resolve();
-                      }
-                      const isRight = judgeIsDuplicateName(value, tree);
-                      if (!isRight) {
-                        return Promise.reject(
-                          useIntl().formatMessage({
-                            id: 'pages.message.name.valid.message',
-                            defaultMessage: '名称不能重名',
-                          }),
-                        );
-                      } else {
-                        return Promise.resolve();
-                      }
-                    },
                   },
                 ]}
               >
@@ -489,7 +481,11 @@ const OneDetailAssetTypeDrawer: React.FC<detailProps> = (props) => {
                   <Row style={{ width: '100%' }}>
                     <Col
                       span={6}
-                      style={{ textAlign: 'right', display: 'inline-block', marginRight: '10px' }}
+                      style={{
+                        textAlign: 'right',
+                        display: 'inline-block',
+                        marginRight: '10px',
+                      }}
                     >
                       {item['Name']}:
                     </Col>

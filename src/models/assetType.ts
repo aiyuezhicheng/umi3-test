@@ -46,36 +46,61 @@ export default () => {
     const result: API.AssetTypeAPIResult = await createOneAssetType(params);
     const newGuid = result.Response as string
     if (result.IsOk && IsNotEmptyGuid(newGuid)) {
-      params['ID'] = newGuid
+      const newObj = {
+        ID: newGuid,
+        ChildList: [],
+        Name: params.Name
+      }
       if (params.ParentID == GuidEmpty) {
-        tree.push(params)
+        tree.push(newObj)
       } else {
         FindOneByIDInTree(tree, tree, params.ParentID as string, (parentNode) => {
           if (parentNode) {
             if (!parentNode.ChildList) {
               parentNode.ChildList = [];
             }
-            parentNode?.ChildList?.push(params);
+            parentNode?.ChildList?.push(newObj);
           }
         })
       }
-      setTree(tree)
-      setTree(convertToList(tree))
+      // setTree(tree)
+      setList(convertToList(tree))
     }
     setLoading(false)
     return result;
   }, [tree, list])
 
   // 编辑一个资产类别树
-  const editOne = useCallback(async (params: API.IMAssetType) => {
+  const editOne = useCallback(async (params: API.IMAssetType, modifyType?: string, oldValue?: any) => {
     setLoading(true)
     const result: API.AssetTypeAPIResult = await editOneAssetType(params);
     if (result.IsOk && result.Response as boolean) {
-      //   FindOneByIDInTree(tree, tree,  params?.ID as string, (oneNode,index,parentNode) => {
-      //     parentNode[index] = params
-      //   })
-      // setTree(tree)
-      // setTree(convertToList(tree))
+      FindOneByIDInTree(tree, tree, params?.ID as string, (oneNode, index, nodes) => {
+        switch (modifyType) {
+          case 'rename':
+            oneNode.Name = params.Name;
+            break;
+          case 'sn+': // 向下移动
+          case 'sn-': // 向上移动
+            nodes.splice(index, 1);
+            modifyType == 'sn+' ? nodes.splice(index + 1, 0, oneNode) : nodes.splice(index - 1, 0, oneNode);
+            break;
+          case 'parentid':
+            nodes.splice(index, 1);
+            FindOneByIDInTree(tree, tree, params?.ParentID as string, (oneParentNode, index, parentNodes) => {
+              if (!oneParentNode.ChildList) {
+                oneParentNode.ChildList = [];
+              }
+              oneParentNode.ChildList.push(oneNode)
+            })
+            break;
+          default:
+            nodes[index] = params
+            // setTree(tree)
+            break;
+        }
+      })
+      setList(convertToList(tree))
     }
     setLoading(false)
     return result;

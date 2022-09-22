@@ -123,9 +123,6 @@ const AssetType: React.FC = () => {
   const onSearch = (value: string) => {
     setSearchKeyWords(value);
     // 调用接口
-    if (viewType == 'table') {
-    } else {
-    }
   };
 
   const newAssetTypeMenu = (
@@ -266,10 +263,7 @@ const AssetType: React.FC = () => {
         //   <FormattedMessage id="pages.dialog.delete.success" defaultMessage="删除成功!" />,
         // );
         // setChecked([]);
-      },
-      onCancel() {
-        console.log('Cancel');
-      },
+      }
     });
   };
 
@@ -341,9 +335,9 @@ const AssetType: React.FC = () => {
             okText={<FormattedMessage id="pages.operation.confirm'" defaultMessage="确定" />}
             cancelText={<FormattedMessage id="pages.operation.cancel" defaultMessage="取消" />}
           >
-            <a>
+            <Button type="link">
               <FormattedMessage id="pages.operation.delete" defaultMessage="删除" />
-            </a>
+            </Button>
           </Popconfirm>
           <Button type="link" onClick={(): void => showDetailInfoDrawer('copy', '', record.ID)}>
             <FormattedMessage id="pages.operation.copy" defaultMessage="拷贝" />
@@ -444,7 +438,6 @@ const AssetType: React.FC = () => {
             )}
           </Col>
         </Row>
-
         {/* 主要视图 */}
         {viewType == 'table' && (
           <ProTable<API.IMAssetType>
@@ -468,7 +461,6 @@ const AssetType: React.FC = () => {
         )}
         {viewType == 'tree' && (
           <TreeComponent
-            assetTypeTree={tree}
             setDetailInfoVisible={setDetailInfoVisible}
             setDetailParams={setDetailParams}
             setChecked={setChecked}

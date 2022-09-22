@@ -9,13 +9,19 @@ import {
   ArrowUpOutlined,
   ArrowDownOutlined,
   CheckCircleOutlined,
-  CheckSquareOutlined
+  CheckSquareOutlined,
+  ExclamationCircleOutlined,
 } from '@ant-design/icons';
-import { Menu, Image, Space, Popconfirm, Tree, Input } from 'antd';
+import type { InputRef } from 'antd';
+import { Menu, Image, Space, Popconfirm, Tree, Input, Button, message, Modal } from 'antd';
 import type { TreeProps } from 'antd/es/tree';
-import { FormattedMessage } from 'umi';
-import React, { useEffect, useState } from 'react';
+import { FormattedMessage, useModel } from 'umi';
+import React, { useState, useRef } from 'react';
+import { FindOneByIDInTree } from '@/utils/common';
+import { getAssetTypeId as queryOneAssetTypeByID } from '@/services/asset/AssetType';
+
 import './Tree.less';
+import { GuidEmpty } from '../../../../utils/common';
 
 type detailDrawerPrams = {
   action: string;
@@ -23,7 +29,6 @@ type detailDrawerPrams = {
   newKey?: string;
 };
 type AssetTreeProps = {
-  assetTypeTree: API.IMTreeNode[];
   setDetailInfoVisible: (visible: boolean) => void;
   setDetailParams: (params: detailDrawerPrams) => void;
   setChecked: (list: string[]) => void;
@@ -31,46 +36,43 @@ type AssetTreeProps = {
   searchKeyWords: string;
 };
 
+type rightClickTreeNodeMenuInfoParams = {
+  pageX: number;
+  pageY: number;
+  id: string;
+  curTreeNode?: API.IMTreeNode;
+  parent?: any;
+  index?: number;
+  tree?: API.IMTreeNode[];
+};
+
 const TreeComponent: React.FC<AssetTreeProps> = (props) => {
   const {
-    assetTypeTree,
     setDetailInfoVisible,
     setDetailParams,
     setChecked,
     deleteOneAssetType,
     searchKeyWords,
   } = props;
-  type rightClickTreeNodeMenuInfoParams = {
-    pageX: number;
-    pageY: number;
-    id: string;
-    curTreeNode?: API.IMTreeNode;
-    parent?: any;
-    index?: number;
-    tree?: API.IMTreeNode[];
-  };
+
   const [rightClickTreeNodeMenuInfo, setRightClickTreeNodeMenuInfo] =
     useState<rightClickTreeNodeMenuInfoParams>({
       pageX: 0,
       pageY: 0,
       id: '',
     });
-  const [tree, setTreeData] = useState<API.IMTreeNode[]>();
-  const [oneCutedTreeNode, setOneCutedTreeNode] = useState<API.IMTreeNode | undefined>();
+  const { loading, tree, editOne } = useModel('assetType');
+  const [oneCutedTreeNode, setOneCutedTreeNode] = useState<API.IMTreeNode>();
   const [expandedKeys, setExpandedKeys] = useState<string[]>([]);
   const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
   const [rightClickMenuVisible, setRightClickMenuVisible] = useState<boolean>(false);
   const [autoExpandParent, setAutoExpandParent] = useState(true);
   const [renameID, setRenameID] = useState<string>('');
-
+  const inputRef = useRef<InputRef | null>(null);
   const { TreeNode } = Tree;
-  useEffect(() => {
-    setTreeData(assetTypeTree);
-  }, [assetTypeTree]);
 
   const getParentKey: any = (key: string, tree: any) => {
     let parentKey;
-
     for (let i = 0; i < tree.length; i++) {
       const node = tree[i];
       if (node.ChildList) {
@@ -81,59 +83,79 @@ const TreeComponent: React.FC<AssetTreeProps> = (props) => {
         }
       }
     }
-
     return parentKey;
   };
 
-  const dataList: any = [];
-
-  const generateList = (data: any) => {
-    for (let i = 0; i < data.length; i++) {
-      const node = data[i];
-      const { ID, Name } = node;
-      dataList.push({
-        ID,
-        Name,
-      });
-
-      if (node.ChildList) {
-        generateList(node.ChildList);
-      }
-    }
-  };
-
-  generateList(assetTypeTree);
-
-  useEffect(() => {
-    if (searchKeyWords) {
-      const newExpandedKeys = dataList
-        .map((item: { Name: string | string[]; ID: any }) => {
-          if (item.Name && item.Name.indexOf(searchKeyWords) > -1) {
-            return getParentKey(item.ID, assetTypeTree);
+  const queryAndModifyOneAssetTypeByApi = (
+    id: string,
+    operationType: string,
+    value?: any,
+    callback?: any,
+  ) => {
+    queryOneAssetTypeByID({ id: id }).then((result: API.AssetTypeAPIResult) => {
+      if (result.IsOk) {
+        const oneAssetType = result.Response as API.IMAssetType;
+        let modifyType = '';
+        let oldValue;
+        switch (operationType) {
+          case 'rename':
+            modifyType = 'rename';
+            oneAssetType['Name'] = value;
+            break;
+          case 'up':
+          case 'down':
+            modifyType = 'sn' + (operationType == 'up' ? '-' : '+');
+            if (oneAssetType['SN'] || oneAssetType['SN'] == 0) {
+              operationType == 'up' ? oneAssetType['SN']-- : oneAssetType['SN']++;
+            }
+            break;
+          case 'paste':
+          case 'pasteToTop':
+          case 'drop':
+            modifyType = 'parentid';
+            oldValue = oneAssetType['ParentID'];
+            oneAssetType['ParentID'] = value.ParentID;
+            oneAssetType['SN'] = value.SN;
+          default:
+            break;
+        }
+        editOne(oneAssetType, operationType, oldValue).then((result) => {
+          if (!result.IsOk) {
+            message.success(
+              <>
+                <FormattedMessage
+                  id="pages.message.api.errorReason"
+                  defaultMessage="调用接口失败的原因为："
+                />
+                {result.ErrorMsg}
+              </>,
+            );
           }
-
-          return null;
-        })
-        .filter((item: any, i: any, self: string | any[]) => item && self.indexOf(item) === i);
-      setExpandedKeys(newExpandedKeys);
-      setAutoExpandParent(true);
-    } else {
-      setExpandedKeys([]);
-      // setAutoExpandParent(true);
-    }
-  }, [searchKeyWords]);
+          if (callback) callback();
+        });
+      } else {
+        message.error(
+          <>
+            <FormattedMessage
+              id="pages.message.api.errorReason"
+              defaultMessage="调用接口失败的原因为："
+            />
+            {result.ErrorMsg}
+          </>,
+        );
+        if (callback) callback();
+      }
+    });
+  };
 
   // 确认重命名
-  const confirmRename = (e:any) => {
-    // let newName = '';
-    // if (e.type == 'click') {
-    //   newName = e.target.previousSibling.value;
-    // } else {
-    //   newName = e.target.value;
-    //   alert('重命名=' + newName);
-    // }
-    setRenameID('');
+  const handleRename = () => {
+    const value = inputRef.current?.input?.value || '';
+    queryAndModifyOneAssetTypeByApi(renameID, 'rename', value, () => {
+      setRenameID('');
+    });
   };
+
   const renderTree = (jsonTree: API.IMTreeNode[]) => {
     if (jsonTree && jsonTree.length > 0) {
       return jsonTree.map((item: API.IMTreeNode) => {
@@ -152,8 +174,13 @@ const TreeComponent: React.FC<AssetTreeProps> = (props) => {
                 <span>
                   {item.ID == renameID ? (
                     <Space>
-                      <Input defaultValue={item.Name} allowClear onPressEnter={confirmRename} />
-                      <CheckCircleOutlined onClick={confirmRename} />
+                      <Input
+                        ref={inputRef}
+                        defaultValue={item.Name}
+                        allowClear
+                        onPressEnter={handleRename}
+                      />
+                      <Button icon={<CheckCircleOutlined />} onClick={handleRename}></Button>
                     </Space>
                   ) : index > -1 ? (
                     <span>
@@ -168,8 +195,12 @@ const TreeComponent: React.FC<AssetTreeProps> = (props) => {
               </Space>
             }
             key={item.ID}
+            style={oneCutedTreeNode && oneCutedTreeNode.ID == item.ID ? { display: 'none' } : {}}
           >
-            {item.ChildList && item.ChildList?.length > 0 && renderTree(item.ChildList)}
+            {(!oneCutedTreeNode || (oneCutedTreeNode && oneCutedTreeNode.ID !== item.ID)) &&
+              item.ChildList &&
+              item.ChildList?.length > 0 &&
+              renderTree(item.ChildList)}
           </TreeNode>
         );
       });
@@ -201,64 +232,62 @@ const TreeComponent: React.FC<AssetTreeProps> = (props) => {
 
   // 拖拽树节点
   const onDropTreeNode: TreeProps['onDrop'] = (info) => {
-    const dropKey = info.node.key + '';
+    // 被拖拽的节点ID
     const dragKey = info.dragNode.key + '';
+    // 拖拽到的附近某一节点
+    const dropKey = info.node.key + '';
+    let nextSN = 0;
+    let parentID = dropKey;
     const dropPos = info.node.pos.split('-');
     const dropPosition = info.dropPosition - Number(dropPos[dropPos.length - 1]);
-    let data: API.IMTreeNode[] = [];
-    if (tree && tree.length > 0) data = [...tree];
-
-    // Find dragObject
-    let dragObj: API.IMTreeNode;
-    loop(data, data, dragKey, (item, index, arr, data) => {
-      arr.splice(index, 1);
-      dragObj = item;
-    });
 
     if (!info.dropToGap) {
-      // Drop on the content
-      loop(data, data, dropKey, (item) => {
-        item.ChildList = item.ChildList || [];
-        // where to insert 示例添加到头部，可以是随意位置
-        item.ChildList.unshift(dragObj);
-      });
+      // 被拖动到没有子节点的节点中
+      nextSN = 0;
+      const value = { ParentID: parentID, SN: nextSN };
+      queryAndModifyOneAssetTypeByApi(dragKey, 'drop', value, () => {});
     } else if (
       ((info.node as any).props.ChildList || []).length > 0 && // Has children
       (info.node as any).props.expanded && // Is expanded
       dropPosition === 1 // On the bottom gap
     ) {
-      loop(data, data, dropKey, (item) => {
-        item.ChildList = item.ChildList || [];
-        // where to insert 示例添加到头部，可以是随意位置
-        item.ChildList.unshift(dragObj);
-        // in previous version, we use item.children.push(dragObj) to insert the
-        // item to the tail of the children
-      });
+      nextSN = 0;
+      const value = { ParentID: parentID, SN: nextSN };
+      queryAndModifyOneAssetTypeByApi(dragKey, 'drop', value, () => {});
     } else {
-      let ar: API.IMTreeNode[] = [];
-      let i: number;
-      loop(data, data, dropKey, (_item, index, arr) => {
-        ar = arr;
-        i = index;
+      queryOneAssetTypeByID({ id: dropKey }).then((result: API.AssetTypeAPIResult) => {
+        if (result.IsOk) {
+          const dropAssetType = result.Response as API.IMAssetType;
+          parentID = dropAssetType.ParentID as string;
+          nextSN = (dropAssetType?.SN || 0) + 1;
+          const value = { ParentID: parentID, SN: nextSN };
+          queryAndModifyOneAssetTypeByApi(dragKey, 'drop', value, () => {});
+        } else {
+          message.error(
+            <>
+              <FormattedMessage
+                id="pages.message.api.errorReason"
+                defaultMessage="调用接口失败的原因为："
+              />
+              {result.ErrorMsg}
+            </>,
+          );
+        }
       });
-      if (dropPosition === -1) {
-        ar.splice(i!, 0, dragObj!);
-      } else {
-        ar.splice(i! + 1, 0, dragObj!);
-      }
     }
-    setTreeData(data);
   };
-  // 拖拽结束
-  const onDragEnter = () => {};
+
   // 设置点击右键菜单信息
-  const setRightClickMenuInfo = (e: { event: { pageX: any; pageY: any }; node: { key: any } }) => {
+  const handleSetRightClickMenuInfo = (e: {
+    event: { pageX: any; pageY: any };
+    node: { key: any };
+  }) => {
     const curID = e.node.key;
     setSelectedKeys([curID]);
     setRightClickMenuVisible(true);
     let data: API.IMTreeNode[] = [];
     if (tree && tree.length > 0) data = [...tree];
-    loop(data, data, curID, (item, index, arr, tree) => {
+    FindOneByIDInTree(data, data, curID, (item, index, arr, tree) => {
       setRightClickTreeNodeMenuInfo({
         pageX: e.event.pageX,
         pageY: e.event.pageY,
@@ -270,6 +299,7 @@ const TreeComponent: React.FC<AssetTreeProps> = (props) => {
       });
     });
   };
+
   // 显示树节点右键点击的菜单
   const renderTreeNodeRightClickMenu = () => {
     const {
@@ -289,21 +319,7 @@ const TreeComponent: React.FC<AssetTreeProps> = (props) => {
         key: 'edit',
       },
       {
-        label: (
-          <Popconfirm
-            title={<FormattedMessage id="pages.deleteDialog.title" defaultMessage="确认删除么?" />}
-            onConfirm={() => {
-              setRightClickMenuVisible(false);
-              deleteOneAssetType(curTreeNode as API.IMTreeNode);
-            }}
-            okText={<FormattedMessage id="pages.operation.confirm'" defaultMessage="确定" />}
-            cancelText={<FormattedMessage id="pages.operation.cancel" defaultMessage="取消" />}
-          >
-            <a>
-              <FormattedMessage id="pages.operation.delete" defaultMessage="删除" />
-            </a>
-          </Popconfirm>
-        ),
+        label: <FormattedMessage id="pages.operation.delete" defaultMessage="删除" />,
         icon: <DeleteOutlined />,
         key: 'delete',
       },
@@ -355,7 +371,7 @@ const TreeComponent: React.FC<AssetTreeProps> = (props) => {
         ],
       },
       {
-        label: <FormattedMessage id="pages.operation.expand" defaultMessage="该节点全部展开" />,
+        label: <FormattedMessage id="pages.operation.expand" defaultMessage="展开" />,
         icon: <DownSquareOutlined />,
         key: 'expand',
         disabled: curTreeNode?.ChildList?.length == 0,
@@ -366,7 +382,7 @@ const TreeComponent: React.FC<AssetTreeProps> = (props) => {
         key: 'allExpand',
       },
       {
-        label: <FormattedMessage id="pages.operation.stow" defaultMessage="该节点全部收起" />,
+        label: <FormattedMessage id="pages.operation.stow" defaultMessage="收起" />,
         icon: <UpSquareOutlined />,
         key: 'stow',
         disabled: curTreeNode?.ChildList?.length == 0,
@@ -382,36 +398,34 @@ const TreeComponent: React.FC<AssetTreeProps> = (props) => {
         key: 'verification',
       },
     ];
-    // 剪切一个树节点
-    const cutOneTreeNode = (
-      curTreeNode: API.IMTreeNode,
-      index: number,
-      parent: any,
-      newTree: any,
-    ) => {
-      parent.splice(index, 1);
-      setOneCutedTreeNode(curTreeNode);
-      setTreeData(newTree);
+    //   // 剪切一个树节点
+    const cutOneTreeNode = (id: string) => {
+      FindOneByIDInTree(tree, tree, id, (curNode) => {
+        setOneCutedTreeNode(curNode);
+      });
     };
 
     // 粘贴
-    const pasteOneTreeNode = (action: string, curTreeNode: API.IMTreeNode, newTree: any) => {
-      if (action == 'pasteToTop') {
-        if (!newTree) {
-          newTree = [];
+    const pasteOneTreeNode = (id: string, action: string) => {
+      const pasteFunc = (modifyFieldsObj: { ParentID: string; SN: number }) => {
+        if (oneCutedTreeNode && oneCutedTreeNode.ID) {
+          queryAndModifyOneAssetTypeByApi(oneCutedTreeNode.ID, action, modifyFieldsObj, () => {
+            setOneCutedTreeNode(undefined);
+          });
         }
-        if (oneCutedTreeNode) newTree.push(oneCutedTreeNode);
-      } else {
-        if (!curTreeNode.ChildList) {
-          curTreeNode.ChildList = [];
-        }
-        if (oneCutedTreeNode) {
-          curTreeNode.ChildList.push(oneCutedTreeNode);
+      };
+      if (oneCutedTreeNode && oneCutedTreeNode.ID) {
+        if (action == 'pasteToTop') {
+          pasteFunc({ ParentID: GuidEmpty, SN: tree.length + 1 });
+        } else {
+          FindOneByIDInTree(tree, tree, id, (node) => {
+            const nextSN = node.ChildList ? node.ChildList.length + 1 : 1;
+            pasteFunc({ ParentID: id, SN: nextSN });
+          });
         }
       }
-      setOneCutedTreeNode(undefined);
-      setTreeData(newTree);
     };
+
     //获取所有子节点ID
     const getAllChildrenIDs = (list: API.IMTreeNode[]) => {
       let idList: string[] = [];
@@ -425,12 +439,9 @@ const TreeComponent: React.FC<AssetTreeProps> = (props) => {
       }
       return idList;
     };
+
     // 展开或收起树节点（包括全部）
-    const expandOrStowTreeNodes = (
-      treeNodes: API.IMTreeNode,
-      isAll: boolean,
-      expand: boolean,
-    ) => {
+    const expandOrStowTreeNodes = (treeNodes: API.IMTreeNode, isAll: boolean, expand: boolean) => {
       let idList: string[] = [];
       if (treeNodes && !isAll && tree) {
         idList = getAllChildrenIDs([treeNodes]);
@@ -444,26 +455,36 @@ const TreeComponent: React.FC<AssetTreeProps> = (props) => {
         setExpandedKeys(newExpandedKeys);
       }
     };
+
     // 上移或下移
-    const toUpOrDown = (
-      isUp: boolean,
-      curTreeNode: API.IMTreeNode,
-      index: number,
-      parent: any,
-      newTree: any,
-    ) => {
-      parent.splice(index, 1);
-      if (isUp) {
-        parent.splice(index - 1, 0, curTreeNode);
-      } else {
-        parent.splice(index + 1, 0, curTreeNode);
-      }
-      setTreeData(newTree);
+    const toUpOrDown = (id: string, type: string) => {
+      queryAndModifyOneAssetTypeByApi(id, type);
     };
+
     // 点击右键菜单项
     const clickRightMenuItem = (e: any) => {
       setRightClickMenuVisible(false);
       switch (e.key) {
+        case 'delete':
+          Modal.confirm({
+            title: (
+              <>
+                <FormattedMessage id="pages.deleteDialog.title" defaultMessage="确认删除么?" />
+                {curTreeNode!.ChildList && curTreeNode!.ChildList.length > 0 && (
+                  <FormattedMessage
+                    id="pages.message.includeAllChildren"
+                    defaultMessage="(包含所有子节点)"
+                  />
+                )}
+              </>
+            ),
+            icon: <ExclamationCircleOutlined />,
+            content: '',
+            onOk() {
+              deleteOneAssetType(curTreeNode as API.IMTreeNode);
+            },
+          });
+          break;
         case 'edit':
         case 'copy':
           setDetailInfoVisible(true);
@@ -473,11 +494,11 @@ const TreeComponent: React.FC<AssetTreeProps> = (props) => {
           setRenameID(id);
           break;
         case 'cut':
-          cutOneTreeNode(curTreeNode!, index!, parent, newTree);
+          cutOneTreeNode(id);
           break;
         case 'paste':
         case 'pasteToTop':
-          pasteOneTreeNode(e.key, curTreeNode!, newTree);
+          pasteOneTreeNode(id, e.key);
           break;
         case 'expand':
         case 'allExpand':
@@ -491,7 +512,7 @@ const TreeComponent: React.FC<AssetTreeProps> = (props) => {
           break;
         case 'up':
         case 'down':
-          toUpOrDown(e.key == 'up', curTreeNode!, index!, parent, newTree);
+          toUpOrDown(id, e.key);
           break;
         default:
           break;
@@ -505,12 +526,15 @@ const TreeComponent: React.FC<AssetTreeProps> = (props) => {
           position: 'absolute',
           left: `${pageX - 160}px`,
           top: `${pageY - 180}px`,
+          height: '300px',
+          overflowY: 'auto',
         }}
         onClick={clickRightMenuItem}
       ></Menu>
     );
     return !rightClickMenuVisible ? '' : menu;
   };
+
   // 手动展开或收起
   const manulExpandOrStow: TreeProps['onExpand'] = (key, info) => {
     let newExpandedKeys = [...expandedKeys];
@@ -522,6 +546,7 @@ const TreeComponent: React.FC<AssetTreeProps> = (props) => {
     setExpandedKeys(newExpandedKeys);
     setAutoExpandParent(false);
   };
+
   // 手动选择或取消选择树节点
   const manulSelectedTreeNode: TreeProps['onSelect'] = (key, info) => {
     let newSelectedKeys = [...selectedKeys];
@@ -534,13 +559,14 @@ const TreeComponent: React.FC<AssetTreeProps> = (props) => {
     // 不显示右键菜单
     setRightClickMenuVisible(false);
   };
+
   // 点击checkbox
   const checkOneTreeNode: TreeProps['onCheck'] = (checkedInfo, info) => {
     const { checked } = checkedInfo;
     setChecked(checked);
   };
   return (
-    <>
+    <div style={{ marginTop: '20px' }}>
       <Tree
         checkable
         draggable
@@ -548,20 +574,19 @@ const TreeComponent: React.FC<AssetTreeProps> = (props) => {
         checkStrictly
         className="draggable-tree"
         onDrop={onDropTreeNode}
-        onDragEnter={onDragEnter}
-        onRightClick={setRightClickMenuInfo}
+        onRightClick={handleSetRightClickMenuInfo}
         expandedKeys={expandedKeys}
         onExpand={manulExpandOrStow}
         selectedKeys={selectedKeys}
         onSelect={manulSelectedTreeNode}
         onCheck={checkOneTreeNode}
         autoExpandParent={autoExpandParent}
-        style={{'marginTop':'20px'}}
+        style={{ marginTop: '10px' }}
       >
         {tree && tree?.length > 0 && renderTree(tree)}
       </Tree>
       {renderTreeNodeRightClickMenu()}
-    </>
+    </div>
   );
 };
 export default TreeComponent;
